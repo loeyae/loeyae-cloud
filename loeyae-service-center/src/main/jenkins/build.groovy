@@ -15,7 +15,10 @@ node {
         if ((PACKAGE_BY_STABLE && currentBuild.resultIsBetterOrEqualTo("SUCCESS")) ||
                 !PACKAGE_BY_STABLE) {
             withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
-                sh "mvn -f pom.xml clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
+                sh """
+                    cd loeyae-service-center/
+                    mvn -f pom.xml clean package -Dautoconfig.skip=true -Dmaven.test.skip=true
+                   """
             }
 
         } else {
