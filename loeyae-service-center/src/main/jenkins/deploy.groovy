@@ -11,7 +11,6 @@ node {
         )
     }
     stage("deploy") {
-        sh "cd loeyae-service-center/"
         def buildId = currentBuild.previousBuiltBuild.id
         if (!buildId) {
             buildId = 0
@@ -51,7 +50,7 @@ node {
                 print(exc.getMessage())
             }
         }
-        def source = "src/main/jenkins/loeyae-service-center.yml"
+        def source = "loeyae-service-center/src/main/jenkins/loeyae-service-center.yml"
         sh "sed -e 's#{TAG}#${buildId}#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
