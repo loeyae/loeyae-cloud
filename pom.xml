@@ -139,6 +139,7 @@
                     <execution>
                         <goals>
                             <goal>deploy-file</goal>
+<!--                            mvn deploy:deploy-file -Dfile=pom.xml -Dpackaging=jar -->
                         </goals>
                     </execution>
                 </executions>
