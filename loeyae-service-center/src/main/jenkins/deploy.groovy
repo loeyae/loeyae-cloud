@@ -1,36 +1,28 @@
 node {
-    properties([
-            parameters([
-                    string(defaultValue: 'dev', description: '部署环境标志', name: 'ENV_LABEL', trim:
-                            false),
-                    booleanParam(defaultValue: false, description: '是否必须上传tag的镜像', name: 'PUSH_TAGED_IMAGE')
-            ])
-    ])
     stage("Checkout") {
         checkout(
                 [
-                        $class                           : 'GitSCM',
-                        branches                         : [[name: '*/master']],
-                        browser                          : [$class: 'GithubWeb', repoUrl: 'https://github.com/loeyae/springboot_demo'],
+                        $class: 'GitSCM',
+                        branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
-                        extensions                       : [],
-                        submoduleCfg                     : [],
-                        userRemoteConfigs                : [[credentialsId: 'github', url: 'https://github.com/loeyae/springboot_demo.git']]
+                        extensions: [], submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/loeyae/loeyae-cloud.git']]
                 ]
         )
     }
     stage("deploy") {
+        sh "cd loeyae-service-center/"
         def buildId = currentBuild.previousBuiltBuild.id
         if (!buildId) {
             buildId = 0
         }
-        def imageTag = "hub.bys.cd/loeyae/springboot_demo:${buildId}"
-        def latestTag = "hub.bys.cd/loeyae/springboot_demo:latest"
+        def imageTag = "hub.bys.cd/library/loeyae_service_center:${buildId}"
+        def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 if (buildId != 0) {
                     def prevId = buildId - 1
-                    def prevImageTag = "hub.bys.cd/loeyae/springboot_demo:${prevId}"
+                    def prevImageTag = "hub.bys.cd/library/loeyae_service_center:${prevId}"
                     sh """
                     docker rmi $prevImageTag
                     """
@@ -59,7 +51,7 @@ node {
                 print(exc.getMessage())
             }
         }
-        def source = "src/main/cd/deploy-${params.ENV_LABEL}.yml"
+        def source = "src/main/jenkins/loeyae-service-center.yml"
         sh "sed -e 's#{TAG}#${buildId}#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
