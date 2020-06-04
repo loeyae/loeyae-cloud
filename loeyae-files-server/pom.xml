@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.loeyae</groupId>
-        <artifactId>loeyae-com.loeyae.cloud</artifactId>
+        <artifactId>loeyae-cloud</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
     <artifactId>loeyae-files-server</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <build>
         <finalName>loeyae_files_server</finalName>
@@ -28,6 +28,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
