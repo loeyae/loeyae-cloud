@@ -56,9 +56,10 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <serverId>bys-hub</serverId>
+                    <registryUrl>harbor-harbor-portal.harbor</registryUrl>
                     <imageName>${project.build.finalName}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <dockerHost>http://192.168.1.220:32375</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
