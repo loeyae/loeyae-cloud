@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: loeyae-service-center
-          image: hub.byc.cd/library/loeyae_service_center:{TAG}
+          image: hub.bys.cd/library/loeyae_service_center:{TAG}
           ports:
             - containerPort: 9007
           resources:

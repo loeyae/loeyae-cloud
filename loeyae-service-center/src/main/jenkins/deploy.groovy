@@ -43,7 +43,6 @@ node {
             }
             try {
                 sh """
-                docker rmi $imageTag
                 docker rmi $latestTag
                 """
             } catch (exc) {
