@@ -1,14 +1,13 @@
 package com.loeyae.cloud.filter;
 
-import com.loeyae.cloud.exception.BaseErrorCode;
-import com.loeyae.cloud.exception.IErrorCode;
+import com.loeyae.cloud.commons.exception.BaseErrorCode;
+import com.loeyae.cloud.commons.exception.IErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

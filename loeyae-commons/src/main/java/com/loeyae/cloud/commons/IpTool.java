@@ -1,7 +1,9 @@
+package com.loeyae.cloud.commons;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * IpTool
+ * com.loeyae.cloud.commons.IpTool
  *
  * @author ZhangYi<loeyae @ gmail.com>
  * @version 1.0
