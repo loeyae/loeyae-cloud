@@ -1,0 +1,49 @@
+server:
+  port: ${PORT:8000}
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: andyzh-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+          predicates:
+            - name: Path
+              args:
+                pattern: "'/v1/'+serviceId+'/**'"
+          filters:
+            - name: RewritePath
+              args:
+                regexp: "'/v1/'+serviceId+'/(?<remaining>.*)'"
+                replacement: "'/${remaining}'"
+
+##开启所有端点
+management:
+  endpoint:
+    pause:
+      enabled: true
+    restart:
+      enabled: true
+    refresh:
+      enabled: true
+    resume:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+loeyae:
+  skipTokenUrls:
+    - "*/login"
+    - "*/open/api/*"
+  jwtSecretKey: 123asd456qwe789zxc
