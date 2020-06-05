@@ -11,9 +11,9 @@
     <artifactId>loeyae-service-center</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+<!--    <properties>-->
+<!--        <maven.deploy.skip>true</maven.deploy.skip>-->
+<!--    </properties>-->
 
     <dependencies>
         <dependency>
