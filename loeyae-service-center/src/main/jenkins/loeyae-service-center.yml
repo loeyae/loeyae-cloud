@@ -80,8 +80,12 @@ spec:
                 -XX:+UseStringDeduplication
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
+            - name: EUREKA_USER
+              value: admin
+            - name: EUREKA_PWD
+              value: ad2020min
             - name: EUREKA_SERVER
-              value: "http://loeyae-service-center-0.loeyae-service-center:9900/eureka/,http://loeyae-service-center-1.loeyae-service-center:9900/eureka/,http://loeyae-service-center-2.loeyae-service-center:9900/eureka/"
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center:9900/eureka/"
             - name: EUREKA_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.eureka
   podManagementPolicy: "Parallel"

@@ -28,4 +28,4 @@ eureka:
     registerWithEureka: ${BOOL_REGISTER:true}
     fetchRegistry: ${BOOL_FETCH:true}
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER:http://${eureka.instance.hostname}:${server.port}/eureka/}
+      defaultZone: ${EUREKA_SERVER:http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/}
