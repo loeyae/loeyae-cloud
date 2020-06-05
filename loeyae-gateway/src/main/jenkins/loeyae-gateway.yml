@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loeyae-gateway
+  namespace: devops
+spec:
+  ports:
+    - port: 80                                    #
+      targetPort: 9901
+      nodePort: 31908
+      name: web
+  # clusterIP: None
+  type: NodePort
+  selector:
+    app: loeyae-gateway
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: loeyae-gateway
+  namespace: devops
+spec:
+  serviceName: loeyae-gateway
+  replicas: 3
+  selector:
+    matchLabels:
+      app: loeyae-gateway
+  template:
+    metadata:
+      labels:
+        app: loeyae-gateway
+    spec:
+      containers:
+        - name: loeyae-gateway
+          image: hub.bys.cd/library/loeyae_gateway:{TAG}
+          ports:
+            - containerPort: 9901
+              hostPort: 9901
+              name: web
+          resources:
+            limits:
+              # jvm会自动发现该限制
+              memory: 512Mi
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JAVA_OPTS
+              value: -XX:+UnlockExperimentalVMOptions
+                -XX:+UseCGroupMemoryLimitForHeap
+                -XX:MaxRAMFraction=2
+                -XX:CICompilerCount=8
+                -XX:ActiveProcessorCount=8
+                -XX:+UseG1GC
+                -XX:+AggressiveOpts
+                -XX:+UseFastAccessorMethods
+                -XX:+UseStringDeduplication
+                -XX:+UseCompressedOops
+                -XX:+OptimizeStringConcat
+            - name: EUREKA_USER
+              value: admin
+            - name: EUREKA_PWD
+              value: ad2020min
+            - name: EUREKA_SERVER
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-0.loeyae-gateway.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-1.loeyae-gateway.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-2.loeyae-gateway.devops:9900/eureka/"
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: ${MY_POD_NAME}.eureka
+  podManagementPolicy: "Parallel"
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  name: loeyae-gateway
+  namespace: devops
+spec:
+  rules:
+    - host: api.bys.cd
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: loeyae-gateway
+              servicePort: web
+  tls:
+    - secretName: bys.cd-certs
