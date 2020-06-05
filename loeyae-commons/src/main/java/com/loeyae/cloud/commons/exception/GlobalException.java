@@ -1,4 +1,4 @@
-package com.loeyae.cloud.exception;
+package com.loeyae.cloud.commons.exception;
 
 /**
  * GlobalException
