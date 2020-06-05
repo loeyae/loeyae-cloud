@@ -11,16 +11,16 @@ node {
         )
     }
     stage("deploy") {
-        def buildId = 0
+        def buildId = 1
         try {
-            buildId = Integer.valueOf(currentBuild.previousBuiltBuild.id)
+            buildId = Integer.valueOf(currentBuild.id)
         } catch(exc) {
         }
         def imageTag = "hub.bys.cd/library/loeyae_service_center:${buildId}"
         def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
-                if (buildId != 0) {
+                if (buildId != 1) {
                     def prevId = buildId - 1
                     def prevImageTag = "hub.bys.cd/library/loeyae_service_center:${prevId}"
                     sh """
