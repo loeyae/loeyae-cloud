@@ -11,9 +11,10 @@ node {
         )
     }
     stage("deploy") {
-        def buildId = currentBuild.previousBuiltBuild.id
-        if (!buildId) {
-            buildId = 0
+        try {
+            def buildId = Integer.valueOf(currentBuild.previousBuiltBuild.id)
+        } catch(exc) {
+            def buildId = 0
         }
         def imageTag = "hub.bys.cd/library/loeyae_service_center:${buildId}"
         def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
