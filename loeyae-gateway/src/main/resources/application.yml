@@ -43,7 +43,5 @@ management:
         include: '*'
 
 loeyae:
-  skipTokenUrls:
-    - "*/login"
-    - "*/open/api/*"
+  skipTokenUrls: ["*/login", "*/open/api/*"]
   jwtSecretKey: 123asd456qwe789zxc

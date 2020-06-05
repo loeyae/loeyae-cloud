@@ -15,7 +15,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
@@ -36,17 +35,19 @@ import static com.alibaba.fastjson.JSON.toJSONString;
  * @date 2020/4/26 17:50
  */
 @Slf4j
-@Component
 public class TokenFilter implements GlobalFilter, Ordered {
 
     private static final String JWT_AUTH_KEY = "Authorization";
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
-    @Value("${loeyae.skipTokenUrls}")
     private String[] skipTokenUrls;
 
-    @Value("${loeyae.jwtSecretKey}")
     private String jwtSecretKey;
+
+    public TokenFilter(String[] skipTokenUrls, String jwtSecretKey) {
+        this.skipTokenUrls = skipTokenUrls;
+        this.jwtSecretKey = jwtSecretKey;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

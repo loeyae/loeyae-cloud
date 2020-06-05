@@ -1,6 +1,8 @@
 package com.loeyae.cloud.config;
 
 import com.loeyae.cloud.filter.TokenFilter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,10 +14,17 @@ import org.springframework.context.annotation.Configuration;
  * @author zhangyi07@beyondsoft.com
  */
 @Configuration
+@EnableConfigurationProperties
 public class FilterConfiguration {
+
+    @Value("${loeyae.skipTokenUrls}")
+    private String[] skipTokenUrls;
+
+    @Value("${loeyae.jwtSecretKey}")
+    private String jwtSecretKey;
 
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(skipTokenUrls);
+        return new TokenFilter(skipTokenUrls, jwtSecretKey);
     }
 }
