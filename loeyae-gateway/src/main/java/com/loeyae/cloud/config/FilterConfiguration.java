@@ -2,9 +2,10 @@ package com.loeyae.cloud.config;
 
 import com.loeyae.cloud.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * FilterConfiguration.
@@ -14,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
  * @author zhangyi07@beyondsoft.com
  */
 @Configuration
-@EnableConfigurationProperties
 public class FilterConfiguration {
 
     @Value("${loeyae.skipTokenUrls}")

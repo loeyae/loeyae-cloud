@@ -35,6 +35,8 @@ spec:
       containers:
         - name: loeyae-service-center
           image: hub.bys.cd/library/loeyae_service_center:{TAG}
+          args:
+            - --spring.profiles.active={ENV}
           ports:
             - containerPort: 9900
               hostPort: 9900

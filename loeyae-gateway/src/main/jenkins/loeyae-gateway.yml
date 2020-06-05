@@ -35,6 +35,8 @@ spec:
       containers:
         - name: loeyae-gateway
           image: hub.bys.cd/library/loeyae_gateway:{TAG}
+          args:
+            - --spring.profiles.active={ENV}
           ports:
             - containerPort: 9901
               hostPort: 9901

@@ -21,6 +21,73 @@ spring:
               args:
                 regexp: "'/v1/'+serviceId+'/(?<remaining>.*)'"
                 replacement: "'/${remaining}'"
+ribbon:
+  # 请求连接的超时
+  ConnectTimeout: 1000
+  # 请求处理的超时时间
+  ReadTimeout: 10000
+  MaxAutoRetriesNextServer: 0
+
+feign:
+  hystrix:
+    enabled: true
+  ###开启压缩
+  client:
+    config:
+      #服务名，填写default为所有服务
+      default:
+        # 连接时间
+        connectTimeout: 6000
+        # 超时时间
+        readTimeout: 6000
+        loggerLevel: basic
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      ###配置压缩文档类型及最小压缩的文档大小
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+# 熔断器设置 HystrixCommandProperties
+hystrix:
+  threadpool:
+    default:
+      # 并发执行的最大线程数，默认10
+      coreSize: 1000
+      maximumSize: 1000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      # BlockingQueue的最大队列数
+      maxQueueSize: 1000
+      # 即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+      queueSizeRejectionThreshold: 1000
+  command:
+    default:
+      # 是否开启通过请求缓存提供去重复数据功能。 默认为true
+      requestCache:
+        enabled: false
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 1000
+          thread:
+            #设置超时熔断时间 15秒
+            timeoutInMilliseconds: 30000
+      # 短路限制数量
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 1000
 
 ##开启所有端点
 management:
@@ -41,7 +108,14 @@ management:
     web:
       exposure:
         include: '*'
-
 loeyae:
-  skipTokenUrls: ["*/login", "*/open/api/*"]
+  skipTokenUrls: '*/login, */open/api/*'
   jwtSecretKey: 123asd456qwe789zxc
+
+logging:
+  level:
+    org.springframework.cloud.gateway: WARN
+    org.springframework.cloud.gateway.handler: DEBUG
+    org.springframework.cloud.gateway.filter: DEBUG
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG

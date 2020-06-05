@@ -2,6 +2,8 @@ server:
   port: ${PORT:9900}
 
 spring:
+  profiles:
+    active: local
   application:
     name: loeyae-service-center
   security:
@@ -29,3 +31,23 @@ eureka:
     fetchRegistry: ${BOOL_FETCH:true}
     serviceUrl:
       defaultZone: ${EUREKA_SERVER:http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/}
+
+##开启所有端点
+management:
+  endpoint:
+    pause:
+      enabled: true
+    restart:
+      enabled: true
+    refresh:
+      enabled: true
+    resume:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
