@@ -50,7 +50,7 @@ node {
                 print(exc.getMessage())
             }
         }
-        def source = "loeyae-service-center/src/main/jenkins/loeyae-gateway.yml"
+        def source = "loeyae-gateway/src/main/jenkins/loeyae-gateway.yml"
         sh "sed -e 's#{TAG}#${buildId}#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
