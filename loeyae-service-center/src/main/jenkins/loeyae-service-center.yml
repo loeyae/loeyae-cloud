@@ -81,7 +81,7 @@ spec:
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
             - name: EUREKA_SERVER
-              value: "http://loeyae-service-center-0.devops:9900/eureka/,http://loeyae-service-center-1.devops:9900/eureka/,http://loeyae-service-center-2.devops:9900/eureka/"
+              value: "http://loeyae-service-center-0.loeyae-service-center:9900/eureka/,http://loeyae-service-center-1.loeyae-service-center:9900/eureka/,http://loeyae-service-center-2.loeyae-service-center:9900/eureka/"
             - name: EUREKA_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.eureka
   podManagementPolicy: "Parallel"
