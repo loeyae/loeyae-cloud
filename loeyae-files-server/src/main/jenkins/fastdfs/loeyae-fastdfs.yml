@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: fastfds
+  name: fastdfs
 
 ---
 apiVersion: v1
@@ -11,7 +11,7 @@ metadata:
   name: tracker-service
   labels:
     app: tracker-service
-  namespace: fastfds
+  namespace: fastdfs
 spec:
   selector:
     app: fastdfs-tracker
@@ -89,7 +89,7 @@ metadata:
   name: storage-service
   labels:
     app: storage-service
-  namespace: fastfds
+  namespace: fastdfs
 spec:
   selector:
     app: fastdfs-storage
