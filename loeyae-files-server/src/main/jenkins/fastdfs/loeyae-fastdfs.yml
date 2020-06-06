@@ -169,6 +169,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: fastdfs-storage-pvc
+  namespace: fastdfs
 spec:
   storageClassName: gluster-heketi
   accessModes:
