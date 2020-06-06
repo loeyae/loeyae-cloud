@@ -113,6 +113,7 @@ spec:
       port: 8888
       targetPort: 8888
       protocol: TCP
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -126,7 +127,7 @@ spec:
     matchLabels:
       app: fastdfs-storage
   serviceName: storage-service
-  replicas: 1
+  replicas: 2
   podManagementPolicy: OrderedReady
   updateStrategy:
     type: RollingUpdate
