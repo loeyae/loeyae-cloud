@@ -1,4 +1,4 @@
-package com.loeyae.cloud.config;
+package com.loeyae.cloud.commons.config;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.cors.CorsConfiguration;

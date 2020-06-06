@@ -1,4 +1,4 @@
-package com.loeyae.cloud.config;
+package com.loeyae.cloud.commons.config;
 
 import com.loeyae.cloud.handler.JsonExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;

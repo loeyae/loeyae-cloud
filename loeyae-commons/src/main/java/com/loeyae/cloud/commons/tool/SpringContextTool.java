@@ -1,4 +1,4 @@
-package com.loeyae.cloud.tool;
+package com.loeyae.cloud.commons.tool;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
