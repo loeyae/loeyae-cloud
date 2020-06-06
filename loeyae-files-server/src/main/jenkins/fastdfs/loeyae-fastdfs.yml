@@ -216,4 +216,4 @@ spec:
       volumes:
         - name: storage-volume
           persistentVolumeClaim:
-            - claimName: fastdfs-storage-pvc
+             claimName: fastdfs-storage-pvc
