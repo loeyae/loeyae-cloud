@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fastfds
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  #service的服务名
+  name: tracker-service
+  labels:
+    app: tracker-service
+  namespace: fastfds
+spec:
+  selector:
+    app: fastdfs-tracker
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: "22122"
+      port: 22122
+      targetPort: 22122
+      protocol: TCP
+    - name: "23000"
+      port: 23000
+      targetPort: 23000
+      protocol: TCP
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    - name: "8888"
+      port: 8888
+      targetPort: 8888
+      protocol: TCP
+
+---
+apiVersion: app/v1
+kind: StatefulSet
+metadata:
+  name: fastdfs-tracker
+  namespace: fastdfs
+  labels:
+    app: fastdfs-tracker
+spec:
+  selector:
+    matchLabels:
+      app: fastdfs-tracker
+  serviceName: tracker-service
+  replicas: 1
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: fastdfs-tracker
+    spec:
+      # k8s正确、优雅地关闭应用，等待时间30秒
+      terminationGracePeriodSeconds: 2
+      containers:
+        - name: tracker
+          image: season/fastdfs
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 22122
+            - containerPort: 23000
+            - containerPort: 8080
+            - containerPort: 8888
+          volumeMounts:
+            - name: tracker-volume
+              mountPath: /var/fdfs
+          command: ["/usr/bin/start.sh","tracker"]
+  volumeClaimTemplates:
+    - metadata:
+        name: tracker-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  #service的服务名
+  name: storage-service
+  labels:
+    app: storage-service
+  namespace: fastfds
+spec:
+  selector:
+    app: fastdfs-storage
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: "22122"
+      port: 22122
+      targetPort: 22122
+      protocol: TCP
+    - name: "23000"
+      port: 23000
+      targetPort: 23000
+      protocol: TCP
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    - name: "8888"
+      port: 8888
+      targetPort: 8888
+      protocol: TCP
+---
+apiVersion: app/v1
+kind: StatefulSet
+metadata:
+  name: fastdfs-storage
+  namespace: fastdfs
+  labels:
+    app: fastdfs-storage
+spec:
+  selector:
+    matchLabels:
+      app: fastdfs-storage
+  serviceName: storage-service
+  replicas: 1
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: fastdfs-storage
+    spec:
+      # k8s正确、优雅地关闭应用，等待时间30秒
+      terminationGracePeriodSeconds: 2
+      containers:
+        - name: tracker
+          image: season/fastdfs
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 22122
+            - containerPort: 23000
+            - containerPort: 8080
+            - containerPort: 8888
+          volumeMounts:
+            - name: tracker-volume
+              mountPath: /var/fdfs
+          env:
+            - name: TRACKER_SERVER
+              value: fastdfs-tracker-0.tracker-service:22122
+          command: ["/usr/bin/start.sh","storage"]
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+
+
