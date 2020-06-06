@@ -70,7 +70,7 @@ spec:
             - containerPort: 8888
           volumeMounts:
             - name: tracker-volume
-              mountPath: /var/fdfs
+              mountPath: /fastdfs
           args:
             - tracker
   volumeClaimTemplates:
@@ -208,7 +208,7 @@ spec:
             - containerPort: 8888
           volumeMounts:
             - name: storage-volume
-              mountPath: /var/fdfs
+              mountPath: /fastdfs
           env:
             - name: TRACKER_SERVER
               value: fastdfs-tracker-0.tracker-service:22122
