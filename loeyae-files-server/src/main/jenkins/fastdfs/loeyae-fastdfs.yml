@@ -36,7 +36,7 @@ spec:
       protocol: TCP
 
 ---
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: fastdfs-tracker
@@ -113,7 +113,7 @@ spec:
       targetPort: 8888
       protocol: TCP
 ---
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: fastdfs-storage
