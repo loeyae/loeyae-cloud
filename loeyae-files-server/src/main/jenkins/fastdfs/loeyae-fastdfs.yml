@@ -71,7 +71,8 @@ spec:
           volumeMounts:
             - name: tracker-volume
               mountPath: /var/fdfs
-          command: ["/usr/bin/start.sh","tracker"]
+          args:
+            - tracker
   volumeClaimTemplates:
     - metadata:
         name: tracker-volume
@@ -137,7 +138,7 @@ spec:
       # k8s正确、优雅地关闭应用，等待时间30秒
       terminationGracePeriodSeconds: 2
       containers:
-        - name: tracker
+        - name: storage
           image: season/fastdfs
           imagePullPolicy: Always
           ports:
@@ -151,7 +152,8 @@ spec:
           env:
             - name: TRACKER_SERVER
               value: fastdfs-tracker-0.tracker-service:22122
-          command: ["/usr/bin/start.sh","storage"]
+          args:
+            - storage
   volumeClaimTemplates:
     - metadata:
         name: storage-volume
