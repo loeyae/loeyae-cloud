@@ -12,7 +12,7 @@ node {
     }
     stage("deploy") {
         def source = "loeyae-files-server/src/main/jenkins/fastdfs/loeyae-fastdfs.yml"
-        sh "sed -e 's#{TAG}#${buildId}#g;s#{ENV}#test#g' ${source} > deployment.yml"
+        sh "sed -e 's#{ENV}#test#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
 }
