@@ -66,9 +66,9 @@ spec:
             - name: EUREKA_PWD
               value: ad2020min
             - name: EUREKA_SERVER
-              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-0.loeyae-gateway.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-1.loeyae-gateway.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-2.loeyae-gateway.devops:9900/eureka/"
-            - name: EUREKA_INSTANCE_HOSTNAME
-              value: ${MY_POD_NAME}.eureka
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-gateway-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-gateway.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-gateway.devops:9900/eureka/"
+            - name: GATEWAY_INSTANCE_HOSTNAME
+              value: ${MY_POD_NAME}.gateway
 
 ---
 apiVersion: extensions/v1beta1
