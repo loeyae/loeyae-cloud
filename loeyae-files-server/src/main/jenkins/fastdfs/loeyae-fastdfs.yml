@@ -70,7 +70,7 @@ spec:
             - containerPort: 8888
           volumeMounts:
             - name: tracker-volume
-              mountPath: /fastdfs
+              mountPath: /fastdfs/tracker
           args:
             - tracker
   volumeClaimTemplates:
@@ -81,7 +81,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20Gi
+            storage: 2Gi
 #---
 #apiVersion: v1
 #kind: Service
@@ -168,6 +168,19 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: fastdfs-storage-s-pvc
+  namespace: fastdfs
+spec:
+  storageClassName: gluster-heketi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: fastdfs-storage-pvc
   namespace: fastdfs
 spec:
@@ -207,14 +220,19 @@ spec:
             - containerPort: 8080
             - containerPort: 8888
           volumeMounts:
+            - name: storage-volume-s
+              mountPath: /fastdfs/storage
             - name: storage-volume
-              mountPath: /fastdfs
+              mountPath: /fastdfs/store_path
           env:
             - name: TRACKER_SERVER
               value: fastdfs-tracker-0.tracker-service:22122
           args:
             - storage
       volumes:
+        - name: storage-volume-s
+          persistentVolumeClaim:
+             claimName: fastdfs-storage-s-pvc
         - name: storage-volume
           persistentVolumeClaim:
              claimName: fastdfs-storage-pvc
