@@ -14,6 +14,7 @@
         <module>loeyae-service-center</module>
         <module>loeyae-gateway</module>
         <module>loeyae-files-server</module>
+        <module>loeyae-zipkin-server</module>
     </modules>
     <parent>
         <artifactId>spring-boot-parent</artifactId>

@@ -1,0 +1,43 @@
+server:
+  port: ${PORT:9903}
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: loeyae-files-server
+  # file Config
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+feign:
+  hystrix:
+    enabled: true
+
+
+##开启所有端点
+management:
+  endpoint:
+    pause:
+      enabled: true
+    restart:
+      enabled: true
+    refresh:
+      enabled: true
+    resume:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+logging:
+  level:
+    org.springframework.web.reactive: WARN
