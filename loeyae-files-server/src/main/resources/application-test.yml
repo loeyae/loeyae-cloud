@@ -1,3 +1,11 @@
+spring:
+  # 链路追踪
+  zipkin:
+    base-url: http://${ZIPKIN_SERVICE_HOST:loeyae-zipkin-server-0.loeyae-zipkin-server.devops}:${ZIPKIN_SERVICE_PORT:9902}
+  sleuth:
+    sampler:
+      #服务跟踪消息收集率，1代表每一条都收集，0.1代表收集百分之10
+      probability: 1.0
 eureka:
   client:
     serviceUrl:
