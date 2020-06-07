@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loeyae-files-server
+  namespace: devops
+spec:
+  ports:
+    - port: 80                                    #
+      targetPort: 9901
+      nodePort: 31908
+      name: web
+  # clusterIP: None
+  type: NodePort
+  selector:
+    app: loeyae-files-server
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loeyae-files-server
+  namespace: devops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loeyae-files-server
+  template:
+    metadata:
+      labels:
+        app: loeyae-files-server
+    spec:
+      containers:
+        - name: loeyae-files-server
+          image: hub.bys.cd/library/loeyae_files_server:{TAG}
+          args:
+            - --spring.profiles.active={ENV}
+          ports:
+            - containerPort: 9901
+              hostPort: 9901
+              name: web
+          resources:
+            limits:
+              # jvm会自动发现该限制
+              memory: 512Mi
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JAVA_OPTS
+              value: -XX:+UnlockExperimentalVMOptions
+                -XX:+UseCGroupMemoryLimitForHeap
+                -XX:MaxRAMFraction=2
+                -XX:CICompilerCount=8
+                -XX:ActiveProcessorCount=8
+                -XX:+UseG1GC
+                -XX:+AggressiveOpts
+                -XX:+UseFastAccessorMethods
+                -XX:+UseStringDeduplication
+                -XX:+UseCompressedOops
+                -XX:+OptimizeStringConcat
+            - name: EUREKA_USER
+              value: admin
+            - name: EUREKA_PWD
+              value: ad2020min
+            - name: EUREKA_SERVER
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
+            - name: GATEWAY_INSTANCE_HOSTNAME
+              value: ${MY_POD_NAME}.file-server
