@@ -91,7 +91,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: eureka.bys.cd
+    - host: zipkin.bys.cd
       http:
         paths:
           - path: /
