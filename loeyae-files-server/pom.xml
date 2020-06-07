@@ -11,9 +11,9 @@
     <artifactId>loeyae-files-server</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+<!--    <properties>-->
+<!--        <maven.deploy.skip>true</maven.deploy.skip>-->
+<!--    </properties>-->
 
     <dependencies>
         <dependency>
@@ -59,9 +59,9 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
