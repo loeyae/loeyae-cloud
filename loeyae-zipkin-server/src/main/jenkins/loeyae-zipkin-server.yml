@@ -80,7 +80,8 @@ spec:
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
             - name: ZIPKIN_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.zipkin
-
+  podManagementPolicy: "Parallel"
+  
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
