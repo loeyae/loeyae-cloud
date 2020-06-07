@@ -14,7 +14,7 @@ node {
     stage("Package") {
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             sh """
-                cd loeyae-gateway/
+                cd loeyae-files-server/
                 mvn -f pom.xml clean package -Dautoconfig.skip=true -Dmaven.test.skip=true
                """
         }
