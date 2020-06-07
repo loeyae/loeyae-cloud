@@ -12,5 +12,5 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     prefer-ip-address: true
 
-    hostname: ${GATEWAY_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
-    instance-id: 网关(${spring.cloud.client.ip-address}:${server.port})
+    hostname: ${FILES_SERVER_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
+    instance-id: 文件服务(${spring.cloud.client.ip-address}:${server.port})

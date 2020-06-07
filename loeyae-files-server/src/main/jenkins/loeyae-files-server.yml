@@ -7,8 +7,8 @@ metadata:
 spec:
   ports:
     - port: 80                                    #
-      targetPort: 9901
-      nodePort: 31908
+      targetPort: 9903
+      nodePort: 31910
       name: web
   # clusterIP: None
   type: NodePort
@@ -22,7 +22,7 @@ metadata:
   name: loeyae-files-server
   namespace: devops
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: loeyae-files-server
@@ -37,8 +37,8 @@ spec:
           args:
             - --spring.profiles.active={ENV}
           ports:
-            - containerPort: 9901
-              hostPort: 9901
+            - containerPort: 9903
+              hostPort: 9903
               name: web
           resources:
             limits:
@@ -67,5 +67,5 @@ spec:
               value: ad2020min
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
-            - name: GATEWAY_INSTANCE_HOSTNAME
+            - name: FILES_SERVER_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.file-server
