@@ -69,7 +69,7 @@ spec:
             - name: MYSQL_PASS
               value: {MYSQL_PASS}
             - name: MYSQL_HOST
-              value: {MYSQL_HOST}
+              value: "{MYSQL_HOST}"
             - name: MYSQL_TCP_PORT
               value: {MYSQL_PORT}
             - name: EUREKA_USER
@@ -81,7 +81,7 @@ spec:
             - name: ZIPKIN_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.zipkin
   podManagementPolicy: "Parallel"
-  
+
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
