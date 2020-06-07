@@ -1,6 +1,6 @@
 package com.loeyae.cloud.files.config;
 
-import com.loeyae.cloud.commons.config.MvcConfigAdapter;
+import com.loeyae.cloud.config.MvcConfigAdapter;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;

@@ -1,4 +1,4 @@
-package com.loeyae.cloud.commons.config;
+package com.loeyae.cloud.config;
 
 import com.loeyae.cloud.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Value;

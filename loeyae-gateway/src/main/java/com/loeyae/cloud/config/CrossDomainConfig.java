@@ -1,4 +1,4 @@
-package com.loeyae.cloud.commons.config;
+package com.loeyae.cloud.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
