@@ -67,11 +67,11 @@ spec:
             - name: MYSQL_USER
               value: {MYSQL_USER}
             - name: MYSQL_PASS
-              value: {MYSQL_PASS}
+              value: "{MYSQL_PASS}"
             - name: MYSQL_HOST
               value: "{MYSQL_HOST}"
             - name: MYSQL_TCP_PORT
-              value: {MYSQL_PORT}
+              value: "{MYSQL_PORT}"
             - name: EUREKA_USER
               value: admin
             - name: EUREKA_PWD
