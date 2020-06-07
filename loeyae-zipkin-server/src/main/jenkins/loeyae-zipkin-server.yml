@@ -7,10 +7,10 @@ metadata:
 spec:
   ports:
     - port: 80                                    #
-      targetPort: 9900
-      nodePort: 31907
+      targetPort: 9902
+      nodePort: 31909
       name: web
-  # clusterIP: None
+#   clusterIP: None
   type: NodePort
   selector:
     app: loeyae-zipkin-server
@@ -23,7 +23,7 @@ metadata:
   namespace: devops
 spec:
   serviceName: loeyae-zipkin-server
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: loeyae-zipkin-server
@@ -38,8 +38,8 @@ spec:
           args:
             - --spring.profiles.active={ENV}
           ports:
-            - containerPort: 9900
-              hostPort: 9900
+            - containerPort: 9902
+              hostPort: 9902
               name: web
           resources:
             limits:
@@ -62,6 +62,16 @@ spec:
                 -XX:+UseStringDeduplication
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
+            - name: STORAGE_TYPE
+              value: mysql
+            - name: MYSQL_USER
+              value: {MYSQL_USER}
+            - name: MYSQL_PASS
+              value: {MYSQL_PASS}
+            - name: MYSQL_HOST
+              value: {MYSQL_HOST}
+            - name: MYSQL_TCP_PORT
+              value: {MYSQL_PORT}
             - name: EUREKA_USER
               value: admin
             - name: EUREKA_PWD
