@@ -1,4 +1,4 @@
-package com.loeyae.cloud.config;
+package com.loeyae.cloud.commons.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;

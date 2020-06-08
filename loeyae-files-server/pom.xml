@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.loeyae</groupId>
             <artifactId>loeyae-commons</artifactId>
-            <version>1.5</version>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>com.github.tobato</groupId>
