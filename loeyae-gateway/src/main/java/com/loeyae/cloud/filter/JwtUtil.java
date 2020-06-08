@@ -82,8 +82,8 @@ public class JwtUtil {
      * @return
      */
     public static Claims JWTDecode(String jwt, String key) {
-        if (jwt.startsWith("Beare ")) {
-            jwt = jwt.substring(6);
+        if (jwt.startsWith("Bearer ")) {
+            jwt = jwt.substring(7).trim();
         }
         return Jwts.parser()
                 .setSigningKey(key.getBytes())

@@ -61,6 +61,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
         //从请求头中取出token
         String token = exchange.getRequest().getHeaders().getFirst(JWT_AUTH_KEY);
+        logger.warn("got token: [{}]", token);
         //未携带token或token在黑名单内
         if (token == null || token.isEmpty() || StringUtils.isBlank(token)) {
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
@@ -70,6 +71,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
         } catch (ExpiredJwtException expiredJwtException) {
             return message(exchange, BaseErrorCode.TOKEN_EXPIRE);
         } catch (Exception e) {
+            logger.error("error: ", e);
+            logger.warn("got error: {[]}", e.getMessage());
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
         }
         return chain.filter(exchange);
