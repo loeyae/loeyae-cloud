@@ -20,6 +20,13 @@ node {
         def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
+                sh """
+                    docker rmi \$(docker images | grep "loeyae_service_center" | awk "{print \$3}") -f
+                """
+            } catch(exc) {
+                print(exc.getMessage())
+            }
+            try {
                 if (buildId != 1) {
                     def prevId = buildId - 1
                     def prevImageTag = "hub.bys.cd/library/loeyae_service_center:${prevId}"
