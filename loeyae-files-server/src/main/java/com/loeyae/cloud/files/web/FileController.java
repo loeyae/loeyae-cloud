@@ -88,8 +88,11 @@ public class FileController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping("/file/download")
-    public void  download(String fileUrl, HttpServletResponse response) throws Exception{
+    @RequestMapping("/file/**/*")
+    public void  download(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String path = request.getServletPath();
+        String fileUrl = path.substring(6);
+        System.out.println(fileUrl);
         byte[] data = fdfsClient.download(fileUrl);
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode("test.jpg", "UTF-8"));
