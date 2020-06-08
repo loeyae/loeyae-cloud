@@ -82,6 +82,62 @@ spec:
         resources:
           requests:
             storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastdfs-tracker
+  namespace: fastdfs
+spec:
+  selector:
+    app: fastdfs-tracker
+  ports:
+    - name: tracker
+      port: 80
+      targetPort: 22122
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastdfs-web
+  namespace: fastdfs
+spec:
+  selector:
+    app: fastdfs-tracker
+  ports:
+    - name: web
+      port: 80
+      targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fastdfs-tracker
+  namespace: fastdfs
+spec:
+  rules:
+    - host: upload.bys.cd
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: fastdfs-tracker
+              servicePort: tracker
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fastdfs-web
+  namespace: fastdfs
+spec:
+  rules:
+    - host: file.bys.cd
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: fastdfs-web
+              servicePort: web
 #---
 #apiVersion: v1
 #kind: Service
