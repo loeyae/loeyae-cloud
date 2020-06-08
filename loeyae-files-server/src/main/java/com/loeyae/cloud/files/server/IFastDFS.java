@@ -1,6 +1,7 @@
 package com.loeyae.cloud.files.server;
 
 import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
+import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.loeyae.cloud.files.common.FastFileStorageClient;
@@ -75,6 +76,28 @@ public class IFastDFS {
     }
 
     /**
+     * 获取文件信息
+     * @param fileUrl
+     * @return
+     */
+    public FileInfo fileInfo(String fileUrl) {
+        String group = fileUrl.substring(0, fileUrl.indexOf("/"));
+        String path = fileUrl.substring(fileUrl.indexOf("/") + 1);
+        return fileInfo(group, path);
+    }
+
+    /**
+     * get file info
+     * @param group
+     * @param path
+     * @return
+     */
+    public FileInfo fileInfo(String group, String path)
+    {
+        return storageClient.queryFileInfo(group, path);
+    }
+
+    /**
      * 下载文件
      * @param fileUrl 文件url
      * @return
@@ -82,8 +105,18 @@ public class IFastDFS {
     public byte[]  download(String fileUrl) {
         String group = fileUrl.substring(0, fileUrl.indexOf("/"));
         String path = fileUrl.substring(fileUrl.indexOf("/") + 1);
-        byte[] bytes = storageClient.downloadFile(group, path, new DownloadByteArray());
-        return bytes;
+        return download(group, path);
+    }
+
+    /**
+     *
+     * @param group
+     * @param path
+     * @return
+     */
+    public byte[] download(String group, String path)
+    {
+        return storageClient.downloadFile(group, path, new DownloadByteArray());
     }
 
     /**

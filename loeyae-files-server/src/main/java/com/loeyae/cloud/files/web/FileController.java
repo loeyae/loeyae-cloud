@@ -14,6 +14,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -91,11 +93,14 @@ public class FileController {
     @RequestMapping("/file/**/*")
     public void  download(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String path = request.getServletPath();
+        String fileName = path.substring(path.lastIndexOf("\\")+1);
         String fileUrl = path.substring(6);
-        System.out.println(fileUrl);
         byte[] data = fdfsClient.download(fileUrl);
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode("test.jpg", "UTF-8"));
+        response.setHeader("accept-ranges", "bytes");
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentType = fileNameMap.getContentTypeFor(fileName);
+        response.setHeader("Content-type", contentType);
 
         // 写出
         ServletOutputStream outputStream = response.getOutputStream();
