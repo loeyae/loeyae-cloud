@@ -15,3 +15,7 @@ eureka:
 
     hostname: ${GATEWAY_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
     instance-id: 网关(${spring.cloud.client.ip-address}:${server.port})
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

@@ -8,6 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,10 +28,10 @@ public class JwtUtil {
      * @return
      */
     public static SecretKey generalKey(String key){
-        byte[] encodedKey = Base64.decodeBase64(key);
-        SecretKeySpec secretKeySpec = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-
-        return secretKeySpec;
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+//        byte[] encodedKey = DatatypeConverter.parseBase64Binary(key);
+        byte[] encodedKey = key.getBytes();
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, signatureAlgorithm.getJcaName());
     }
 
     /**
@@ -81,9 +82,11 @@ public class JwtUtil {
      * @return
      */
     public static Claims JWTDecode(String jwt, String key) {
-        SecretKey secretKey = generalKey(key);
+        if (jwt.startsWith("Beare ")) {
+            jwt = jwt.substring(6);
+        }
         return Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(key.getBytes())
                 .parseClaimsJws(jwt).getBody();
     }
 }

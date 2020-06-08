@@ -52,11 +52,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String url = exchange.getRequest().getURI().getPath();
         PathMatcher matcher = new AntPathMatcher();
-        logger.warn("got url: [{}]", url);
         for (String skipUrl: skipTokenUrls) {
-            logger.warn("skipUrl: [{}]", skipUrl);
-            logger.warn("match is: [{}]", matcher.match(skipUrl, url));
-            logger.warn("match is: [{}]", matcher.match(url, skipUrl));
             boolean result = matcher.match(skipUrl, url);
             if (result) {
                 return chain.filter(exchange);
