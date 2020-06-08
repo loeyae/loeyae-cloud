@@ -109,7 +109,7 @@ management:
       exposure:
         include: '*'
 loeyae:
-  skipTokenUrls: ${SKIP_TOKEN_URLS:/**/login, /**/open/api/**, /**/get/token}
+  skipTokenUrls: ${SKIP_TOKEN_URLS:/**/login, /**/open/api/**, /**/get/token, /**/file/group*/**/*}
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
 
 logging:
