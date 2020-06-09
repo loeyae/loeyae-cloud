@@ -2,7 +2,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: static
+        - id: upload-file
           predicates:
             - Path=/upload/**/*
           uri: http://192.168.163.93:8888
