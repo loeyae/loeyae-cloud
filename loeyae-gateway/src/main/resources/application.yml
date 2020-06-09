@@ -21,6 +21,14 @@ spring:
               args:
                 regexp: "'/v1/'+serviceId+'/(?<remaining>.*)'"
                 replacement: "'/${remaining}'"
+      routes:
+        - id: upload-file
+          predicates:
+            - Path=/upload/**/*
+          uri: http://192.168.163.93:8888
+          order: 1000
+          filters:
+            - StripPrefix=1
 ribbon:
   # 请求连接的超时
   ConnectTimeout: 1000
