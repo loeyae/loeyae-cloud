@@ -23,10 +23,9 @@ spring:
                 replacement: "'/${remaining}'"
       routes:
         - id: upload-file
-          predicates:
-            - Path=/upload/**/*
           uri: http://192.168.163.93:8888
-          order: 1000
+          predicates:
+            - Path=/upload/**
           filters:
             - StripPrefix=1
 ribbon:
@@ -117,7 +116,7 @@ management:
       exposure:
         include: '*'
 loeyae:
-  skipTokenUrls: ${SKIP_TOKEN_URLS:/**/login, /**/open/api/**, /**/get/token, /group1/M00/**/*}
+  skipTokenUrls: ${SKIP_TOKEN_URLS:/**/login, /**/open/api/**, /**/get/token, /**/group1/M00/**/*}
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
 
 logging:
