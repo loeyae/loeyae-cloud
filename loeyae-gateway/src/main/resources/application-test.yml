@@ -4,7 +4,7 @@ spring:
       routes:
         - id: static
           predicates:
-            - Path=/group1/M00/**
+            - Path=/upload/**/*
           uri: http://192.168.163.93:8888
           order: 1000
 eureka:
