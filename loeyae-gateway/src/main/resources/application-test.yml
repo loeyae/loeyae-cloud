@@ -1,3 +1,12 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: static
+          predicates:
+            - Path=/group1/M00/**
+          uri: http://192.168.163.93:8888
+          order: 1000
 eureka:
   client:
     serviceUrl:
@@ -14,3 +23,4 @@ eureka:
 
     hostname: ${GATEWAY_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
     instance-id: 网关(${spring.cloud.client.ip-address}:${server.port})
+
