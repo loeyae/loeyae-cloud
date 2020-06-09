@@ -27,17 +27,6 @@ node {
                 print(exc.getMessage())
             }
             try {
-                if (buildId != 1) {
-                    def prevId = buildId - 1
-                    def prevImageTag = "hub.bys.cd/library/loeyae_files_server:${prevId}"
-                    sh """
-                    docker rmi $prevImageTag
-                    """
-                }
-            } catch (exc) {
-                print(exc.getMessage())
-            }
-            try {
                 sh """
                   docker pull $latestTag
                   docker tag $latestTag $imageTag
