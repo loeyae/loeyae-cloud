@@ -28,6 +28,10 @@ spring:
             - Path=/upload/**
           filters:
             - StripPrefix=1
+        - id: order-food
+          uri: lb://api-server
+          predicates:
+            - Path=/api/**
 ribbon:
   # 请求连接的超时
   ConnectTimeout: 1000
@@ -116,7 +120,7 @@ management:
       exposure:
         include: '*'
 loeyae:
-  skipTokenUrls: ${SKIP_TOKEN_URLS:/**/login, /**/open/api/**, /**/get/token, /**/group1/M00/**/*}
+  skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/auth, /**/open/api/**, /**/get/token, /**/group1/M00/**/*}
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
 
 logging:
