@@ -37,13 +37,17 @@ import static com.alibaba.fastjson.JSON.toJSONString;
 public class TokenFilter implements GlobalFilter, Ordered {
 
     private static final String JWT_AUTH_KEY = "Authorization";
+
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
+
+    private final String[] verifyTokenUrls;
 
     private String[] skipTokenUrls;
 
     private String jwtSecretKey;
 
-    public TokenFilter(String[] skipTokenUrls, String jwtSecretKey) {
+    public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls, String jwtSecretKey) {
+        this.verifyTokenUrls = verifyTokenUrls;
         this.skipTokenUrls = skipTokenUrls;
         this.jwtSecretKey = jwtSecretKey;
     }
@@ -52,6 +56,16 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String url = exchange.getRequest().getURI().getPath();
         PathMatcher matcher = new AntPathMatcher();
+        boolean matched = false;
+        for (String tokeUrl: verifyTokenUrls) {
+            matched = matcher.match(tokeUrl, url);
+            if (matched) {
+                break;
+            }
+        }
+        if (!matched) {
+            return chain.filter(exchange);
+        }
         for (String skipUrl: skipTokenUrls) {
             boolean result = matcher.match(skipUrl, url);
             if (result) {
