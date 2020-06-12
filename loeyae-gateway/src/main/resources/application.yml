@@ -33,7 +33,7 @@ spring:
           predicates:
             - Path=/api/**
         - id: front-end
-          uri: http://order-food-web:80
+          uri: http://order-food-web.my-demo:80
           predicates:
             - Path=/**
 ribbon:
