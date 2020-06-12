@@ -32,6 +32,10 @@ spring:
           uri: lb://api-server
           predicates:
             - Path=/api/**
+        - id: front-end
+          uri: http://order-food-web:80
+          predicates:
+            - Path=/**
 ribbon:
   # 请求连接的超时
   ConnectTimeout: 1000
