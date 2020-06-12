@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfiguration {
 
+    @Value("${loeyae.verifyTokenUrls}")
+    private String[] verifyTokenUrls;
+
     @Value("${loeyae.skipTokenUrls}")
     private String[] skipTokenUrls;
 
@@ -23,6 +26,6 @@ public class FilterConfiguration {
 
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(skipTokenUrls, jwtSecretKey);
+        return new TokenFilter(verifyTokenUrls, skipTokenUrls, jwtSecretKey);
     }
 }
