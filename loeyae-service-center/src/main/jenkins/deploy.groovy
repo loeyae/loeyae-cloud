@@ -11,11 +11,7 @@ node {
         )
     }
     stage("deploy") {
-        def buildId = 1
-        try {
-            buildId = Integer.valueOf(currentBuild.id)
-        } catch(exc) {
-        }
+        def buildId = Integer.valueOf(currentBuild.id)
         def imageTag = "hub.bys.cd/library/loeyae_service_center:${buildId}"
         def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {

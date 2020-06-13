@@ -3,15 +3,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: loeyae-service-center
-  namespace: devops
+  namespace: hq-app
 spec:
   ports:
     - port: 80                                    #
       targetPort: 9900
-      nodePort: 31907
       name: web
   # clusterIP: None
-  type: NodePort
+#  type: NodePort
   selector:
     app: loeyae-service-center
 
@@ -20,7 +19,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: loeyae-service-center
-  namespace: devops
+  namespace: hq-app
 spec:
   serviceName: loeyae-service-center
   replicas: 3
@@ -79,10 +78,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
   name: loeyae-service-center
-  namespace: devops
+  namespace: hq-app
 spec:
   rules:
-    - host: eureka.bys.cd
+    - host: eureka.wh-wl.com
       http:
         paths:
           - path: /

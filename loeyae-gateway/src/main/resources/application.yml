@@ -36,6 +36,15 @@ spring:
           uri: http://order-food-web.my-demo:80
           predicates:
             - Path=/**
+        - id: file-server
+          uri: lb://loeyae-files-server
+          predicates:
+            - Path=/file/**
+        - id: demo
+          uri: lb://dotnet-demo
+          predicates:
+            - Path=/demo/**
+
 ribbon:
   # 请求连接的超时
   ConnectTimeout: 1000
