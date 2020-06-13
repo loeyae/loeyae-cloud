@@ -62,9 +62,15 @@ spec:
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
             - name: EUREKA_USER
-              value: admin
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: user
             - name: EUREKA_PWD
-              value: ad2020min
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: password
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.hq-app:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.hq-app:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.hq-app:9900/eureka/"
             - name: GATEWAY_INSTANCE_HOSTNAME

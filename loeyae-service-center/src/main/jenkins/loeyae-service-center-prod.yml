@@ -22,7 +22,7 @@ metadata:
   namespace: hq-app
 spec:
   serviceName: loeyae-service-center
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: loeyae-service-center
@@ -62,9 +62,15 @@ spec:
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
             - name: EUREKA_USER
-              value: admin
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: user
             - name: EUREKA_PWD
-              value: ad2020min
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: password
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center:9900/eureka/"
             - name: EUREKA_INSTANCE_HOSTNAME

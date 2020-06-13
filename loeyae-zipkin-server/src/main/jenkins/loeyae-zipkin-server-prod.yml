@@ -23,7 +23,7 @@ metadata:
   namespace: hq-app
 spec:
   serviceName: loeyae-zipkin-server
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: loeyae-zipkin-server
@@ -65,17 +65,35 @@ spec:
             - name: STORAGE_TYPE
               value: mysql
             - name: MYSQL_USER
-              value: {MYSQL_USER}
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-conf
+                  key: user
             - name: MYSQL_PASS
-              value: "{MYSQL_PASS}"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-conf
+                  key: pass
             - name: MYSQL_HOST
-              value: "{MYSQL_HOST}"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-conf
+                  key: host
             - name: MYSQL_TCP_PORT
-              value: "{MYSQL_PORT}"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-conf
+                  key: port
             - name: EUREKA_USER
-              value: admin
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: user
             - name: EUREKA_PWD
-              value: ad2020min
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-secret
+                  key: password
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
             - name: ZIPKIN_INSTANCE_HOSTNAME

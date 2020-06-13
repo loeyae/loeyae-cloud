@@ -23,6 +23,6 @@ node {
         }
         def source = "loeyae-gateway/src/main/jenkins/loeyae-gateway-prod.yml"
         sh "sed -e 's#{TAG}#${buildId}#g;s#{ENV}#${params.ENV_LABEL}#g' ${source} > deployment.yml"
-        sh "kubectl apply -f deployment.yml"
+        sh "kubectl apply -f deployment.yml --kubeconfig=/home/bys/.kube/hq.config"
     }
 }
