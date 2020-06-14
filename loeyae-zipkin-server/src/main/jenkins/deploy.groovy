@@ -51,4 +51,10 @@ node {
         sh "cat deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
+    post {
+        success {
+            echo "sucess"
+            build job: 'loeyae_zipkin_server-deploy-prod', parameters: [text(name: 'IMAGE_TAG', value: '${BUILD_ID}')], propagate: false, quietPeriod: 9, wait: false
+        }
+    }
 }
