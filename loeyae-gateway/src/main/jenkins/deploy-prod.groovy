@@ -5,6 +5,11 @@ node {
                     string(defaultValue: 'prod', description: 'deploy env', name: 'ENV_LABEL', trim: true)
             ])
     ])
+    stage('Approval') {
+        timeout(time:5, unit:'HOURS') {
+            input(id: 'Approval', message: '是否批准', ok: '批准', submitter: 'user')
+        }
+    }
     stage("Checkout") {
         checkout(
                 [

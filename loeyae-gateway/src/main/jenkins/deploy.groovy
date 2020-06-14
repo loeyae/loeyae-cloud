@@ -50,8 +50,8 @@ node {
         sh "sed -e 's#{TAG}#${buildId}#g;s#{ENV}#test#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml"
     }
-    post {
-        success {
+    stage("Post") {
+        if (currentBuild.currentResult == 'SUCCESS') {
             echo "sucess"
             build job: 'loeyae_gateway-deploy-prod', parameters: [text(name: 'IMAGE_TAG', value: '${BUILD_ID}')],
                     propagate: false, quietPeriod: 9, wait: false

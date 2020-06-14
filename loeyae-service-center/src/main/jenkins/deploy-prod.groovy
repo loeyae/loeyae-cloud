@@ -6,6 +6,11 @@ node {
                     gitParameter(branch: '', branchFilter: 'origin/(.*)', defaultValue: 'develop', description: '', listSize: '10', name: 'BRANCH', quickFilterEnabled: false, selectedValue: 'DEFAULT', sortMode: 'NONE', tagFilter: '*', type: 'PT_BRANCH', useRepository: 'http://119.4.240.179:31080/huaxin/HqDcxtServer.git')
             ])
     ])
+    stage('Approval') {
+        timeout(time:5, unit:'HOURS') {
+            input(id: 'Approval', message: '是否批准', ok: '批准', submitter: 'user')
+        }
+    }
     stage("Checkout") {
         checkout(
                 [
