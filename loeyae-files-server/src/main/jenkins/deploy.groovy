@@ -53,7 +53,7 @@ node {
     stage("Post") {
         if (currentBuild.currentResult == 'SUCCESS') {
             echo "sucess"
-            build job: 'loeyae_files_server-deploy-prod', parameters: [text(name: 'IMAGE_TAG', value: '${BUILD_ID}')], propagate: false, quietPeriod: 9, wait: false
+            build job: 'loeyae_files_server-deploy-prod', parameters: [text(name: 'IMAGE_TAG', value: BUILD_ID)], propagate: false, quietPeriod: 9, wait: false
         }
     }
 }
