@@ -8,10 +8,10 @@ spec:
   ports:
     - port: 80                                    #
       targetPort: 9902
-      nodePort: 31909
+#      nodePort: 31909
       name: web
 #   clusterIP: None
-  type: NodePort
+#  type: NodePort
   selector:
     app: loeyae-zipkin-server
 

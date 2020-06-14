@@ -8,10 +8,10 @@ spec:
   ports:
     - port: 80                                    #
       targetPort: 9901
-      nodePort: 31908
+#      nodePort: 31908
       name: web
   # clusterIP: None
-  type: NodePort
+#  type: NodePort
   selector:
     app: loeyae-gateway
 
