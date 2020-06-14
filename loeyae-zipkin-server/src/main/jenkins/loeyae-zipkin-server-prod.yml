@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: loeyae-zipkin-server
-          image: hub.bys.cd/library/loeyae_zipkin_server:{TAG}
+          image: hub.bys.cd:4443/library/loeyae_zipkin_server:{TAG}
           args:
             - --spring.profiles.active={ENV}
           ports:
