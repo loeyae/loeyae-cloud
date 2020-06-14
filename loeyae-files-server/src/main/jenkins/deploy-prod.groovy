@@ -7,7 +7,7 @@ node {
     ])
     stage('Approval') {
         timeout(time:5, unit:'HOURS') {
-            input(id: 'Approval', message: '是否批准', ok: '批准', submitter: 'user')
+            input(id: 'Approval', message: 'Approval or Abort', ok: 'Approval', submitter: 'user')
         }
     }
     stage("Checkout") {
