@@ -38,6 +38,6 @@ spring:
           predicates:
             - Path=/file/**
         - id: front-end
-          uri: http://order-food-web.my-demo:80
+          uri: http://order-food-web.hq-app:80
           predicates:
             - Path=/**
