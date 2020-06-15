@@ -34,6 +34,7 @@ spec:
       containers:
         - name: loeyae-gateway
           image: hub.bys.cd/library/loeyae_gateway:{TAG}
+          imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
           ports:
