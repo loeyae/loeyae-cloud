@@ -62,6 +62,8 @@ spec:
                 -XX:+UseStringDeduplication
                 -XX:+UseCompressedOops
                 -XX:+OptimizeStringConcat
+            - name: JWT_SECRET_KEY
+              value: abc123def456ghi789jkl0
             - name: EUREKA_USER
               value: admin
             - name: EUREKA_PWD
