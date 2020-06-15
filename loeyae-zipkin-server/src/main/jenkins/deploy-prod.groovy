@@ -28,8 +28,7 @@ node {
         }
         def imageTag = "hub.bys.cd/library/loeyae_zipkin_server:${buildId}"
         def source = "loeyae-zipkin-server/src/main/jenkins/loeyae-zipkin-server-prod.yml"
-        sh "sed -e 's#{TAG}#${buildId}#g;s#{MYSQL_USER}#bys#g;s#{MYSQL_PASS}#200519@Bys#g;s#{MYSQL_HOST}#mysql-mysqlha-0.mysql-mysqlha.mysql#g;s#{MYSQL_PORT}#3306#g;s#{ENV}#${params.ENV_LABEL}#g' ${source} > deployment.yml"
-        sh "cat deployment.yml"
+        sh "sed -e 's#{TAG}#${buildId}#g;s#{ENV}#${params.ENV_LABEL}#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml --kubeconfig=/home/bys/.kube/hq.config"
     }
 }
