@@ -14,6 +14,7 @@ node {
     stage("Package") {
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             sh """
+                export JAVA_HOME=/mnt/data/jenkins_home/jdk
                 cd loeyae-gateway/
                 mvn -f pom.xml clean package -Dautoconfig.skip=true -Dmaven.test.skip=true
                """
