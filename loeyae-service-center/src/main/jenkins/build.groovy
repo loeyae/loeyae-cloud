@@ -14,6 +14,7 @@ node {
     stage("Package") {
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             sh """
+                source /etc/profile
                 cd loeyae-service-center/
                 mvn -f pom.xml clean package -Dautoconfig.skip=true -Dmaven.test.skip=true
                """
