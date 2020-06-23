@@ -136,7 +136,7 @@ management:
         include: '*'
 loeyae:
   verifyTokenUrls: ${VERIFY_TOKEN_URLS:/api/**, /file/**, /demo/**}
-  skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/auth, /**/open/api/**, /**/get/token, /**/group1/M00/**/*}
+  skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/auth, /api/YeepayMng/GetOpenId, /open/api/**, /**/get/token, /**/group1/M00/**/*}
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
 
 logging:
