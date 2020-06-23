@@ -40,6 +40,8 @@ spring:
           uri: lb://dotnet-demo
           predicates:
             - Path=/demo/**
+          filters:
+            - StripPrefix=1
         - id: front-end
           uri: http://order-food-web.my-demo:80
           predicates:
