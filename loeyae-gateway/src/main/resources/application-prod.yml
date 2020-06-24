@@ -33,6 +33,7 @@ spring:
           uri: lb://api-server
           predicates:
             - Path=/api/**
+            - Path=/callback/**
         - id: file-server
           uri: lb://loeyae-files-server
           predicates:
