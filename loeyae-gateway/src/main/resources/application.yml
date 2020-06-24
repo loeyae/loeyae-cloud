@@ -32,6 +32,9 @@ spring:
           uri: lb://api-server
           predicates:
             - Path=/api/**
+        - id: order-food-callback
+          uri: lb://api-server
+          predicates:
             - Path=/callback/**
         - id: file-server
           uri: lb://loeyae-files-server
