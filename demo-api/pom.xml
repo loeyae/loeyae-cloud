@@ -5,42 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.loeyae</groupId>
-        <artifactId>loeyae-cloud</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <artifactId>loeyae-cloud</artifactId>
     </parent>
-    <artifactId>loeyae-commons</artifactId>
-    <version>1.8</version>
-    <packaging>jar</packaging>
-
-<!--    <properties>-->
-<!--        <maven.deploy.skip>true</maven.deploy.skip>-->
-<!--    </properties>-->
+    <groupId>com.loeyae</groupId>
+    <artifactId>demo-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>com.netflix.hystrix</groupId>
-            <artifactId>hystrix-core</artifactId>
-            <version>1.5.18</version>
-            <optional>true</optional>
+            <groupId>com.loeyae</groupId>
+            <artifactId>loeyae-commons</artifactId>
+            <version>1.8</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.14</version>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -71,5 +51,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

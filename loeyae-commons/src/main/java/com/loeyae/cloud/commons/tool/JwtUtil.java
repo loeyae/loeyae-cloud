@@ -1,4 +1,4 @@
-package com.loeyae.cloud.filter;
+package com.loeyae.cloud.commons.tool;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
