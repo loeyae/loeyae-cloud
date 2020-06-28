@@ -25,9 +25,9 @@ spring:
 # Mybatis-Plus Config
 mybatis-plus:
   # 扫描 mapper.xml
-  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  mapper-locations: classpath:/mapper/*/*Mapper.xml
   # 枚举类扫描
-  typeEnumsPackage: com.loeyae.cloud.demo.enums
+  typeEnumsPackage: com.loeyae.cloud.*.enums
   # 日志输出
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
