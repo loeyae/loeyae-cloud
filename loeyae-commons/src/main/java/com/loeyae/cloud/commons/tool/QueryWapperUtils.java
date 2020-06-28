@@ -31,10 +31,10 @@ public class QueryWapperUtils {
         logger = LoggerFactory.getLogger(QueryWapperUtils.class);
     }
 
-    public static QueryWrapper queryToWrapper(Object source, Class targetClass) {
+    public static <T> QueryWrapper<T> queryToWrapper(Object source, Class<T> targetClass) {
         Class<?> actualEditable = source.getClass();
         PropertyDescriptor[] sourcePds = BeanUtils.getPropertyDescriptors(actualEditable);
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<T> queryWrapper = new QueryWrapper();
         for(PropertyDescriptor sourcePd: sourcePds) {
             if (sourcePd != null && sourcePd.getReadMethod() != null) {
                 try {

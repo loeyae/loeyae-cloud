@@ -36,11 +36,11 @@ public abstract class BeanUtils extends org.springframework.beans.BeanUtils {
 
     public static <T, F> F copyToEntity(T source, Class<F> target)
     {
+        if (source == null) {
+            return null;
+        }
         try {
             F entity = target.newInstance();
-            if (source == null) {
-                return entity;
-            }
             copyProperties(source, entity);
             return entity;
         } catch (Exception e) {

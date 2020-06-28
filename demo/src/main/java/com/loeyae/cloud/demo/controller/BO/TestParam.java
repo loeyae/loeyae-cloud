@@ -29,14 +29,15 @@ public class TestParam implements Serializable {
      * ID
      */
     @Null(groups = {Insert.class, Update.class})
-    @NotNull(groups = {Primary.class, Query.class})
+    @NotNull(groups = {Primary.class})
+    @NotEmpty(groups = {Primary.class, Query.class})
     private Integer id;
 
     /**
      * 名称
      */
     @NotNull(groups = {Insert.class})
-    @NotBlank(groups = {Insert.class, Update.class})
+    @NotBlank(groups = {Insert.class, Update.class, Query.class})
     @Size(min = 1, max = 32, groups = {Insert.class, Update.class, Query.class})
     private String name;
 
@@ -44,30 +45,33 @@ public class TestParam implements Serializable {
      * 钱包
      */
     @NotNull(groups = {Insert.class})
-    @NotEmpty(groups = {Insert.class})
+    @Positive(groups = {Insert.class, Update.class, Query.class})
     private BigDecimal wallet;
 
     /**
      * 收入
      */
     @NotNull(groups = {Insert.class})
-    @NotEmpty(groups = {Insert.class})
+    @Positive(groups = {Insert.class, Update.class, Query.class})
     private Double earning;
 
     /**
      * box
      */
     @NotNull(groups = {Insert.class})
-    @NotEmpty(groups = {Insert.class})
+    @Positive(groups = {Insert.class, Update.class, Query.class})
     private Float box;
 
     /**
      * 状态
      */
+    @Positive(groups = {Insert.class, Update.class, Query.class})
     private Integer status;
 
     /**
      * 描述
      */
+    @NotEmpty(groups = {Insert.class})
+    @NotBlank(groups = {Insert.class, Update.class, Query.class})
     private String source;
 }

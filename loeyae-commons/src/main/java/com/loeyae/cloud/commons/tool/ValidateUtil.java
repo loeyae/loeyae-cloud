@@ -9,13 +9,18 @@ import com.loeyae.cloud.commons.exception.GlobalException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
  * @author Zhang Yi <loeyae@gmail.com>
  */
 public class ValidateUtil {
+
+    /**
+     * 换行符.
+     */
+    private static String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private static Validator validator;
 
@@ -36,15 +41,41 @@ public class ValidateUtil {
     public static <T> void validateEntity(T object, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
-            StringBuilder msg = new StringBuilder();
+            List<Object> jsonList = new ArrayList<>();
             for(ConstraintViolation<T> constraint:  constraintViolations){
-                msg.append(constraint.getMessage()).append("<br>");
+                Map<String, Object> jsonObject = new HashMap<>(2);
+                jsonObject.put("name", constraint.getPropertyPath().toString());
+                jsonObject.put("msg", constraint.getMessage());
+                jsonList.add(jsonObject);
             }
 
-            throw new GlobalException(msg.toString());
+            throw new GlobalException(JsonTool.beanToJson(jsonList));
         }
     }
 
+    /**
+     * validateEntity
+     *
+     * @param object
+     * @param cls
+     * @param groups
+     * @param <V>
+     * @param <T>
+     */
+    public static <V, T> void validateEntity(T object, Class<V> cls, Class<?>... groups) {
+        V entity = BeanUtils.copyToEntity(object, cls);
+        validateEntity(entity, groups);
+    }
+
+    /**
+     * validateParamter
+     *
+     * @param cls
+     * @param propertName
+     * @param value
+     * @param groups
+     * @param <T>
+     */
     public static <T> void validateParamter(Class<T> cls, String propertName, Object value, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validateValue(cls, propertName, value, groups);
         if (!constraintViolations.isEmpty()) {
