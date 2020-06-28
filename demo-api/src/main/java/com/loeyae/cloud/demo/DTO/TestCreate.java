@@ -19,21 +19,12 @@ import javax.validation.constraints.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestParam implements Serializable {
+public class TestCreate implements Serializable {
     private static final long serialVersionUID = 1L;
-
-   /**
-     * ID
-     */
-    @Null(groups = {Insert.class, Update.class})
-    @NotNull(groups = {Primary.class, Query.class})
-    private Integer id;
 
     /**
      * 名称
      */
-    @NotNull
-    @Size(min = 1, max = 32)
     private String name;
 
     /**

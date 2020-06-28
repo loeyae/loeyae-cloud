@@ -90,7 +90,7 @@ public class FileController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping("/file/**/*")
+    @RequestMapping("/file/group0/*")
     public void  download(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String path = request.getServletPath();
         String fileName = path.substring(path.lastIndexOf("\\")+1);
