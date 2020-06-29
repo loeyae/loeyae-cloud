@@ -11,7 +11,7 @@ import com.loeyae.cloud.commons.tool.QueryWapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
 import com.loeyae.cloud.demo.DTO.*;
-import com.loeyae.cloud.demo.TestApi;
+import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.VO.TestView;
 import com.loeyae.cloud.demo.entity.Test;
 import com.loeyae.cloud.demo.service.ITestService;
@@ -128,13 +128,13 @@ public class TestController implements TestApi {
     }
 
     /**
-     * List
+     * All
      *
      * @param data
      * @return
      */
     @Override
-    public ApiResult<List<TestView>> list(TestQuery data)
+    public ApiResult<List<TestView>> all(TestQuery data)
     {
         ValidateUtil.validateEntity(data);
         QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
