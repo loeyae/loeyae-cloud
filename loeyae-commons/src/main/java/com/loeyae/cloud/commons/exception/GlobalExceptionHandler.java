@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * GlobalExceptionHandler
  *
- * @author ZhangYi<loeyae @ gmail.com>
+ * @author ZhangYi<loeyae@gmail.com>
  * @version 1.0
  * @date 2020/6/6 18:24
  */
