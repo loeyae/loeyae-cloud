@@ -36,6 +36,9 @@ public enum BaseErrorCode implements IErrorCode {
      * feign服务调用失败
      */
     FEIGN_FAIL(509, "服务调用失败"),
+
+    VALIDATE_FAIL(511, "参数校验失败"),
+
     ;
 
     private final long code;

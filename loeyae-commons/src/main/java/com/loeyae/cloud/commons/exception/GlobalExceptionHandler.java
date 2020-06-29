@@ -36,8 +36,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ApiResult handleBadRequest(Exception e) {
         ApiResult r = new ApiResult(BaseErrorCode.FAILED);
-        e.printStackTrace();
-        logger.error("Error: System Exception", e);
+
+        if (e instanceof ValidateException) {
+            IErrorCode errorCode = ((ValidateException) e).getErrorCode();
+            if (null != errorCode) {
+                r.setCode(errorCode.getCode());
+            } else {
+                r.setCode(BaseErrorCode.VALIDATE_FAIL.getCode());
+            }
+            r.setMsg(((ValidateException) e).getValidateMessage());
+            return r;
+        }
 
         /*
          * 业务逻辑警告提示
@@ -115,8 +124,7 @@ public class GlobalExceptionHandler {
             }
         }
 
-
-
+        logger.error("Error: System Exception", e);
 
         /**
          * 系统内部异常，打印异常栈

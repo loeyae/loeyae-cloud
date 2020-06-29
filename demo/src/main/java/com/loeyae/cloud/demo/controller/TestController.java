@@ -20,6 +20,9 @@ import com.loeyae.cloud.demo.entity.Test;
 import com.loeyae.cloud.demo.service.ITestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -49,8 +52,7 @@ public class TestController implements TestApi {
      * @return
      */
     @Override
-    public ApiResult<TestView> create(TestCreate data)
-    {
+    public ApiResult<TestView> create(@Validated TestCreate data) {
         ValidateUtil.validateEntity(data, TestParam.class, Insert.class);
         Test entity = BeanUtils.copyToEntity(data, Test.class);
         testService.save(entity);
@@ -65,8 +67,7 @@ public class TestController implements TestApi {
      * @return
      */
     @Override
-    public ApiResult<TestView> update(int id, TestUpdate data)
-    {
+    public ApiResult<TestView> update(int id, TestUpdate data) {
         ValidateUtil.validateParamter(TestCreate.class, "id", id, Primary.class);
         ValidateUtil.validateEntity(data, TestParam.class, Update.class);
         Test entity = BeanUtils.copyToEntity(data, Test.class);

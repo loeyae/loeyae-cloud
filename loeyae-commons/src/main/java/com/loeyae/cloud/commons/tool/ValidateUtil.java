@@ -4,7 +4,9 @@
  */
 package com.loeyae.cloud.commons.tool;
 
+import com.loeyae.cloud.commons.exception.BaseErrorCode;
 import com.loeyae.cloud.commons.exception.GlobalException;
+import com.loeyae.cloud.commons.exception.ValidateException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -16,11 +18,6 @@ import java.util.*;
  * @author Zhang Yi <loeyae@gmail.com>
  */
 public class ValidateUtil {
-
-    /**
-     * 换行符.
-     */
-    private static String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private static Validator validator;
 
@@ -40,17 +37,7 @@ public class ValidateUtil {
      */
     public static <T> void validateEntity(T object, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object, groups);
-        if (!constraintViolations.isEmpty()) {
-            List<Object> jsonList = new ArrayList<>();
-            for(ConstraintViolation<T> constraint:  constraintViolations){
-                Map<String, Object> jsonObject = new HashMap<>(2);
-                jsonObject.put("name", constraint.getPropertyPath().toString());
-                jsonObject.put("msg", constraint.getMessage());
-                jsonList.add(jsonObject);
-            }
-
-            throw new GlobalException(JsonTool.beanToJson(jsonList));
-        }
+        buildMessage(constraintViolations);
     }
 
     /**
@@ -78,22 +65,21 @@ public class ValidateUtil {
      */
     public static <T> void validateParamter(Class<T> cls, String propertName, Object value, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validateValue(cls, propertName, value, groups);
+        buildMessage(constraintViolations);
+    }
+
+    public static <T> void buildMessage(Set<ConstraintViolation<T>> constraintViolations)
+    {
         if (!constraintViolations.isEmpty()) {
-            StringBuilder msg = new StringBuilder();
+            List<Object> jsonList = new ArrayList<>();
             for(ConstraintViolation<T> constraint:  constraintViolations){
-                msg.append(constraint.getPropertyPath())
-                    .append("<br>")
-                    .append(constraint.getLeafBean() == null ? constraint.getRootBeanClass().getName() : constraint.getLeafBean().getClass().getName())
-                    .append("<br>")
-                    .append(constraint.getRootBeanClass())
-                    .append("<br>")
-                    .append(constraint.getExecutableReturnValue())
-                    .append("<br>")
-                    .append(constraint.getMessage())
-                    .append("<br>");
+                Map<String, Object> jsonObject = new HashMap<>(2);
+                jsonObject.put("name", constraint.getPropertyPath().toString());
+                jsonObject.put("msg", constraint.getMessage());
+                jsonList.add(jsonObject);
             }
 
-            throw new GlobalException(msg.toString());
+            throw new ValidateException(JsonTool.beanToJson(jsonList));
         }
     }
 }
