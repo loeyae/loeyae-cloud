@@ -90,13 +90,12 @@ public class MysqlGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-//        strategy.setSuperEntityClass("com.bys.rdc.common.mybatis.SuperEntity");
+//        strategy.setSuperEntityClass("com.loeyae.commons.comman.SuperEntity");
 //        strategy.setSuperEntityColumns("create_time, update_time");
-//        strategy.setSuperMapperClass("com.bys.rdc.common.mybatis.SuperMapper");
-//        strategy.setSuperServiceClass("com.bys.rdc.common.mybatis.SuperService");
-//        strategy.setSuperServiceImplClass("com.bys.rdc.common.mybatis.SuperServiceImpl");
-//        strategy.setSuperControllerClass("com.bys.rdc.common.mybatis.SuperController");
-//        strategy.setSuperEntityColumns("create_time", "update_time");
+//        strategy.setSuperMapperClass("com.loeyae.commons.comman.SuperMapper");
+//        strategy.setSuperServiceClass("com.loeyae.commons.comman.SuperService");
+//        strategy.setSuperServiceImplClass("com.loeyae.commons.comman.SuperServiceImpl");
+//        strategy.setSuperControllerClass("com.loeyae.commons.comman.SuperController");
         if (args.getOptionValues("includes") != null) {
             List<String> includes = args.getOptionValues("includes");
             String[] includeArr = new String[includes.size()];
@@ -119,6 +118,7 @@ public class MysqlGenerator {
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+        //mpg.getTemplateEngine().writer();
         for (TableInfo tableinfo : mpg.getConfig().getTableInfoList()) {
             tableinfo.getFields();
         }

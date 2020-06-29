@@ -25,30 +25,38 @@ public class TestCreate implements Serializable {
     /**
      * 名称
      */
+    @NotNull
+    @NotBlank
     private String name;
 
     /**
      * 钱包
      */
+    @PositiveOrZero
+    @Digits(integer = 5, fraction = 2)
     private BigDecimal wallet;
 
     /**
      * 收入
      */
+    @PositiveOrZero
     private Double earning;
 
     /**
      * box
      */
+    @PositiveOrZero
     private Float box;
 
     /**
      * 状态
      */
+    @PositiveOrZero
     private Integer status;
 
     /**
      * 描述
      */
+    @NotBlank
     private String source;
 }
