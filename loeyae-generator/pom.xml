@@ -4,11 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>cloud</artifactId>
         <groupId>com.loeyae</groupId>
+        <artifactId>loeyae-cloud</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.loeyae</groupId>
     <artifactId>loeyae-generator</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -16,7 +15,8 @@
         <dependency>
             <groupId>com.loeyae</groupId>
             <artifactId>loeyae-commons</artifactId>
-            <version>1.8</version>
+            <version>1.9</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

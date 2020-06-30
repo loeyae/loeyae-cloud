@@ -22,7 +22,7 @@ import ${pkg};
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${table.entityName}Create implements Serializable {
+public class ${table.entityName}Query implements Serializable {
     private static final long serialVersionUID = 1L;
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
@@ -30,25 +30,12 @@ public class ${table.entityName}Create implements Serializable {
 <#assign Int=["Integer", "Long", "Short"]>
 <#assign Dec=["Float", "BigDecimal", "Double"]>
 <#list table.fields as field>
-
-    <#if field.keyIdentityFlag>
-        <#continue>
-    </#if>
     <#assign fieldPatch=patch[field.name] >
-    <#if fieldPatch._default?? && fieldPatch._default == "CURRENT_TIMESTAMP">
-        <#continue>
-    </#if>
 
     <#if field.comment!?length gt 0>
     /**
      * ${field.comment}
      */
-    </#if>
-    <#if fieldPatch.isNull == "no" && fieldPatch._default?default("null") == "null">
-    @NotNull
-        <#if field.propertyType == "String">
-    @NotBlank
-        </#if>
     </#if>
     <#if field.propertyType == "String">
         <#if fieldPatch.length?default("0")?number gt 0>

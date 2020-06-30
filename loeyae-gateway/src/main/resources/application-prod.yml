@@ -41,7 +41,3 @@ spring:
           uri: lb://loeyae-files-server
           predicates:
             - Path=/file/**
-        - id: front-end
-          uri: http://order-food-web.hq-app:80
-          predicates:
-            - Path=/**

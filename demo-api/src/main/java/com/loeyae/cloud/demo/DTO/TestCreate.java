@@ -27,6 +27,7 @@ public class TestCreate implements Serializable {
      */
     @NotNull
     @NotBlank
+    @Size(max=32)
     private String name;
 
     /**

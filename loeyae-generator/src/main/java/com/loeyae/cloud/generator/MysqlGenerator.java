@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -46,7 +45,7 @@ public class MysqlGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("zhang yi");
+        gc.setAuthor("ZhangYi<loeyae@gmail.com>");
         gc.setOpen(false);
         mpg.setGlobalConfig(gc);
 
@@ -173,8 +172,8 @@ public class MysqlGenerator {
                     patch.put("restrain", restrain);
                     String none = resultSet.getString("Null");
                     patch.put("isNull", none.toLowerCase());
-                    String _default = resultSet.getString("Default");
-                    patch.put("_default", _default);
+                    String dft = resultSet.getString("Default");
+                    patch.put("_default", dft);
                     fieldsPatch.put(name, patch);
                 }
             } catch (Exception e) {
@@ -186,12 +185,19 @@ public class MysqlGenerator {
             objectMap.put("package", packageConfig);
             objectMap.put("table", tableinfo);
             objectMap.put("patch", fieldsPatch);
-            System.out.println(fieldsPatch);
             try {
                 mpg.getTemplateEngine().writer(objectMap, "/templates/api.java.ftl",
                         apiDir + File.separator + tableinfo.getEntityName() +"Api.java");
                 mpg.getTemplateEngine().writer(objectMap, "/templates/create.java.ftl",
                         dtoDir + File.separator + tableinfo.getEntityName() +"Create.java");
+                mpg.getTemplateEngine().writer(objectMap, "/templates/update.java.ftl",
+                        dtoDir + File.separator + tableinfo.getEntityName() +"Update.java");
+                mpg.getTemplateEngine().writer(objectMap, "/templates/primary.java.ftl",
+                        dtoDir + File.separator + tableinfo.getEntityName() +"Primary.java");
+                mpg.getTemplateEngine().writer(objectMap, "/templates/query.java.ftl",
+                        dtoDir + File.separator + tableinfo.getEntityName() +"Query.java");
+                mpg.getTemplateEngine().writer(objectMap, "/templates/view.java.ftl",
+                        voDir + File.separator + tableinfo.getEntityName() +"View.java");
             } catch (Exception e) {
                 e.printStackTrace();
             }
