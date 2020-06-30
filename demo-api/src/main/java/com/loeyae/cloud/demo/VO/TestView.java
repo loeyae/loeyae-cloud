@@ -1,26 +1,27 @@
 package com.loeyae.cloud.demo.VO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
- * Test View Object.
+ * <p>
+ * 
+ * </p>
  *
- * @author ZhangYi<loeyae @ gmail.com>
- * @version 1.0
- * @date 2020-06-27
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestView implements Serializable {
-
     private static final long serialVersionUID = 1L;
+
 
     /**
      * ID
@@ -63,9 +64,8 @@ public class TestView implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime modifyTime;
-
 
 }

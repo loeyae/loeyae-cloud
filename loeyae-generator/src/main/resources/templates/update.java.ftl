@@ -3,7 +3,7 @@ package ${package.Controller?remove_ending("controller")}DTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
+import javax.validation.constraints.*;
 <#list table.importPackages as pkg>
 <#if pkg?starts_with("com.baomidou.mybatisplus.annotation")>
     <#continue>

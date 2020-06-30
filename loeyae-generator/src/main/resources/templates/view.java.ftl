@@ -1,4 +1,4 @@
-package ${package.Controller?remove_ending("controller")}DTO;
+package ${package.Controller?remove_ending("controller")}VO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

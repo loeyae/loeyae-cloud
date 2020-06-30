@@ -1,5 +1,6 @@
 package ${package.Controller};
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -47,7 +48,7 @@ class ${table.controllerName}<#if superControllerClass??> : ${superControllerCla
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
-public class ${table.controllerName} implements ${table.controllerName}Api {
+public class ${table.controllerName} implements ${table.entityName}Api {
 </#if>
 
     @Autowired
@@ -121,8 +122,11 @@ public class ${table.controllerName} implements ${table.controllerName}Api {
     {
         ValidateUtil.validateEntity(data);
         QueryWrapper<${table.entityName}> queryWrapper = QueryWapperUtils.queryToWrapper(data, ${table.entityName}.class);
-        ${table.entityName} entity = ${table.entityName?uncap_first}Service.getOne(queryWrapper);
-        return ApiResult.ok(BeanUtils.copyToEntity(entity, ${table.entityName}View.class));
+        List<${table.entityName}> entities = ${table.entityName?uncap_first}Service.list(queryWrapper);
+        if (!entities.isEmpty()) {
+            return ApiResult.ok(BeanUtils.copyToEntity(entities.get(0), ${table.entityName}View.class));
+        }
+        return ApiResult.ok(null);
     }
 
     /**

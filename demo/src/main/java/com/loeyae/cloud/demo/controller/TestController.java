@@ -1,7 +1,7 @@
 package com.loeyae.cloud.demo.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.loeyae.cloud.commons.common.ApiResult;
@@ -10,16 +10,15 @@ import com.loeyae.cloud.commons.tool.BeanUtils;
 import com.loeyae.cloud.commons.tool.QueryWapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
+
 import com.loeyae.cloud.demo.DTO.*;
-import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.VO.TestView;
+import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.entity.Test;
 import com.loeyae.cloud.demo.service.ITestService;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 /**
@@ -27,11 +26,11 @@ import java.util.List;
  *  前端控制器
  * </p>
  *
- * @author zhang yi
- * @since 2020-06-27
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
 @RestController
-@Slf4j
+@RequestMapping("/demo/test")
 public class TestController implements TestApi {
 
     @Autowired
@@ -105,8 +104,11 @@ public class TestController implements TestApi {
     {
         ValidateUtil.validateEntity(data);
         QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
-        Test entity = testService.getOne(queryWrapper);
-        return ApiResult.ok(BeanUtils.copyToEntity(entity, TestView.class));
+        List<Test> entities = testService.list(queryWrapper);
+        if (!entities.isEmpty()) {
+            return ApiResult.ok(BeanUtils.copyToEntity(entities.get(0), TestView.class));
+        }
+        return ApiResult.ok(null);
     }
 
     /**
@@ -141,5 +143,4 @@ public class TestController implements TestApi {
         List<Test> result = testService.list(queryWrapper);
         return ApiResult.ok(BeanUtils.copyObjListProperties(result, TestView.class));
     }
-
 }

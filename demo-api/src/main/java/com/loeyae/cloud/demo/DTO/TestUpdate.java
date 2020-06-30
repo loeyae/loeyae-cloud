@@ -1,18 +1,20 @@
 package com.loeyae.cloud.demo.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
- * Test Update DTO
+ * <p>
+ * 
+ * </p>
  *
- * @author ZhangYi<loeyae @ gmail.com>
- * @version 1.0
- * @date 2020/6/28 16:46
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
 @Data
 @NoArgsConstructor
@@ -20,24 +22,32 @@ import java.math.BigDecimal;
 public class TestUpdate implements Serializable {
     private static final long serialVersionUID = 1L;
 
+
     /**
      * 名称
      */
+    @NotBlank
+    @Size(max = 32)
     private String name;
 
     /**
      * 钱包
      */
+    @PositiveOrZero
+    @Digits(integer = 8, fraction = 2)
     private BigDecimal wallet;
 
     /**
      * 收入
      */
+    @PositiveOrZero
+    @Digits(integer = 8, fraction = 2)
     private Double earning;
 
     /**
      * box
      */
+    @Digits(integer = 3, fraction = 2)
     private Float box;
 
     /**
@@ -48,5 +58,7 @@ public class TestUpdate implements Serializable {
     /**
      * 描述
      */
+    @NotBlank
     private String source;
+
 }

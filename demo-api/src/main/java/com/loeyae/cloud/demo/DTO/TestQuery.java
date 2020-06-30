@@ -1,20 +1,33 @@
 package com.loeyae.cloud.demo.DTO;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
- * TestQuery
+ * <p>
+ * 
+ * </p>
  *
- * @author ZhangYi<loeyae @ gmail.com>
- * @version 1.0
- * @date 2020/6/28 16:50
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
-public class TestQuery  implements Serializable {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TestQuery implements Serializable {
     private static final long serialVersionUID = 1L;
+
+
+    /**
+     * ID
+     */
+    @PositiveOrZero
+    private Integer id;
 
     /**
      * 名称
@@ -26,17 +39,20 @@ public class TestQuery  implements Serializable {
      * 钱包
      */
     @PositiveOrZero
-    @Digits(integer = 5, fraction = 2)
+    @Digits(integer = 8, fraction = 2)
     private BigDecimal wallet;
 
     /**
      * 收入
      */
+    @PositiveOrZero
+    @Digits(integer = 8, fraction = 2)
     private Double earning;
 
     /**
      * box
      */
+    @Digits(integer = 3, fraction = 2)
     private Float box;
 
     /**
@@ -48,4 +64,15 @@ public class TestQuery  implements Serializable {
      * 描述
      */
     private String source;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime modifyTime;
+
 }

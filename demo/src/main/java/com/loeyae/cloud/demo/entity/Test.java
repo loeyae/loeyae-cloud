@@ -14,8 +14,8 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author zhang yi
- * @since 2020-06-27
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -66,7 +66,7 @@ public class Test implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime modifyTime;
 

@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author zhang yi
- * @since 2020-06-27
+ * @author ZhangYi<loeyae@gmail.com>
+ * @since 2020-06-30
  */
 public interface ITestService extends IService<Test> {
 
