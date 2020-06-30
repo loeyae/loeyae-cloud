@@ -12,7 +12,7 @@
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
-
+/src/
 # CMake
 cmake-build-*/
 

@@ -1,11 +1,9 @@
-package com.loeyae.cloud.demo;
+package com.loeyae.cloud.demo.api;
 
 import com.loeyae.cloud.commons.common.ApiResult;
 import com.loeyae.cloud.commons.common.PageResult;
 import com.loeyae.cloud.demo.DTO.*;
 import com.loeyae.cloud.demo.VO.TestView;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,8 +32,8 @@ public interface TestApi {
     @GetMapping("/api/test")
     ApiResult<TestView> one(TestQuery data);
 
-    @GetMapping("/api/test/list")
-    ApiResult<List<TestView>> list(TestQuery data);
+    @GetMapping("/api/test/all")
+    ApiResult<List<TestView>> all(TestQuery data);
 
     @GetMapping("/api/test/page")
     ApiResult<PageResult<TestView>> page(TestQuery data);

@@ -10,22 +10,14 @@ import com.loeyae.cloud.commons.tool.BeanUtils;
 import com.loeyae.cloud.commons.tool.QueryWapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
-import com.loeyae.cloud.demo.DTO.TestCreate;
-import com.loeyae.cloud.demo.DTO.TestQuery;
-import com.loeyae.cloud.demo.DTO.TestUpdate;
-import com.loeyae.cloud.demo.TestApi;
+import com.loeyae.cloud.demo.DTO.*;
+import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.VO.TestView;
-import com.loeyae.cloud.demo.controller.BO.TestParam;
 import com.loeyae.cloud.demo.entity.Test;
 import com.loeyae.cloud.demo.service.ITestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -52,8 +44,8 @@ public class TestController implements TestApi {
      * @return
      */
     @Override
-    public ApiResult<TestView> create(@Validated TestCreate data) {
-        ValidateUtil.validateEntity(data, TestParam.class, Insert.class);
+    public ApiResult<TestView> create(TestCreate data) {
+        ValidateUtil.validateEntity(data);
         Test entity = BeanUtils.copyToEntity(data, Test.class);
         testService.save(entity);
         return ApiResult.ok(BeanUtils.copyToEntity(entity, TestView.class));
@@ -68,8 +60,8 @@ public class TestController implements TestApi {
      */
     @Override
     public ApiResult<TestView> update(int id, TestUpdate data) {
-        ValidateUtil.validateParamter(TestCreate.class, "id", id, Primary.class);
-        ValidateUtil.validateEntity(data, TestParam.class, Update.class);
+        ValidateUtil.validateParamter(TestPrimary.class, "id", id, Primary.class);
+        ValidateUtil.validateEntity(data);
         Test entity = BeanUtils.copyToEntity(data, Test.class);
         entity.setId(id);
         testService.updateById(entity);
@@ -111,6 +103,7 @@ public class TestController implements TestApi {
     @Override
     public ApiResult<TestView> one(TestQuery data)
     {
+        ValidateUtil.validateEntity(data);
         QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
         Test entity = testService.getOne(queryWrapper);
         return ApiResult.ok(BeanUtils.copyToEntity(entity, TestView.class));
@@ -125,6 +118,7 @@ public class TestController implements TestApi {
     @Override
     public ApiResult<PageResult<TestView>> page(TestQuery data)
     {
+        ValidateUtil.validateEntity(data);
         QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
         Page<Test> page = new Page<>();
         page.setCurrent(0);
@@ -134,14 +128,15 @@ public class TestController implements TestApi {
     }
 
     /**
-     * List
+     * All
      *
      * @param data
      * @return
      */
     @Override
-    public ApiResult<List<TestView>> list(TestQuery data)
+    public ApiResult<List<TestView>> all(TestQuery data)
     {
+        ValidateUtil.validateEntity(data);
         QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
         List<Test> result = testService.list(queryWrapper);
         return ApiResult.ok(BeanUtils.copyObjListProperties(result, TestView.class));

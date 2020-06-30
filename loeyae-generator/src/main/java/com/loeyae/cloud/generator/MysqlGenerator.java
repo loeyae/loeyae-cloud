@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.springframework.boot.ApplicationArguments;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * MySql Generator.
@@ -83,20 +86,22 @@ public class MysqlGenerator {
         });
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
-        mpg.setTemplate(new TemplateConfig().setXml(null));
+        TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setXml(null).setController("/templates/controller.java");
+        mpg.setTemplate(templateConfig);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-//        strategy.setSuperEntityClass("com.bys.rdc.common.mybatis.SuperEntity");
+        strategy.setRestControllerStyle(true);
+//        strategy.setSuperEntityClass("com.loeyae.commons.comman.SuperEntity");
 //        strategy.setSuperEntityColumns("create_time, update_time");
-//        strategy.setSuperMapperClass("com.bys.rdc.common.mybatis.SuperMapper");
-//        strategy.setSuperServiceClass("com.bys.rdc.common.mybatis.SuperService");
-//        strategy.setSuperServiceImplClass("com.bys.rdc.common.mybatis.SuperServiceImpl");
-//        strategy.setSuperControllerClass("com.bys.rdc.common.mybatis.SuperController");
-//        strategy.setSuperEntityColumns("create_time", "update_time");
+//        strategy.setSuperMapperClass("com.loeyae.commons.comman.SuperMapper");
+//        strategy.setSuperServiceClass("com.loeyae.commons.comman.SuperService");
+//        strategy.setSuperServiceImplClass("com.loeyae.commons.comman.SuperServiceImpl");
+//        strategy.setSuperControllerClass("com.loeyae.commons.comman.SuperController");
         if (args.getOptionValues("includes") != null) {
             List<String> includes = args.getOptionValues("includes");
             String[] includeArr = new String[includes.size()];
@@ -119,8 +124,77 @@ public class MysqlGenerator {
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+        //mpg.getTemplateEngine().writer();
+        Map<String, String> packageConfig = mpg.getConfig().getPackageInfo();
+        String outdir = mpg.getGlobalConfig().getOutputDir();
+        outdir += File.separator + packageName.replaceAll("\\.", StringPool.BACK_SLASH + File.separator) + File.separator + moduleName;
+        String dtoDir = outdir + File.separator + "DTO";
+        File dtodir = new File(dtoDir);
+        if (!dtodir.exists()) {
+            dtodir.mkdirs();
+        }
+        String voDir = outdir + File.separator + "VO";
+        File vodir = new File(voDir);
+        if (!vodir.exists()) {
+            vodir.mkdirs();
+        }
+        String apiDir = outdir + File.separator + "api";
+        File apidir = new File(apiDir);
+        if (!apidir.exists()) {
+            apidir.mkdirs();
+        }
         for (TableInfo tableinfo : mpg.getConfig().getTableInfoList()) {
-            tableinfo.getFields();
+            Map<String, Map<String, Object>> fieldsPatch = new HashMap<>(tableinfo.getFields().size());
+            try {
+                ResultSet resultSet =
+                        mpg.getDataSource().getConn().prepareStatement("SHOW FULL COLUMNS FROM " + tableinfo.getName()).executeQuery();
+                while (resultSet.next()) {
+                    String name = resultSet.getString("Field");
+                    Map<String, Object> patch = new HashMap<>(5);
+                    String type = resultSet.getString("Type");
+                    String length = null;
+                    String scale = null;
+                    String restrain = null;
+                    int n = type.indexOf("(");
+                    if (n > 0) {
+                        int m = type.indexOf(")");
+                        length = type.substring(n + 1, m).trim();
+                        int l = length.indexOf(",");
+                        if (l > 0) {
+                            scale = length.substring(l + 1).trim();
+                            length = String.valueOf(Integer.parseInt(length.substring(0, l).trim()) - Integer.parseInt(scale));
+                        }
+                        if (type.length() > m + 2) {
+                            restrain = type.substring(m+2).trim();
+                        }
+                    }
+                    patch.put("length", length);
+                    patch.put("scale", scale);
+                    patch.put("restrain", restrain);
+                    String none = resultSet.getString("Null");
+                    patch.put("isNull", none.toLowerCase());
+                    String _default = resultSet.getString("Default");
+                    patch.put("_default", _default);
+                    fieldsPatch.put(name, patch);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Map<String, Object> objectMap = new HashMap<>(4);
+            objectMap.put("author", mpg.getGlobalConfig().getAuthor());
+            objectMap.put("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            objectMap.put("package", packageConfig);
+            objectMap.put("table", tableinfo);
+            objectMap.put("patch", fieldsPatch);
+            System.out.println(fieldsPatch);
+            try {
+                mpg.getTemplateEngine().writer(objectMap, "/templates/api.java.ftl",
+                        apiDir + File.separator + tableinfo.getEntityName() +"Api.java");
+                mpg.getTemplateEngine().writer(objectMap, "/templates/create.java.ftl",
+                        dtoDir + File.separator + tableinfo.getEntityName() +"Create.java");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
