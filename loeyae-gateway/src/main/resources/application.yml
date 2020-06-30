@@ -46,10 +46,6 @@ spring:
             - Path=/demo/**
           filters:
             - StripPrefix=1
-        - id: front-end
-          uri: http://order-food-web.my-demo:80
-          predicates:
-            - Path=/**
 
 ribbon:
   # 请求连接的超时
