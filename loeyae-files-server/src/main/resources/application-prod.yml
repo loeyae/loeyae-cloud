@@ -1,7 +1,7 @@
 spring:
   # 链路追踪
   zipkin:
-    base-url: http://${ZIPKIN_SERVICE_HOST:loeyae-zipkin-server.hq-app}:${ZIPKIN_SERVICE_PORT:80}
+    base-url: http://${ZIPKIN_SERVICE_HOST:loeyae-zipkin-server.my-app}:${ZIPKIN_SERVICE_PORT:80}
   sleuth:
     sampler:
       #服务跟踪消息收集率，1代表每一条都收集，0.1代表收集百分之10

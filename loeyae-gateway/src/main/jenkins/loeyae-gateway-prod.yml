@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: loeyae-gateway
-  namespace: hq-app
+  namespace: my-app
 spec:
   ports:
     - port: 80                                    #
@@ -20,7 +20,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: loeyae-gateway
-  namespace: hq-app
+  namespace: my-app
 spec:
   replicas: 2
   selector:
@@ -78,7 +78,7 @@ spec:
                   name: eureka-secret
                   key: password
             - name: EUREKA_SERVER
-              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.hq-app:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.hq-app:9900/eureka/"
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.my-app:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.my-app:9900/eureka/"
             - name: GATEWAY_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.gateway
 
@@ -89,7 +89,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
   name: loeyae-gateway
-  namespace: hq-app
+  namespace: my-app
 spec:
   rules:
     - host: www.local
