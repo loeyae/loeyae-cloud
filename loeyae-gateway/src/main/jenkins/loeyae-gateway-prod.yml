@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: loeyae-gateway
-          image: hub.bys.cd:4443/library/loeyae_gateway:{TAG}
+          image: loeyae_gateway:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -92,7 +92,7 @@ metadata:
   namespace: hq-app
 spec:
   rules:
-    - host: www.wh-wl.com
+    - host: www.local
       http:
         paths:
           - path: /
@@ -100,4 +100,4 @@ spec:
               serviceName: loeyae-gateway
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: local-certs

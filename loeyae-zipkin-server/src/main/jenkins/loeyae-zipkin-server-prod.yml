@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: loeyae-zipkin-server
-          image: hub.bys.cd:4443/library/loeyae_zipkin_server:{TAG}
+          image: loeyae_zipkin_server:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -111,7 +111,7 @@ metadata:
   namespace: hq-app
 spec:
   rules:
-    - host: zipkin.wh-wl.com
+    - host: zipkin.local
       http:
         paths:
           - path: /
@@ -119,4 +119,4 @@ spec:
               serviceName: loeyae-zipkin-server
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: local-certs

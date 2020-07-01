@@ -17,7 +17,7 @@ node {
                         branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [], submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/bys-cd/loeyae-cloud.git']]
+                        userRemoteConfigs: [[credentialsId: 'git-user-name', url: 'https://github.com/loeyae/loeyae-cloud.git']]
                 ]
         )
     }

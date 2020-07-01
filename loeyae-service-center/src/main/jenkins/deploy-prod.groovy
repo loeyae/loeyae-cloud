@@ -3,7 +3,7 @@ node {
             parameters([
                     string(defaultValue: '', description: 'image tag', name: 'IMAGE_TAG', trim: true),
                     string(defaultValue: 'prod', description: 'deploy env', name: 'ENV_LABEL', trim: true),
-                    gitParameter(branch: '', branchFilter: 'origin/(.*)', defaultValue: 'develop', description: '', listSize: '10', name: 'BRANCH', quickFilterEnabled: false, selectedValue: 'DEFAULT', sortMode: 'NONE', tagFilter: '*', type: 'PT_BRANCH', useRepository: 'http://119.4.240.179:31080/huaxin/HqDcxtServer.git')
+                    gitParameter(branch: '', branchFilter: 'origin/(.*)', defaultValue: 'develop', description: '', listSize: '10', name: 'BRANCH', quickFilterEnabled: false, selectedValue: 'DEFAULT', sortMode: 'NONE', tagFilter: '*', type: 'PT_BRANCH', useRepository: 'https://github.com/loeyae/loeyae-cloud.git')
             ])
     ])
     stage('Approval') {
@@ -18,7 +18,7 @@ node {
                         branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [], submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/bys-cd/loeyae-cloud.git']]
+                        userRemoteConfigs: [[credentialsId: 'git-user-name', url: 'https://github.com/loeyae/loeyae-cloud.git']]
                 ]
         )
     }

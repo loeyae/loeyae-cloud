@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: loeyae-gateway
-          image: hub.bys.cd/library/loeyae_gateway:{TAG}
+          image: loeyae_gateway:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -83,7 +83,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: api.bys.cd
+    - host: api.local
       http:
         paths:
           - path: /
@@ -91,4 +91,4 @@ spec:
               serviceName: loeyae-gateway
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: local-certs

@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: loeyae-service-center
-          image: hub.bys.cd:4443/library/loeyae_service_center:{TAG}
+          image: loeyae_service_center:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -83,7 +83,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: eureka.bys.cd
+    - host: eureka.local
       http:
         paths:
           - path: /
@@ -91,4 +91,4 @@ spec:
               serviceName: loeyae-service-center
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: local-certs

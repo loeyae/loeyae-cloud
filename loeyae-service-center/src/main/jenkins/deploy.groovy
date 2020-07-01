@@ -6,14 +6,14 @@ node {
                         branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [], submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/bys-cd/loeyae-cloud.git']]
+                        userRemoteConfigs: [[credentialsId: 'git-user-name', url: 'https://github.com/loeyae/loeyae-cloud.git']]
                 ]
         )
     }
     stage("deploy") {
         def buildId = Integer.valueOf(currentBuild.id)
-        def imageTag = "hub.bys.cd/library/loeyae_service_center:${buildId}"
-        def latestTag = "hub.bys.cd/library/loeyae_service_center:latest"
+        def imageTag = "loeyae_service_center:${buildId}"
+        def latestTag = "loeyae_service_center:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 sh """

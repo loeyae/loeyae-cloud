@@ -31,4 +31,4 @@ fdfs:
     height: 150
   tracker-list:            #TrackerList参数,支持多个
     - ${FASTDFS_SERVICE_HOST:192.168.163.93}:${FASTDFS_SERVICE_PORT:22122}
-  web-server-url: ${FASTDFS_SERVICE_HOST:api.bys.cd}
+  web-server-url: ${FASTDFS_SERVICE_HOST:api.local}

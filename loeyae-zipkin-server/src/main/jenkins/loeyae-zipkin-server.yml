@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: loeyae-zipkin-server
-          image: hub.bys.cd/library/loeyae_zipkin_server:{TAG}
+          image: loeyae_zipkin_server:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -93,7 +93,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: zipkin.bys.cd
+    - host: zipkin.local
       http:
         paths:
           - path: /
@@ -101,4 +101,4 @@ spec:
               serviceName: loeyae-zipkin-server
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: local-certs

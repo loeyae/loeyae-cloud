@@ -118,7 +118,7 @@ metadata:
   namespace: fastdfs
 spec:
   rules:
-    - host: upload.bys.cd
+    - host: upload.local
       http:
         paths:
           - path: /
@@ -133,7 +133,7 @@ metadata:
   namespace: fastdfs
 spec:
   rules:
-    - host: file.bys.cd
+    - host: file.local
       http:
         paths:
           - path: /
