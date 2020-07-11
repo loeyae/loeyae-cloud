@@ -4,12 +4,9 @@
  */
 package com.loeyae.cloud.commons.tool;
 
-import com.loeyae.cloud.commons.exception.BaseErrorCode;
-import com.loeyae.cloud.commons.exception.GlobalException;
 import com.loeyae.cloud.commons.exception.ValidateException;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.*;
 
@@ -26,7 +23,8 @@ public class ValidateUtil {
     }
 
     static {
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
+        validator = (Validator)SpringContextTool.getBean(Validator.class);
+        //Validation.buildDefaultValidatorFactory().getValidator();
     }
 
     /**
@@ -49,7 +47,7 @@ public class ValidateUtil {
      * @param <V>
      * @param <T>
      */
-    public static <V, T> void validateEntity(T object, Class<V> cls, Class<?>... groups) {
+    public static <V, T> void validateWithEntity(T object, Class<V> cls, Class<?>... groups) {
         V entity = BeanUtils.copyToEntity(object, cls);
         validateEntity(entity, groups);
     }
