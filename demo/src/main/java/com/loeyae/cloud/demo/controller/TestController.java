@@ -1,6 +1,9 @@
 package com.loeyae.cloud.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.loeyae.cloud.commons.redis.RedisService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,6 +39,9 @@ public class TestController implements TestApi {
     @Autowired
     ITestService testService;
 
+    @Autowired
+    RedisService redisService;
+
     /**
      * Create
      *
@@ -57,6 +63,7 @@ public class TestController implements TestApi {
      * @param data
      * @return
      */
+    @CacheEvict(value = "test-get", key = "#id")
     @Override
     public ApiResult<TestView> update(int id, TestUpdate data) {
         ValidateUtil.validateParamter(TestPrimary.class, "id", id, Primary.class);
@@ -74,6 +81,7 @@ public class TestController implements TestApi {
      * @return
      */
     @Override
+    @Cacheable(value = "test-get", key = "#id")
     public ApiResult<TestView> get(int id)
     {
         Test entity = testService.getById(id);

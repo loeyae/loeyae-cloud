@@ -44,7 +44,6 @@ public class ${table.entityName}Update implements Serializable {
      */
     </#if>
     <#if field.propertyType == "String">
-    @NotBlank
         <#if fieldPatch.length?default("0")?number gt 0>
     @Size(max = ${fieldPatch.length})
         </#if>
