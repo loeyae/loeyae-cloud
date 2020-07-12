@@ -3,7 +3,9 @@ package com.loeyae.cloud.demo.DTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -30,7 +32,7 @@ public class TestCreate implements Serializable {
      */
     @NotNull
     @NotBlank
-    @Size(max = 32)
+    @Length(max = 32)
     private String name;
 
 

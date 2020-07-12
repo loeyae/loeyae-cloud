@@ -35,6 +35,9 @@ public class TestQuery implements Serializable {
     @Size(max = 32)
     private String name;
 
+    @Size(max = 32)
+    private String name_like;
+
     /**
      * 钱包
      */

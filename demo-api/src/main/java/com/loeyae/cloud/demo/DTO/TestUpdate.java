@@ -1,9 +1,14 @@
 package com.loeyae.cloud.demo.DTO;
 
+import com.sun.istack.internal.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import javax.validation.constraints.*;
+import com.loeyae.cloud.commons.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -26,8 +31,8 @@ public class TestUpdate implements Serializable {
     /**
      * 名称
      */
-    @NotBlank
-    @Size(max = 32)
+    @NotBlank(required = false)
+    @Length(min = 1, max = 32)
     private String name;
 
     /**
@@ -58,7 +63,7 @@ public class TestUpdate implements Serializable {
     /**
      * 描述
      */
-    @NotBlank
+    @NotBlank(required = false)
     private String source;
 
 }
