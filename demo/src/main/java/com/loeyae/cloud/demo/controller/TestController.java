@@ -15,6 +15,7 @@ import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
 
 import com.loeyae.cloud.demo.DTO.*;
+import com.loeyae.cloud.demo.controller.bo.TestPrimary;
 import com.loeyae.cloud.demo.VO.TestView;
 import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.entity.Test;
@@ -66,7 +67,7 @@ public class TestController implements TestApi {
     @CacheEvict(value = "test-get", key = "#id")
     @Override
     public ApiResult<TestView> update(int id, TestUpdate data) {
-        ValidateUtil.validateParamter(TestPrimary.class, "id", id, Primary.class);
+        ValidateUtil.validateParameter(TestPrimary.class, "id", id, Primary.class);
         ValidateUtil.validateEntity(data);
         Test entity = BeanUtils.copyToEntity(data, Test.class);
         entity.setId(id);

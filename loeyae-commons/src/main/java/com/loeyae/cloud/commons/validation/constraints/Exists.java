@@ -1,6 +1,7 @@
 package com.loeyae.cloud.commons.validation.constraints;
 
-import com.loeyae.cloud.commons.validation.validator.NotBlankValidator;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.loeyae.cloud.commons.validation.validator.ExistsValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -10,7 +11,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 非空白字符串.
+ * 主键所示数据是否存在.
  *
  * @author ZhangYi<loeyae @ gmail.com>
  * @version 1.0
@@ -19,12 +20,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {NotBlankValidator.class})
-public @interface NotBlank {
+@Constraint(validatedBy = {ExistsValidator.class})
+public @interface Exists {
 
     boolean required() default true;
 
-    String message() default "{javax.validation.constraints.NotBlank.message}";
+    Class<? extends IService> service();
+
+    String message() default "{javax.validation.constraints.NotNull.message}";
 
     Class<?>[] groups() default { };
 
@@ -34,6 +37,6 @@ public @interface NotBlank {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     public @interface List {
-        NotBlank[] value();
+        Exists[] value();
     }
 }
