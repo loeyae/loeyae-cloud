@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
+import com.loeyae.cloud.commons.validation.constraints.NotBlank;
 <#list table.importPackages as pkg>
 <#if pkg?starts_with("com.baomidou.mybatisplus.annotation")>
     <#continue>
