@@ -56,13 +56,13 @@ public class ValidateUtil {
      * validateParamter
      *
      * @param cls
-     * @param propertName
+     * @param propertyName
      * @param value
      * @param groups
      * @param <T>
      */
-    public static <T> void validateParamter(Class<T> cls, String propertName, Object value, Class<?>... groups) {
-        Set<ConstraintViolation<T>> constraintViolations = validator.validateValue(cls, propertName, value, groups);
+    public static <T> void validateParameter(Class<T> cls, String propertyName, Object value, Class<?>... groups) {
+        Set<ConstraintViolation<T>> constraintViolations = validator.validateValue(cls, propertyName, value, groups);
         buildMessage(constraintViolations);
     }
 

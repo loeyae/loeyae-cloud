@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
+import com.loeyae.cloud.commons.validation.constraints.NotBlank;
 <#list table.importPackages as pkg>
 <#if pkg?starts_with("com.baomidou.mybatisplus.annotation")>
     <#continue>
@@ -52,7 +54,7 @@ public class ${table.entityName}Create implements Serializable {
     </#if>
     <#if field.propertyType == "String">
         <#if fieldPatch.length?default("0")?number gt 0>
-    @Size(max = ${fieldPatch.length})
+    @Length(max = ${fieldPatch.length})
         </#if>
     <#elseif Int?seq_contains(field.propertyType)>
         <#if fieldPatch.restrain?default("null")?lower_case == "unsigned">

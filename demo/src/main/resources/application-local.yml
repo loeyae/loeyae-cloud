@@ -15,3 +15,17 @@ spring:
       max-lifetime: 1800000
       # 等待来自池的连接的最大毫秒数,小于30秒重置为30秒
       connection-timeout: 30000
+
+  # Redis Config
+  redis:
+    host: ${REDIS_SERVICE_HOST:localhost}
+    port: ${REDIS_SERVICE_PORT_REDIS:6379}
+    password: ${REDIS_PSWD:0f87990482b26838c1c2702cb1145007}
+    #默认使用db2
+    database: ${REDIS_DB_NO:1}
+
+# Mybatis-Plus Config
+mybatis-plus:
+  # 日志输出
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

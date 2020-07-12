@@ -1,6 +1,9 @@
 package com.loeyae.cloud.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.loeyae.cloud.commons.redis.RedisService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,6 +15,7 @@ import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
 
 import com.loeyae.cloud.demo.DTO.*;
+import com.loeyae.cloud.demo.controller.bo.TestPrimary;
 import com.loeyae.cloud.demo.VO.TestView;
 import com.loeyae.cloud.demo.api.TestApi;
 import com.loeyae.cloud.demo.entity.Test;
@@ -36,6 +40,9 @@ public class TestController implements TestApi {
     @Autowired
     ITestService testService;
 
+    @Autowired
+    RedisService redisService;
+
     /**
      * Create
      *
@@ -57,9 +64,10 @@ public class TestController implements TestApi {
      * @param data
      * @return
      */
+    @CacheEvict(value = "test-get", key = "#id")
     @Override
     public ApiResult<TestView> update(int id, TestUpdate data) {
-        ValidateUtil.validateParamter(TestPrimary.class, "id", id, Primary.class);
+        ValidateUtil.validateParameter(TestPrimary.class, "id", id, Primary.class);
         ValidateUtil.validateEntity(data);
         Test entity = BeanUtils.copyToEntity(data, Test.class);
         entity.setId(id);
@@ -74,6 +82,7 @@ public class TestController implements TestApi {
      * @return
      */
     @Override
+    @Cacheable(value = "test-get", key = "#id")
     public ApiResult<TestView> get(int id)
     {
         Test entity = testService.getById(id);

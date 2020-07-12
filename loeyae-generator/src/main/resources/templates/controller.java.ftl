@@ -77,7 +77,7 @@ public class ${table.controllerName} implements ${table.entityName}Api {
      */
     @Override
     public ApiResult<${table.entityName}View> update(int id, ${table.entityName}Update data) {
-        ValidateUtil.validateParamter(${table.entityName}Primary.class, "id", id, Primary.class);
+        ValidateUtil.validateParameter(${table.entityName}Primary.class, "id", id, Primary.class);
         ValidateUtil.validateEntity(data);
         ${table.entityName} entity = BeanUtils.copyToEntity(data, ${table.entityName}.class);
         entity.setId(id);
