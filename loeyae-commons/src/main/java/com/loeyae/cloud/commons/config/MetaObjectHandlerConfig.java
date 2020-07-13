@@ -18,24 +18,11 @@ public class MetaObjectHandlerConfig implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        if (metaObject.hasSetter("createTime")) {
-            setFieldValByName("createTime", new Date(), metaObject);
-        }
-        if (metaObject.hasSetter("updateTime")) {
-            setFieldValByName("updateTime", new Date(), metaObject);
-        }
-        if (metaObject.hasSetter("modifyTime")) {
-            setFieldValByName("modifyTime", new Date(), metaObject);
-        }
+        setFieldValByName("createTime", new Date(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        if (metaObject.hasSetter("updateTime")) {
-            setFieldValByName("updateTime", new Date(), metaObject);
-        }
-        if (metaObject.hasSetter("modifyTime")) {
-            setFieldValByName("modifyTime", new Date(), metaObject);
-        }
+        setFieldValByName("updateTime", new Date(), metaObject);
     }
 }
