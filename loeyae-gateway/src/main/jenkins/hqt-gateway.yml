@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hqt-gateway
+  namespace: devops
+spec:
+  ports:
+    - port: 80                                    #
+      targetPort: 9901
+      nodePort: 31908
+      name: web
+  # clusterIP: None
+  type: NodePort
+  selector:
+    app: hqt-gateway
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hqt-gateway
+  namespace: devops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hqt-gateway
+  template:
+    metadata:
+      labels:
+        app: hqt-gateway
+    spec:
+      containers:
+        - name: hqt-gateway
+          image: hub.bys.cd/library/loeyae_gateway:{TAG}
+          imagePullPolicy: Always
+          args:
+            - --spring.profiles.active={ENV}
+          ports:
+            - containerPort: 9901
+              hostPort: 9901
+              name: web
+          resources:
+            limits:
+              # jvm会自动发现该限制
+              memory: 512Mi
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JAVA_OPTS
+              value: -XX:+UnlockExperimentalVMOptions
+                -XX:+UseCGroupMemoryLimitForHeap
+                -XX:MaxRAMFraction=2
+                -XX:CICompilerCount=8
+                -XX:ActiveProcessorCount=8
+                -XX:+UseG1GC
+                -XX:+AggressiveOpts
+                -XX:+UseFastAccessorMethods
+                -XX:+UseStringDeduplication
+                -XX:+UseCompressedOops
+                -XX:+OptimizeStringConcat
+            - name: JWT_SECRET_KEY
+              value: abc123def456ghi789jkl0
+            - name: EUREKA_USER
+              value: admin
+            - name: EUREKA_PWD
+              value: ad2020min
+            - name: EUREKA_SERVER
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
+            - name: GATEWAY_INSTANCE_HOSTNAME
+              value: ${MY_POD_NAME}.gateway
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  name: hqt-gateway
+  namespace: devops
+spec:
+  rules:
+    - host: hqt.bys.cd
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hqt-gateway
+              servicePort: web
+  tls:
+    - secretName: bys.cd-certs
