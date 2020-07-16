@@ -18,7 +18,11 @@ import java.util.Objects;
  */
 public class ExistsValidator implements ConstraintValidator<Exists, Serializable> {
 
+    private static final String ZERO = "0";
+
     private boolean required = true;
+
+    private boolean allowedZero = true;
 
     private Class<? extends IService> servcice = null;
 
@@ -26,11 +30,15 @@ public class ExistsValidator implements ConstraintValidator<Exists, Serializable
     public void initialize(Exists constraintAnnotation) {
         required = constraintAnnotation.required();
         servcice = constraintAnnotation.service();
+        allowedZero = constraintAnnotation.allowedZero();
     }
 
     @Override
     public boolean isValid(Serializable o, ConstraintValidatorContext constraintValidatorContext) {
         if (!required && Objects.isNull(o)) {
+            return true;
+        }
+        if (allowedZero && o.toString() == ZERO) {
             return true;
         }
         if (Objects.isNull(servcice) || Objects.isNull(o)) {
