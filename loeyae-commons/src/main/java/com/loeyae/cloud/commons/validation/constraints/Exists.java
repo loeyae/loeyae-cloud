@@ -29,7 +29,7 @@ public @interface Exists {
 
     boolean allowedZero() default false;
 
-    String message() default "{javax.validation.constraints.NotNull.message}";
+    String message() default "{loeyae.validation.constraints.Exists.message}";
 
     Class<?>[] groups() default { };
 
