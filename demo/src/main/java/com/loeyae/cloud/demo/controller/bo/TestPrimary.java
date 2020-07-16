@@ -3,7 +3,6 @@ package com.loeyae.cloud.demo.controller.bo;
 import com.loeyae.cloud.commons.validation.constraints.Exists;
 import com.loeyae.cloud.demo.service.ITestService;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 /**

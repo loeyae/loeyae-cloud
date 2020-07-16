@@ -1,11 +1,14 @@
 package com.loeyae.cloud.commons.tool;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,63 +22,47 @@ import java.util.Locale;
  * @version 1.0
  * @date 2020/6/28 10:51
  */
+@Component
 public class I18nMessageUtils {
 
-    private static MessageSourceAccessor accessor;
-    private static final String PATH_PARENT = "classpath:i18n/messages";
-    private static final String SUFFIX = ".properties";
-    private static ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+    private final MessageSource messageSource;
 
-    private I18nMessageUtils()
-    {
+    @Autowired
+    public I18nMessageUtils(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
-    /**
-     * 初始化资源文件的存储器
-     * 加载指定语言配置文件
-     *
-     * @param language 语言类型(文件名即为语言类型,eg: en_us 表明使用 美式英文 语言配置)
-     */
-    private static void initMessageSourceAccessor(String language) throws IOException {
-
-        //获取配置文件名
-        Resource resource = resourcePatternResolver.getResource(PATH_PARENT + language + SUFFIX);
-        String fileName = resource.getURL().toString();
-        int lastIndex = fileName.lastIndexOf(".");
-        String baseName = fileName.substring(0,lastIndex);
-        //读取配置文件
-        ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
-        reloadableResourceBundleMessageSource.setBasename(baseName);
-        reloadableResourceBundleMessageSource.setCacheSeconds(5);
-        reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
-        accessor = new MessageSourceAccessor(reloadableResourceBundleMessageSource);
+    public String getMessage(String code) {
+        return getMessage(code, new Object[]{});
     }
 
-    /**
-     * 获取一条语言配置信息
-     *
-     * @param language 语言类型,zh_cn: 简体中文, en_us: 英文
-     * @param message 配置信息属性名,eg: api.response.code.user.signUp
-     * @param defaultMessage 默认信息,当无法从配置文件中读取到对应的配置信息时返回该信息
-     * @return
-     * @throws IOException
-     */
-    public static String getMessage(String language, String message, String defaultMessage) throws IOException {
-        initMessageSourceAccessor(language);
-        return accessor.getMessage(message, defaultMessage, LocaleContextHolder.getLocale());
+    public String getMessage(String code, String defaultMessage) {
+        return getMessage(code,  new Object[]{}, defaultMessage);
     }
 
-    /**
-     * getMessage
-     *
-     * @param request
-     * @param message
-     * @param defaultMessage
-     * @return
-     * @throws IOException
-     */
-    public static String getMessage(HttpServletRequest request, String message, String defaultMessage) throws IOException {
-        Locale locale = RequestContextUtils.getLocale(request);
-        return getMessage(locale.getLanguage(), message, defaultMessage);
+    public String getMessage(String code, String defaultMessage, Locale locale) {
+        return getMessage(code,  new Object[]{}, defaultMessage, locale);
     }
+
+    public String getMessage(String code, Locale locale) {
+        return getMessage(code,  new Object[]{}, "", locale);
+    }
+
+    public String getMessage(String code, Object[] args) {
+        return getMessage(code, args, "");
+    }
+
+    public String getMessage(String code, Object[] args, Locale locale) {
+        return getMessage(code, args, "", locale);
+    }
+
+    public String getMessage(String code, Object[] args, String defaultMessage) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return getMessage(code, args, defaultMessage, locale);
+    }
+
+    public String getMessage(String code, Object[] args, String defaultMessage, Locale locale) {
+        return messageSource.getMessage(code, args, defaultMessage, locale);
+    }
+
 }

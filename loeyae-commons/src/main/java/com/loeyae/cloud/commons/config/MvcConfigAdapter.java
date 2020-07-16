@@ -4,12 +4,19 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * MvcConfigAdpater
@@ -20,6 +27,9 @@ import java.util.List;
  */
 public class MvcConfigAdapter implements WebMvcConfigurer {
 
+    protected Locale defaultLocale = Locale.SIMPLIFIED_CHINESE;
+    private static final String LANG_KEY = "lang";
+
     /**
      * 序列化配置
      *
@@ -29,6 +39,23 @@ public class MvcConfigAdapter implements WebMvcConfigurer {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //将fastjson添加到视图消息转换器列表内
         converters.add(0, getFastJsonConverter() );
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+        localeInterceptor.setParamName(LANG_KEY);
+        registry.addInterceptor(localeInterceptor);
+    }
+
+    /**
+     * 默认解析器 其中locale表示默认语言
+     */
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(defaultLocale);
+        return localeResolver;
     }
 
     @Bean
