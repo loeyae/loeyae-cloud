@@ -27,7 +27,9 @@ public @interface Exists {
 
     Class<? extends IService> service();
 
-    String message() default "{javax.validation.constraints.NotNull.message}";
+    boolean allowedZero() default false;
+
+    String message() default "{loeyae.validation.constraints.Exists.message}";
 
     Class<?>[] groups() default { };
 
