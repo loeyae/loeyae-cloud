@@ -1,6 +1,5 @@
 package com.loeyae.cloud.demo.DTO;
 
-import com.sun.istack.internal.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import com.loeyae.cloud.commons.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
