@@ -113,29 +113,9 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-<!--        <repository>-->
-<!--            <id>rdc-releases</id>-->
-<!--            <url>https://repo.rdc.aliyun.com/repository/129193-release-5BQ6aH/</url>-->
-<!--            <releases>-->
-<!--                <enabled>true</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>rdc-snapshots</id>-->
-<!--            <url>https://repo.rdc.aliyun.com/repository/129193-snapshot-Zsl62E/</url>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
         <repository>
-            <id>bys-releases</id>
-            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/129193-release-5BQ6aH/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -144,8 +124,8 @@
             </snapshots>
         </repository>
         <repository>
-            <id>bys-snapshots</id>
-            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/129193-snapshot-Zsl62E/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -153,24 +133,44 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+<!--        <repository>-->
+<!--            <id>bys-releases</id>-->
+<!--            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>bys-snapshots</id>-->
+<!--            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>-->
+<!--            <releases>-->
+<!--                <enabled>false</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
     </repositories>
     <distributionManagement>
-<!--        <repository>-->
-<!--            <id>rdc-releases</id>-->
-<!--            <url>https://repo.rdc.aliyun.com/repository/129193-release-5BQ6aH/</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>rdc-snapshots</id>-->
-<!--            <url>https://repo.rdc.aliyun.com/repository/129193-snapshot-Zsl62E/</url>-->
-<!--        </snapshotRepository>-->
         <repository>
-            <id>bys-releases</id>
-            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/129193-release-5BQ6aH/</url>
         </repository>
         <snapshotRepository>
-            <id>bys-snapshots</id>
-            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/129193-snapshot-Zsl62E/</url>
         </snapshotRepository>
+<!--        <repository>-->
+<!--            <id>bys-releases</id>-->
+<!--            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>bys-snapshots</id>-->
+<!--            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>-->
+<!--        </snapshotRepository>-->
     </distributionManagement>
 
     <build>
