@@ -23,7 +23,7 @@ metadata:
   namespace: devops
 spec:
   serviceName: loeyae-service-center
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: loeyae-service-center
@@ -32,6 +32,8 @@ spec:
       labels:
         app: loeyae-service-center
     spec:
+      nodeSelector:
+        schedule: true
       containers:
         - name: loeyae-service-center
           image: hub.bys.cd:30339/library/loeyae_service_center:{TAG}
