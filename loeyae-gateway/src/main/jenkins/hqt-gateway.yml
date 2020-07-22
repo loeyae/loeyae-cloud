@@ -22,7 +22,7 @@ metadata:
   name: hqt-gateway
   namespace: devops
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: hqt-gateway
@@ -31,6 +31,8 @@ spec:
       labels:
         app: hqt-gateway
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: hqt-gateway
           image: hub.bys.cd:30339/library/loeyae_gateway:{TAG}
