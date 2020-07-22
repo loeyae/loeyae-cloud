@@ -22,7 +22,7 @@ metadata:
   name: loeyae-gateway
   namespace: devops
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: loeyae-gateway
@@ -31,6 +31,8 @@ spec:
       labels:
         app: loeyae-gateway
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: loeyae-gateway
           image: hub.bys.cd:30339/library/loeyae_gateway:{TAG}
@@ -69,7 +71,7 @@ spec:
             - name: EUREKA_PWD
               value: ad2020min
             - name: EUREKA_SERVER
-              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/"
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/"
             - name: GATEWAY_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.gateway
 

@@ -23,7 +23,7 @@ metadata:
   namespace: devops
 spec:
   serviceName: loeyae-service-center
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: loeyae-service-center
@@ -33,7 +33,7 @@ spec:
         app: loeyae-service-center
     spec:
       nodeSelector:
-        schedule: "true"
+        role: worker
       containers:
         - name: loeyae-service-center
           image: hub.bys.cd:30339/library/loeyae_service_center:{TAG}
@@ -70,7 +70,7 @@ spec:
             - name: EUREKA_PWD
               value: ad2020min
             - name: EUREKA_SERVER
-              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center:9900/eureka/"
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center:9900/eureka/"
             - name: EUREKA_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.eureka
   podManagementPolicy: "Parallel"
