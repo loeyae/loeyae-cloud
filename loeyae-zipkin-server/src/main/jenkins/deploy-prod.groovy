@@ -26,7 +26,7 @@ node {
         if (!buildId) {
             throw new RuntimeException("Image Tag Not Setting")
         }
-        def imageTag = "hub.bys.cd/library/loeyae_zipkin_server:${buildId}"
+        def imageTag = "hub.bys.cd:30339/library/loeyae_zipkin_server:${buildId}"
         def source = "loeyae-zipkin-server/src/main/jenkins/loeyae-zipkin-server-prod.yml"
         sh "sed -e 's#{TAG}#${buildId}#g;s#{ENV}#${params.ENV_LABEL}#g' ${source} > deployment.yml"
         sh "kubectl apply -f deployment.yml --kubeconfig=/home/bys/.kube/hq.config"

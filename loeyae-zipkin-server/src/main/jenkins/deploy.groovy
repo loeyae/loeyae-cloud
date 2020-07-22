@@ -16,8 +16,8 @@ node {
             buildId = Integer.valueOf(currentBuild.id)
         } catch(exc) {
         }
-        def imageTag = "hub.bys.cd/library/loeyae_zipkin_server:${buildId}"
-        def latestTag = "hub.bys.cd/library/loeyae_zipkin_server:latest"
+        def imageTag = "hub.bys.cd:30339/library/loeyae_zipkin_server:${buildId}"
+        def latestTag = "hub.bys.cd:30339/library/loeyae_zipkin_server:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 sh """
