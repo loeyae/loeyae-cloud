@@ -33,7 +33,7 @@ spec:
         app: loeyae-service-center
     spec:
       nodeSelector:
-        schedule: true
+        schedule: "true"
       containers:
         - name: loeyae-service-center
           image: hub.bys.cd:30339/library/loeyae_service_center:{TAG}
