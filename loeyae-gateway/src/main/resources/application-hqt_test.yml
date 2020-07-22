@@ -56,3 +56,9 @@ spring:
             - Path=/api/thqtuser/**
           filters:
             - StripPrefix=0
+        - id: service-organization
+          uri: lb://hqt-service-organization
+          predicates:
+            - Path=/api/organization**
+          filters:
+            - StripPrefix=0
