@@ -59,6 +59,6 @@ spring:
         - id: service-organization
           uri: lb://hqt-service-organization
           predicates:
-            - Path=/api/organization**
+            - Path=/api/organization*/**
           filters:
             - StripPrefix=0
