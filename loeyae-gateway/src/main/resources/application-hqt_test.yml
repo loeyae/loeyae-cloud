@@ -59,6 +59,24 @@ spring:
         - id: service-organization
           uri: lb://hqt-service-organization
           predicates:
-            - Path=/api/organization*/**
+            - Path=/api/organization/**
+          filters:
+            - StripPrefix=0
+        - id: service-application
+          uri: lb://hqt-service-application
+          predicates:
+            - Path=/api/application/**
+          filters:
+            - StripPrefix=0
+        - id: service-personel
+          uri: lb://hqt-service-personel
+          predicates:
+            - Path=/api/personel/**
+          filters:
+            - StripPrefix=0
+        - id: service-oauth
+          uri: lb://hqt-service-oauth
+          predicates:
+            - Path=/api/oauth/**
           filters:
             - StripPrefix=0
