@@ -16,7 +16,7 @@
         <module>loeyae-files-server</module>
         <module>loeyae-zipkin-server</module>
         <module>loeyae-generator</module>
-        <module>loeyae-</module>
+        <module>loeyae-message</module>
         <module>demo-api</module>
         <module>demo</module>
     </modules>
