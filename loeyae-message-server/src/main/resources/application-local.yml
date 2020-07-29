@@ -1,0 +1,25 @@
+debug: false
+spring:
+  application:
+    name: loeyae-message-local
+  rabbitmq:
+    host: mq.bys.cd
+    port: 30337
+    username: hqt
+    password: Mq123@hqt
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_USER:admin}:${EUREKA_PASSWORD:ad2020min}@${EUREKA_SERVICE_HOST:eureka.bys.cd}:${EUREKA_SERVICE_PORT:81}/eureka/
+    registry-fetch-interval-seconds: 10
+    initial-instance-info-replication-interval-seconds: 10
+    instance-info-replication-interval-seconds: 10
+    healthcheck:
+      enabled: true
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
+
+    hostname: ${MESSAGE_SERVER_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
+    instance-id: 消息服务(${spring.cloud.client.ip-address}:${server.port})

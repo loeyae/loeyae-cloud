@@ -1,0 +1,56 @@
+server:
+  port: ${PORT:9905}
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: loeyae-message
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      binders: #配置需要绑定的rabbitmq 的服务信息
+        defaultRabbit: #表示定义的名称，用于与binding整合
+          type: rabbit #消息组件类型
+      bindings: #服务的整合处理
+        output: #通道名称
+          destination: serviceExchange #要使用的Exchange名称定义
+          content-type: application/json #设置消息类型
+          binder: defaultRabbit #设置要绑定的消息服务的具体设置
+        input: #通道名称
+          destination: serviceExchange #要使用的Exchange名称定义
+          content-type: application/json #设置消息类型
+          binder: defaultRabbit #设置要绑定的消息服务的具体设置
+feign:
+  hystrix:
+    enabled: true
+
+
+##开启所有端点
+management:
+  endpoint:
+    pause:
+      enabled: true
+    restart:
+      enabled: true
+    refresh:
+      enabled: true
+    resume:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+logging:
+  level:
+    org.springframework.web.reactive: WARN
