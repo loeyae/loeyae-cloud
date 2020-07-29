@@ -5,6 +5,8 @@ import com.loeyae.cloud.message.entities.Message;
 import com.loeyae.cloud.message.entities.MessageBody;
 import com.loeyae.cloud.message.provider.IMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,13 +20,14 @@ import java.util.UUID;
  * @author: zhangyi07@beyondsoft.com
  */
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/message")
 public class MessageController {
 
     @Autowired
     IMessageProvider messageProvider;
 
-    public ApiResult send(MessageBody messageBody)
+    @PostMapping("/send")
+    public ApiResult send(@RequestBody MessageBody messageBody)
     {
         Message message = new Message();
         message.setUuid(UUID.randomUUID().toString());

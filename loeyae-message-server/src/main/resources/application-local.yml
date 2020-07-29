@@ -3,7 +3,7 @@ spring:
   application:
     name: loeyae-message-local
   rabbitmq:
-    host: mq.bys.cd
+    host: 119.4.240.179
     port: 30337
     username: hqt
     password: Mq123@hqt
