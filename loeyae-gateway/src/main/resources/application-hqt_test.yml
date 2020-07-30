@@ -44,39 +44,57 @@ spring:
           uri: lb://loeyae-files-server
           predicates:
             - Path=/file/**
-        - id: service-category
+        - id: service-category    #分类服务
           uri: lb://service-category
           predicates:
             - Path=/api/category/**
           filters:
             - StripPrefix=1
-        - id: service-user
+        - id: service-user     #用户中心
           uri: lb://hqt-service-user
           predicates:
             - Path=/api/user/**
           filters:
             - StripPrefix=0
-        - id: service-organization
+        - id: service-organization    #组织机构
           uri: lb://hqt-service-organization
           predicates:
             - Path=/api/organization/**
           filters:
             - StripPrefix=0
-        - id: service-application
+        - id: service-application   #应用中心
           uri: lb://hqt-service-application
           predicates:
             - Path=/api/application/**
           filters:
             - StripPrefix=0
-        - id: service-personel
+        - id: service-personel    #个人中心
           uri: lb://hqt-service-personel
           predicates:
             - Path=/api/personel/**
           filters:
             - StripPrefix=0
-        - id: service-oauth
+        - id: service-oauth    #认证中心
           uri: lb://hqt-service-oauth
           predicates:
             - Path=/api/oauth/**
+          filters:
+            - StripPrefix=0
+        - id: service-product    #产品中心
+          uri: lb://hqt-service-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=0
+        - id: service-device    #设备中心
+          uri: lb://hqt-service-device
+          predicates:
+            - Path=/api/device/**
+          filters:
+            - StripPrefix=0
+        - id: service-medical-waste    #医废服务
+          uri: lb://hqt-service-medical-waste
+          predicates:
+            - Path=/api/medical-waste/**
           filters:
             - StripPrefix=0
