@@ -7,7 +7,10 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
+
+import java.util.Map;
 
 /**
  * SinkListener.
@@ -21,7 +24,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 public class SinkListener {
 
     @StreamListener(Sink.INPUT)
-    public void listen(@Payload MessageBody messageBody, @Header(MessageConst.HEADER_UUID) String uuid)
+    public void listen(@Payload MessageBody messageBody,
+                       @Headers Map headers,
+                       @Header(MessageConst.HEADER_UUID) String uuid)
     {
         log.warn("got message : uuid "+ uuid +" body "+ messageBody.toString());
     }

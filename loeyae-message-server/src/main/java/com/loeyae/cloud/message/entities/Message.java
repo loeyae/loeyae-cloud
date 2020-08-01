@@ -1,6 +1,10 @@
 package com.loeyae.cloud.message.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * Message Entity.
@@ -10,8 +14,11 @@ import lombok.Data;
  * @author: zhangyi07@beyondsoft.com
  */
 @Data
-public class Message {
-    private String uuid;
+public class Message implements Serializable {
 
-    private MessageBody messageBody;
+    private static final long serialVersionUID = -7086512639378927485L;
+    private String uuid;
+    private String action;
+
+    private MessageBody body;
 }
