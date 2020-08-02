@@ -2,6 +2,8 @@ package com.loeyae.cloud.message.entities;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * .
  *
@@ -10,7 +12,8 @@ import lombok.Data;
  * @author: zhangyi07@beyondsoft.com
  */
 @Data
-public class MessageBody {
-    private String fromService;
+public class MessageBody implements Serializable {
+    private static final long serialVersionUID = -4437322533444544011L;
+    private String from;
     private String message;
 }

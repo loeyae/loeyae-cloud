@@ -22,16 +22,16 @@ import org.springframework.messaging.support.MessageBuilder;
 public class MessageProviderImpl implements IMessageProvider {
 
     @Autowired
-    private MessageChannel output;
+    private MessageChannel sender;
 
     @Override
     public String send(Message message) {
         org.springframework.messaging.Message msg =
-                MessageBuilder.withPayload(message.getMessageBody())
+                MessageBuilder.withPayload(message.getBody())
                         .setHeader(MessageConst.HEADER_UUID, message.getUuid())
                         .setHeader(MessageConst.HEADER_ACTION, message.getAction())
                         .build();
-        output.send(msg);
+        sender.send(msg);
         return message.getUuid();
     }
 }
