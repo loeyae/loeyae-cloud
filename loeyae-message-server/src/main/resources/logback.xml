@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 属性文件 -->
-    <property name="processName" value="file-server"/>
+    <property name="processName" value="message-server"/>
     <property name="logDir" value="/opt/logs"/>
     <property name="CONSOLE_LOG_PATTERN"
               value="%date{yyyy-MM-dd HH:mm:ss} | %highlight(%-5level) | %boldYellow(%thread) | %boldGreen(%logger) | %msg%n"/>

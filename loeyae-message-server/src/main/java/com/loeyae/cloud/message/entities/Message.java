@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class Message {
     private String uuid;
+    private String action;
 
     private MessageBody messageBody;
 }

@@ -9,4 +9,5 @@ package com.loeyae.cloud.message.common;
  */
 public class MessageConst {
     public static final String HEADER_UUID  = "uuid";
+    public static final String HEADER_ACTION = "action";
 }
