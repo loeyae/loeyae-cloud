@@ -1,15 +1,16 @@
 package com.loeyae.cloud.message.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.loeyae.cloud.commons.common.ApiResult;
+import com.loeyae.cloud.message.entities.Consumer;
 import com.loeyae.cloud.message.entities.Message;
 import com.loeyae.cloud.message.entities.MessageBody;
+import com.loeyae.cloud.message.feign.CallerNotify;
 import com.loeyae.cloud.message.provider.IMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.UUID;
 
 /**
@@ -25,6 +26,9 @@ public class MessageController {
 
     @Autowired
     IMessageProvider messageProvider;
+
+    @Autowired
+    CallerNotify callerNotify;
 
     @PostMapping("/notify/{action}")
     public ApiResult notify(@PathVariable("action") String action,
@@ -43,11 +47,8 @@ public class MessageController {
         return ApiResult.ok();
     }
 
-
-
-
-    @PostMapping("/notify")
-    public ApiResult callback(@RequestParam("s") String service, @RequestParam("f") String from,
+    @PostMapping("/call")
+    public ApiResult call(@RequestParam("s") String service, @RequestParam("f") String from,
                               @RequestParam("a") String action, @RequestBody JSONObject message) throws URISyntaxException {
         return callerNotify.notify(service, from, action, message);
     }
