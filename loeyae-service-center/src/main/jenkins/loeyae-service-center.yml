@@ -85,7 +85,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: eureka.bys.cd
+    - host: eureka.dev.loeyae.com
       http:
         paths:
           - path: /
@@ -93,4 +93,4 @@ spec:
               serviceName: loeyae-service-center
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: dev.loeyae-certs
