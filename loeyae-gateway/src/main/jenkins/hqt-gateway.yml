@@ -84,7 +84,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: hqt.bys.cd
+    - host: hqt-api.dev.loeyae.com
       http:
         paths:
           - path: /
@@ -92,4 +92,4 @@ spec:
               serviceName: hqt-gateway
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: dev.loeyae-certs

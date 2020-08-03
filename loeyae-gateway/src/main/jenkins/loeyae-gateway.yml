@@ -85,7 +85,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: api.bys.cd
+    - host: api.dev.loeyae.com
       http:
         paths:
           - path: /
@@ -93,4 +93,4 @@ spec:
               serviceName: loeyae-gateway
               servicePort: web
   tls:
-    - secretName: bys.cd-certs
+    - secretName: dev.loeyae-certs
