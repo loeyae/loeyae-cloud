@@ -1,7 +1,7 @@
 package com.loeyae.cloud.message.provider.impl;
 
 import com.loeyae.cloud.message.common.MessageConst;
-import com.loeyae.cloud.message.entities.Message;
+import com.loeyae.cloud.message.entity.Message;
 import com.loeyae.cloud.message.provider.IMessageProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.messaging.support.MessageBuilder;
 public class MessageProviderImpl implements IMessageProvider {
 
     @Autowired
-    private MessageChannel sender;
+    private MessageChannel output;
 
     @Override
     public String send(Message message) {
@@ -31,7 +31,7 @@ public class MessageProviderImpl implements IMessageProvider {
                         .setHeader(MessageConst.HEADER_UUID, message.getUuid())
                         .setHeader(MessageConst.HEADER_ACTION, message.getAction())
                         .build();
-        sender.send(msg);
+        output.send(msg);
         return message.getUuid();
     }
 }

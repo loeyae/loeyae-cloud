@@ -1,6 +1,6 @@
 package com.loeyae.cloud.message.provider;
 
-import com.loeyae.cloud.message.entities.Message;
+import com.loeyae.cloud.message.entity.Message;
 
 /**
  * IMessageProvider.

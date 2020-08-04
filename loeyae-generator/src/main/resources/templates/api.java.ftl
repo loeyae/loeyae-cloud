@@ -33,9 +33,9 @@ public interface ${table.entityName}Api {
     @GetMapping("/")
     ApiResult<${table.entityName}View> one(${table.entityName}Query data);
 
-    @GetMapping("/all")
+    @GetMapping("/all/")
     ApiResult<List<${table.entityName}View>> all(${table.entityName}Query data);
 
-    @GetMapping("/page")
+    @GetMapping("/page/")
     ApiResult<PageResult<${table.entityName}View>> page(${table.entityName}Query data);
 }
