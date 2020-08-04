@@ -29,7 +29,9 @@ public class MessageProviderImpl implements IMessageProvider {
         org.springframework.messaging.Message msg =
                 MessageBuilder.withPayload(message.getBody())
                         .setHeader(MessageConst.HEADER_UUID, message.getUuid())
+                        .setHeader(MessageConst.HEADER_FROM, message.getFrom())
                         .setHeader(MessageConst.HEADER_ACTION, message.getAction())
+                        .setHeader(MessageConst.HEADER_TARGET, message.getTarget())
                         .build();
         output.send(msg);
         return message.getUuid();

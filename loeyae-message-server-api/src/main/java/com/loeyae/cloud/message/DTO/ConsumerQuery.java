@@ -21,13 +21,6 @@ import java.io.Serializable;
 public class ConsumerQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
-    /**
-     * 自增ID
-     */
-    @PositiveOrZero
-    private Integer id;
-
     /**
      * 消费者服务名称
      */
@@ -48,15 +41,5 @@ public class ConsumerQuery implements Serializable {
      * 是否删除
      */
     private Integer deleted;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime modifyTime;
 
 }

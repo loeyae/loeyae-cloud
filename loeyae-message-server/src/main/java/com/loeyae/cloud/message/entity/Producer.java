@@ -1,13 +1,11 @@
 package com.loeyae.cloud.message.entity;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,6 +57,7 @@ public class Producer implements Serializable {
     /**
      * 是否删除
      */
+    @TableLogic(value = "0", delval = "1")
     private Integer deleted;
 
     /**

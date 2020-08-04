@@ -21,13 +21,6 @@ import java.io.Serializable;
 public class ProducerQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
-    /**
-     * 自增ID
-     */
-    @PositiveOrZero
-    private Integer id;
-
     /**
      * 服务名称
      */
@@ -41,11 +34,6 @@ public class ProducerQuery implements Serializable {
     private String action;
 
     /**
-     * 消息体结构
-     */
-    private String definition;
-
-    /**
      * 状态
      */
     private Integer status;
@@ -54,15 +42,5 @@ public class ProducerQuery implements Serializable {
      * 是否删除
      */
     private Integer deleted;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime modifyTime;
 
 }

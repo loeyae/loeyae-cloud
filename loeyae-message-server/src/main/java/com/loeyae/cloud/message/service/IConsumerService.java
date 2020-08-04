@@ -1,5 +1,6 @@
 package com.loeyae.cloud.message.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.loeyae.cloud.message.entity.Consumer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IConsumerService extends IService<Consumer> {
 
+    public void callback(String service, String from, String action, JSONObject dto);
 }

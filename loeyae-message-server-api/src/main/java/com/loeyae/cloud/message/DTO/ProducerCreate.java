@@ -1,5 +1,6 @@
 package com.loeyae.cloud.message.DTO;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -46,8 +47,8 @@ public class ProducerCreate implements Serializable {
      * 消息体结构
      */
     @NotNull
-    @NotBlank
-    private String definition;
+    @NotEmpty
+    private JSONObject definition;
 
 
     /**

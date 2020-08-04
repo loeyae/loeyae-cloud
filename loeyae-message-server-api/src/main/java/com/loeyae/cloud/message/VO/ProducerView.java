@@ -1,5 +1,6 @@
 package com.loeyae.cloud.message.VO;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class ProducerView implements Serializable {
     /**
      * 消息体结构
      */
-    private String definition;
+    private JSONObject definition;
 
     /**
      * 状态

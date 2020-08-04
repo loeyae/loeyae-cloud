@@ -1,5 +1,6 @@
 package com.loeyae.cloud.message.DTO;
 
+import com.loeyae.cloud.commons.validation.constraints.Exists;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

@@ -140,3 +140,13 @@ management:
 logging:
   level:
     org.springframework.web.reactive: WARN
+
+async:
+  executor:
+    thread:
+      core_pool_size: 5
+      max_pool_size: 8
+      queue_capacity: 2
+      name:
+        prefix: "async-service-"
+      keep_alive_seconds: 100

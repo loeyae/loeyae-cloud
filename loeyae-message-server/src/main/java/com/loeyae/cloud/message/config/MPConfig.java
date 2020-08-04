@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/7/10 15:07
  */
 @Configuration
-@MapperScan("com.loeyae.service.*.mapper")
+@MapperScan("com.loeyae.cloud.*.mapper")
 public class MPConfig extends MybatisPlusConfig {
 
     @Bean

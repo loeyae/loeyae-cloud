@@ -1,5 +1,6 @@
 package com.loeyae.cloud.message.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.loeyae.cloud.commons.common.ApiResult;
 import com.loeyae.cloud.commons.common.PageResult;
 import com.loeyae.cloud.message.DTO.*;
@@ -22,7 +23,7 @@ public interface MessageApi {
     @PostMapping("/notify/")
     ApiResult<Boolean> create(@RequestHeader("service") String service,
                               @RequestHeader("action") String action,
-                              @RequestBody MessageBodyCreate messageBody);
+                              @RequestBody JSONObject messageBody);
 
     @PostMapping("/register/producer/")
     ApiResult<ProducerView> registerProducer(@RequestBody ProducerCreate producer);
@@ -30,11 +31,11 @@ public interface MessageApi {
     @PostMapping("/register/consumer/")
     ApiResult<ConsumerView> registerConsumer(@RequestBody ConsumerCreate consumer);
 
-    @GetMapping("/producer/")
-    ApiResult<ProducerView> getProducer(@RequestParam("id") int id);
+    @GetMapping("/producer/{id}")
+    ApiResult<ProducerView> getProducer(@PathVariable("id") int id);
 
-    @GetMapping("/consumer/")
-    ApiResult<ConsumerView> getConsumer(@RequestParam("id") int id);
+    @GetMapping("/consumer/{id}")
+    ApiResult<ConsumerView> getConsumer(@PathVariable("id") int id);
 
     @DeleteMapping("/producer/{id}")
     ApiResult<Integer> deleteProducer(@PathVariable("id") int id);
@@ -52,6 +53,6 @@ public interface MessageApi {
     ApiResult<List<ProducerView>> getProducerList(ProducerQuery data);
 
     @GetMapping("/consumer/all/")
-    ApiResult<List<ProducerView>> getConsumerList(ProducerQuery data);
+    ApiResult<List<ConsumerView>> getConsumerList(ConsumerQuery data);
 
 }

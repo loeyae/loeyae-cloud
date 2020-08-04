@@ -137,7 +137,7 @@
 <!--        </repository>-->
         <repository>
             <id>bys-releases</id>
-            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>
+            <url>https://nexus.dev.loeyae.com/repository/maven-releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -147,7 +147,7 @@
         </repository>
         <repository>
             <id>bys-snapshots</id>
-            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>
+            <url>https://nexus.dev.loeyae.com/repository/maven-snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -167,11 +167,11 @@
 <!--        </snapshotRepository>-->
         <repository>
             <id>bys-releases</id>
-            <url>http://nexus.bys.cd:81/repository/maven-releases/</url>
+            <url>https://nexus.dev.loeyae.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>bys-snapshots</id>
-            <url>http://nexus.bys.cd:81/repository/maven-snapshots/</url>
+            <url>https://nexus.dev.loeyae.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
