@@ -39,8 +39,7 @@ spec:
           args:
             - --spring.profiles.active={ENV}
           ports:
-            - containerPort: 9903
-              hostPort: 9903
+            - containerPort: 9905
               name: web
           resources:
             limits:
