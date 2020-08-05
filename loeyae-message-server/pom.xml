@@ -61,7 +61,7 @@
     </dependencies>
 
     <build>
-        <finalName>service_message</finalName>
+        <finalName>loeyae_service_message</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
