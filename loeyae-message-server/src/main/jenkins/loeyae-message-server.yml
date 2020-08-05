@@ -7,11 +7,10 @@ metadata:
 spec:
   ports:
     - port: 80                                    #
-      targetPort: 9903
-      nodePort: 31910
+      targetPort: 9905
       name: web
   # clusterIP: None
-  type: NodePort
+#  type: NodePort
   selector:
     app: loeyae-message-server
 
