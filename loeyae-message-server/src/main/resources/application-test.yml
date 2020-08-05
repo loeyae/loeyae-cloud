@@ -10,7 +10,7 @@ spring:
   # DataSource StoreConfig
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_SERVICE_HOST:119.4.240.179}:${MYSQL_SERVICE_PORT:30336}/service_category?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${MYSQL_SERVICE_HOST:119.4.240.179}:${MYSQL_SERVICE_PORT:30336}/service_message?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: ${MYSQL_USER:bys}
     password: ${MYSQL_PASSWORD:200519@Bys}
     type: com.zaxxer.hikari.HikariDataSource
