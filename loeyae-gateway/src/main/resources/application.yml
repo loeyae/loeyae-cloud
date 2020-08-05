@@ -135,7 +135,7 @@ management:
       exposure:
         include: '*'
 loeyae:
-  verifyTokenUrls: ${VERIFY_TOKEN_URLS:/api/**, /file/**, /demo/**}
+  verifyTokenUrls: ${VERIFY_TOKEN_URLS:/api/**, /file/**, /demo/**, /v1/**}
   skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/**, /api/YeepayMng/GetOpenId, /open/api/**, /**/get/token, /**/group1/M00/**/*}
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
 

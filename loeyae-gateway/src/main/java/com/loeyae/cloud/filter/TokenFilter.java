@@ -13,7 +13,10 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -22,7 +25,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.alibaba.fastjson.JSON.toJSONString;
@@ -38,6 +43,7 @@ import static com.alibaba.fastjson.JSON.toJSONString;
 public class TokenFilter implements GlobalFilter, Ordered {
 
     private static final String JWT_AUTH_KEY = "Authorization";
+    private static final String REDIRECT_HEADER_PREFIX = "gw_re_";
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
@@ -82,15 +88,40 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
         }
         try {
-            verifyJWT(token);
+            Claims claims = verifyJWT(token);
+            HttpHeaders headers = new HttpHeaders();
+            headers.putAll(exchange.getRequest().getHeaders());
+            List<String> defaultKeys = Arrays.asList(
+                    Claims.AUDIENCE,
+                    Claims.EXPIRATION,
+                    Claims.ID,
+                    Claims.ISSUED_AT,
+                    Claims.ISSUER,
+                    Claims.NOT_BEFORE,
+                    Claims.SUBJECT
+                );
+            for(Map.Entry<String, Object> entry : claims.entrySet()) {
+                if (defaultKeys.contains(entry.getKey())) {
+                    continue;
+                }
+                headers.set(REDIRECT_HEADER_PREFIX + entry.getKey(),
+                        String.valueOf(entry.getValue()));
+            }
+            ServerHttpRequestDecorator newRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                @Override
+                public HttpHeaders getHeaders() {
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.putAll(headers);
+                    return httpHeaders;
+                }
+            };
+            return chain.filter(exchange.mutate().request(newRequest).build());
         } catch (ExpiredJwtException expiredJwtException) {
             return message(exchange, BaseErrorCode.TOKEN_EXPIRE);
         } catch (Exception e) {
             logger.error("error: ", e);
-            logger.warn("got error: {[]}", e.getMessage());
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
         }
-        return chain.filter(exchange);
     }
 
 
