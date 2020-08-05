@@ -49,13 +49,17 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     private final String[] verifyTokenUrls;
 
-    private String[] skipTokenUrls;
+    private final String[] skipTokenUrls;
+
+    private final List<String> skipExcludeUrls;
 
     private String jwtSecretKey;
 
-    public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls, String jwtSecretKey) {
+    public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls,
+                       String[] skipExcludeUrls, String jwtSecretKey) {
         this.verifyTokenUrls = verifyTokenUrls;
         this.skipTokenUrls = skipTokenUrls;
+        this.skipExcludeUrls = Arrays.asList(skipExcludeUrls);
         this.jwtSecretKey = jwtSecretKey;
     }
 
@@ -76,6 +80,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
         for (String skipUrl: skipTokenUrls) {
             boolean result = matcher.match(skipUrl, url);
             if (result) {
+                if (skipExcludeUrls.contains(url)) {
+                    continue;
+                }
                 return chain.filter(exchange);
             }
         }

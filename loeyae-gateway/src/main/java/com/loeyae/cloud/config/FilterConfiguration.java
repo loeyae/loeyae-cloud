@@ -21,11 +21,15 @@ public class FilterConfiguration {
     @Value("${loeyae.skipTokenUrls}")
     private String[] skipTokenUrls;
 
+    @Value("${loeyae.skipExcludeUrls}")
+    private String[] skipExcludeUrls;
+
     @Value("${loeyae.jwtSecretKey}")
     private String jwtSecretKey;
 
+
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(verifyTokenUrls, skipTokenUrls, jwtSecretKey);
+        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey);
     }
 }
