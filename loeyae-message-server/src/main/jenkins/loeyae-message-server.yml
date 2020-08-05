@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: loeyae-files-server
+  name: loeyae-message-server
   namespace: devops
 spec:
   ports:
