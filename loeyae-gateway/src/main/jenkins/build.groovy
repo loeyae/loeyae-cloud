@@ -21,7 +21,7 @@ node {
         }
     }
     stage("Image push") {
-        def latestTag = "hub.bys.cd:30339/library/loeyae_gateway:latest"
+        def latestTag = "hub.dev.loeyae.com:30339/library/loeyae_gateway:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 sh """
