@@ -38,13 +38,13 @@ public class MvcConfig extends MvcConfigAdapter {
         return Logger.Level.FULL;
     }
 
-    /**
-     * feign 序列化方式
-     */
-    @Bean
-    public Encoder feignEncoder() {
-        return new SpringEncoder(feignHttpMessageConverter());
-    }
+//    /**
+//     * feign 序列化方式
+//     */
+//    @Bean
+//    public Encoder feignEncoder() {
+//        return new SpringEncoder(feignHttpMessageConverter());
+//    }
 
     private ObjectFactory<HttpMessageConverters> feignHttpMessageConverter() {
         final HttpMessageConverters httpMessageConverters =
