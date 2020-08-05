@@ -44,6 +44,12 @@ spring:
           uri: lb://loeyae-files-server
           predicates:
             - Path=/file/**
+        - id: message-server    #消息服务
+          uri: lb://loeyae-message-server
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - StripPrefix=1
         - id: service-category    #分类服务
           uri: lb://service-category
           predicates:
