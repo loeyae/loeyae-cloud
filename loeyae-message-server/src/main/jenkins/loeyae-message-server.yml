@@ -13,29 +13,29 @@ spec:
   # clusterIP: None
   type: NodePort
   selector:
-    app: loeyae-files-server
+    app: loeyae-message-server
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: loeyae-files-server
+  name: loeyae-message-server
   namespace: devops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: loeyae-files-server
+      app: loeyae-message-server
   template:
     metadata:
       labels:
-        app: loeyae-files-server
+        app: loeyae-message-server
     spec:
       nodeSelector:
         role: worker
       containers:
-        - name: loeyae-files-server
-          image: hub.bys.cd:30339/library/loeyae_files_server:{TAG}
+        - name: loeyae-message-server
+          image: hub.bys.cd:30339/library/loeyae_message_server:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}
@@ -70,5 +70,5 @@ spec:
               value: ad2020min
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/"
-            - name: FILES_SERVER_INSTANCE_HOSTNAME
-              value: ${MY_POD_NAME}.file-server
+            - name: MESSAGE_SERVER_INSTANCE_HOSTNAME
+              value: ${MY_POD_NAME}.message-server
