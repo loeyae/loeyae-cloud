@@ -33,7 +33,7 @@ eureka:
     initial-instance-info-replication-interval-seconds: 10
     instance-info-replication-interval-seconds: 10
     healthcheck:
-      enabled: true
+      enabled: false
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
