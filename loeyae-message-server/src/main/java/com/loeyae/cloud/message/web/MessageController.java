@@ -12,9 +12,11 @@ import com.loeyae.cloud.message.api.MessageApi;
 import com.loeyae.cloud.message.entity.Consumer;
 import com.loeyae.cloud.message.entity.Message;
 import com.loeyae.cloud.message.entity.Producer;
+import com.loeyae.cloud.message.entity.ProducerLogger;
 import com.loeyae.cloud.message.feign.CallerNotify;
 import com.loeyae.cloud.message.provider.IMessageProvider;
 import com.loeyae.cloud.message.service.IConsumerService;
+import com.loeyae.cloud.message.service.IProducerLoggerService;
 import com.loeyae.cloud.message.service.IProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ public class MessageController implements MessageApi {
     IConsumerService consumerService;
 
     @Autowired
+    IProducerLoggerService producerLoggerService;
+
+    @Autowired
     CallerNotify callerNotify;
 
     @Override
@@ -64,11 +69,18 @@ public class MessageController implements MessageApi {
         producer.setService(service);
         Producer r = producerService.getOne(QueryWapperUtils.queryToWrapper(producer, Producer.class));
         log.info(r.toString());
+        ProducerLogger producerLogger = new ProducerLogger();
+        producerLogger.setService(service);
+        producerLogger.setAction(action);
+        producerLogger.setMessage(messageBody);
         if (Objects.isNull(r)) {
             message.setTarget(0);
+            producerLogger.setProducer(0);
         } else {
             message.setTarget(r.getId());
+            producerLogger.setProducer(r.getId());
         }
+        producerLoggerService.save(producerLogger);
         log.info("send message: "+ message.toString());
         messageProvider.send(message);
         return ApiResult.ok(true);

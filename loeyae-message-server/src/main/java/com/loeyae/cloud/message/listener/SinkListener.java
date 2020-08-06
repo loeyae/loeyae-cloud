@@ -52,7 +52,7 @@ public class SinkListener {
         log.info("got message: "+ message.toJSONString());
         for (int i = 0; i < consumers.size(); i++) {
             Consumer current = consumers.get(i);
-            consumerService.callback(current.getService(), from, action, message);
+            consumerService.callback(current, from, action, message);
         }
     }
 

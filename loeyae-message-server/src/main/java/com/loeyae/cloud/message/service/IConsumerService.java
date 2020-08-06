@@ -14,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IConsumerService extends IService<Consumer> {
 
-    public void callback(String service, String from, String action, JSONObject dto);
+    public void callback(Consumer consumer, String from, String action, JSONObject dto);
 }

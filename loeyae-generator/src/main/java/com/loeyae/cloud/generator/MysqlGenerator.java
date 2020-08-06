@@ -95,6 +95,7 @@ public class MysqlGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
+        strategy.setEntitySerialVersionUID(true);
 //        strategy.setSuperEntityClass("com.loeyae.commons.comman.SuperEntity");
 //        strategy.setSuperEntityColumns("create_time, update_time");
 //        strategy.setSuperMapperClass("com.loeyae.commons.comman.SuperMapper");

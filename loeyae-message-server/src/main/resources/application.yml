@@ -64,7 +64,7 @@ mybatis-plus:
   # 扫描 mapper.xml
   mapper-locations: classpath:/mapper/*/*Mapper.xml
   # 枚举类扫描
-  typeEnumsPackage: com.loeyae.service.*.enums
+  typeEnumsPackage: com.loeyae.cloud.*.enums
 
 # feign configuration
 feign:

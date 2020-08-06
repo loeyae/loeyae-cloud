@@ -37,7 +37,13 @@ CREATE TABLE IF NOT EXISTS `producer` (
   INDEX `idx_delete` ( `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='生产者';
 
-CREATE TABLE `service_message`.`consumer` (
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `consumer`
+--
+
+CREATE TABLE IF NOT EXISTS `consumer` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID' ,
   `service` VARCHAR(32) NOT NULL COMMENT '消费者服务名称' ,
   `target` INT(32) NOT NULL COMMENT '消费的生产者id' ,
