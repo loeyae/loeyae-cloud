@@ -1,4 +1,10 @@
 debug: true
+spring:
+  redis:
+    host: ${REDIS_HOST:redis.dev.loeyae.com}
+    port: ${REDIS_PORT:3179}
+    password: ${REDIS_PASS:zBNLNoZZ5Hapmf61vtBHHgXd7woBaWR4}
+    database: ${REDIS_DB:2}
 eureka:
   client:
     serviceUrl:
