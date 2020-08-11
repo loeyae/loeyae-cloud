@@ -13,16 +13,21 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.alibaba.fastjson.JSON.toJSONString;
@@ -37,25 +42,35 @@ import static com.alibaba.fastjson.JSON.toJSONString;
 @Slf4j
 public class TokenFilter implements GlobalFilter, Ordered {
 
-    private static final String JWT_AUTH_KEY = "Authorization";
+    public static final String JWT_AUTH_KEY = "Authorization";
+    public static final String REDIRECT_HEADER_PREFIX = "gw_re_";
+    public static final String PERMISSION_HEADER_KEY = "gw_pf_user";
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
     private final String[] verifyTokenUrls;
 
-    private String[] skipTokenUrls;
+    private final String[] skipTokenUrls;
+
+    private final List<String> skipExcludeUrls;
 
     private String jwtSecretKey;
 
-    public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls, String jwtSecretKey) {
+    private final String identifiedId;
+
+    public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls,
+                       String[] skipExcludeUrls, String jwtSecretKey, String identifiedId) {
         this.verifyTokenUrls = verifyTokenUrls;
         this.skipTokenUrls = skipTokenUrls;
+        this.skipExcludeUrls = Arrays.asList(skipExcludeUrls);
         this.jwtSecretKey = jwtSecretKey;
+        this.identifiedId = identifiedId;
     }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String url = exchange.getRequest().getURI().getPath();
+        log.info("Got url: {}", url);
         PathMatcher matcher = new AntPathMatcher();
         boolean matched = false;
         for (String tokeUrl: verifyTokenUrls) {
@@ -70,6 +85,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
         for (String skipUrl: skipTokenUrls) {
             boolean result = matcher.match(skipUrl, url);
             if (result) {
+                if (skipExcludeUrls.contains(url)) {
+                    continue;
+                }
                 return chain.filter(exchange);
             }
         }
@@ -82,15 +100,48 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
         }
         try {
-            verifyJWT(token);
+            Claims claims = verifyJWT(token);
+            HttpHeaders headers = new HttpHeaders();
+            headers.putAll(exchange.getRequest().getHeaders());
+            List<String> defaultKeys = Arrays.asList(
+                    Claims.AUDIENCE,
+                    Claims.EXPIRATION,
+                    Claims.ID,
+                    Claims.ISSUED_AT,
+                    Claims.ISSUER,
+                    Claims.NOT_BEFORE,
+                    Claims.SUBJECT
+                );
+            String userId = null;
+            for(Map.Entry<String, Object> entry : claims.entrySet()) {
+                if (defaultKeys.contains(entry.getKey())) {
+                    continue;
+                }
+                headers.set(REDIRECT_HEADER_PREFIX + entry.getKey(),
+                        String.valueOf(entry.getValue()));
+                if (entry.getKey().equals(identifiedId)) {
+                    userId = String.valueOf(entry.getValue());
+                }
+            }
+            if (userId == null) {
+                userId = DigestUtils.md5DigestAsHex(token.getBytes());
+            }
+            headers.set(PERMISSION_HEADER_KEY, userId);
+            ServerHttpRequestDecorator newRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                @Override
+                public HttpHeaders getHeaders() {
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.putAll(headers);
+                    return httpHeaders;
+                }
+            };
+            return chain.filter(exchange.mutate().request(newRequest).build());
         } catch (ExpiredJwtException expiredJwtException) {
             return message(exchange, BaseErrorCode.TOKEN_EXPIRE);
         } catch (Exception e) {
             logger.error("error: ", e);
-            logger.warn("got error: {[]}", e.getMessage());
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
         }
-        return chain.filter(exchange);
     }
 
 
@@ -101,7 +152,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
      * @param code 错误码
      * @return
      */
-    private Mono<Void> message(ServerHttpResponse resp, String message, int code) {
+    public static Mono<Void> message(ServerHttpResponse resp, String message, int code) {
         resp.setStatusCode(HttpStatus.UNAUTHORIZED);
         resp.getHeaders().add("Content-Type","application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
@@ -111,12 +162,12 @@ public class TokenFilter implements GlobalFilter, Ordered {
         return resp.writeWith(Flux.just(buffer));
     }
 
-    private Mono<Void> message(ServerHttpResponse resp, String message) {
+    public static  Mono<Void> message(ServerHttpResponse resp, String message) {
 
         return message(resp, message, HttpStatus.UNAUTHORIZED.value());
     }
 
-    private Mono<Void> message(ServerWebExchange exchange, IErrorCode errorCode) {
+    public static  Mono<Void> message(ServerWebExchange exchange, IErrorCode errorCode) {
 
         return message(exchange.getResponse(), errorCode.getMsg(), (int) errorCode.getCode());
     }

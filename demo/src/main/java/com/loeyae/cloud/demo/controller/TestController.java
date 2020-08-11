@@ -2,8 +2,11 @@ package com.loeyae.cloud.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.loeyae.cloud.commons.redis.RedisService;
+import com.loeyae.cloud.demo.VO.MenuView;
+import com.loeyae.cloud.demo.VO.PermissionView;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,6 +26,8 @@ import com.loeyae.cloud.demo.service.ITestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -136,6 +141,54 @@ public class TestController implements TestApi {
         page.setSize(20);
         IPage<Test> pageResult = testService.page(page, queryWrapper);
         return ApiResult.ok(PageResult.fromPage(pageResult, TestView.class));
+    }
+
+    @Override
+    public ApiResult<List<MenuView>> getMenuList(String userId) {
+        List<MenuView> menuViews = new ArrayList<MenuView>() {{
+           add(new MenuView(){{
+               setUrl("/demo/test/");
+               setCode("demo:test:create");
+               setMethod(HttpMethod.POST.name());
+           }});
+           add(new MenuView(){{
+               setUrl("/demo/test/{id}");
+               setCode("demo:test:update");
+               setMethod(HttpMethod.PUT.name());
+           }});
+            add(new MenuView(){{
+                setUrl("/demo/test/{id}");
+                setCode("demo:test:get");
+            }});
+            add(new MenuView(){{
+                setUrl("/demo/test/page/");
+                setCode("demo:test:page");
+            }});
+        }};
+        return ApiResult.ok(menuViews);
+    }
+
+    @Override
+    public ApiResult<List<PermissionView>> getPermissionList(String userId) {
+        List<PermissionView> permissionViews = new ArrayList<PermissionView>(){{
+            add(new PermissionView(){{
+                setCode("demo:test:create");
+                setAllowed(false);
+            }});
+            add(new PermissionView(){{
+                setCode("demo:test:update");
+                setAllowed(false);
+            }});
+            add(new PermissionView(){{
+                setCode("demo:test:get");
+                setAllowed(true);
+            }});
+            add(new PermissionView(){{
+                setCode("demo:test:page");
+                setAllowed(true);
+            }});
+        }};
+        return ApiResult.ok(permissionViews);
     }
 
     /**

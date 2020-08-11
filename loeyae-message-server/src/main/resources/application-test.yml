@@ -1,0 +1,44 @@
+spring:
+  # 链路追踪
+  zipkin:
+    base-url: http://${ZIPKIN_SERVICE_HOST:loeyae-zipkin-server-0.loeyae-zipkin-server.devops}:${ZIPKIN_SERVICE_PORT:9902}
+  sleuth:
+    sampler:
+      #服务跟踪消息收集率，1代表每一条都收集，0.1代表收集百分之10
+      probability: 1.0
+
+  # DataSource StoreConfig
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_SERVICE_HOST:119.4.240.179}:${MYSQL_SERVICE_PORT:30336}/service_message?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:bys}
+    password: ${MYSQL_PASSWORD:200519@Bys}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: LcHikariCP
+      # 池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      # 等待来自池的连接的最大毫秒数,小于30秒重置为30秒
+      connection-timeout: 30000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://${EUREKA_USER:admin}:${EUREKA_PASSWORD:ad2020min}@${EUREKA_SERVICE_HOST:loeyae-service-center-0.loeyae-service-center}:${EUREKA_SERVICE_PORT:9900}/eureka/}
+    registry-fetch-interval-seconds: 10
+    initial-instance-info-replication-interval-seconds: 10
+    instance-info-replication-interval-seconds: 10
+    healthcheck:
+      enabled: false
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
+
+    hostname: ${MESSAGE_SERVER_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
+    instance-id: 消息服务(${spring.cloud.client.ip-address}:${server.port})
+

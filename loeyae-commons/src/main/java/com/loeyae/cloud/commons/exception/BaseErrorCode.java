@@ -28,6 +28,10 @@ public enum BaseErrorCode implements IErrorCode {
      */
     TOKEN_INVALID(401, "令牌无效"),
     /**
+     * 无权限
+     */
+    PERMISSION_DENIED(403, "无权限操作"),
+    /**
      *  token超时
      */
     TOKEN_EXPIRE(409, "令牌过期"),

@@ -40,6 +40,19 @@
             <artifactId>commons-codec</artifactId>
             <version>1.14</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+            <version>10.2.3</version>
+        </dependency>
         <!-- hystrix -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -54,7 +67,7 @@
         <dependency>
             <groupId>com.loeyae</groupId>
             <artifactId>loeyae-commons</artifactId>
-            <version>1.9</version>
+            <version>1.11-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

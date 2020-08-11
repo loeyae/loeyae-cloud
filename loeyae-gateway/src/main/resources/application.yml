@@ -6,6 +6,11 @@ spring:
     active: local
   application:
     name: loeyae-gateway
+  redis:
+    host: ${REDIS_HOST:redis.dev.loeyae.com}
+    port: ${REDIS_PORT:3179}
+    password: ${REDIS_PASS:zBNLNoZZ5Hapmf61vtBHHgXd7woBaWR4}
+    database: ${REDIS_DB:1}
   cloud:
     gateway:
       discovery:
@@ -26,6 +31,12 @@ spring:
           uri: http://192.168.163.93:8888
           predicates:
             - Path=/upload/**
+          filters:
+            - StripPrefix=1
+        - id: loeyae-demo
+          uri: lb://loeyae-demo
+          predicates:
+            - Path=/api/demo/**
           filters:
             - StripPrefix=1
         - id: order-food
@@ -55,6 +66,8 @@ ribbon:
   MaxAutoRetriesNextServer: 0
 
 feign:
+  httpclient:
+    enabled: true
   hystrix:
     enabled: true
   ###开启压缩
@@ -67,8 +80,6 @@ feign:
         # 超时时间
         readTimeout: 6000
         loggerLevel: basic
-  httpclient:
-    enabled: false
   okhttp:
     enabled: true
   compression:
@@ -134,15 +145,23 @@ management:
     web:
       exposure:
         include: '*'
+
 loeyae:
-  verifyTokenUrls: ${VERIFY_TOKEN_URLS:/api/**, /file/**, /demo/**}
-  skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/auth, /api/YeepayMng/GetOpenId, /open/api/**, /**/get/token, /**/group1/M00/**/*}
+  verifyTokenUrls: ${VERIFY_TOKEN_URLS:/api/**, /file/**, /demo/**, /v1/**}
+  skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/**, /api/YeepayMng/GetOpenId, /open/api/**, /**/get/token, /**/group1/M00/**/*}
+  skipExcludeUrls: ${SKIP_EXCLUDE_URLS:/api/oauth/profile, }
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
+  identifiedId: ${IDENTIFIED_ID:userId}
+  permissionEnabled: false
+  permissionCachedEnabled: false
+  permissionCachePrefix: "ly:gw:pf_"
+  permissionCacheExpire: 7200
 
 logging:
   level:
     org.springframework.cloud.gateway: WARN
-    org.springframework.cloud.gateway.handler: DEBUG
-    org.springframework.cloud.gateway.filter: DEBUG
-    org.springframework.http.server.reactive: DEBUG
-    org.springframework.web.reactive: DEBUG
+    org.springframework.cloud.gateway.handler: INFO
+    org.springframework.cloud.gateway.filter: INFO
+    org.springframework.http.server.reactive: INFO
+    org.springframework.web.reactive: INFO
+

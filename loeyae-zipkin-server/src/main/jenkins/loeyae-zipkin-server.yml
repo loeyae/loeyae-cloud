@@ -32,6 +32,8 @@ spec:
       labels:
         app: loeyae-zipkin-server
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: loeyae-zipkin-server
           image: loeyae_zipkin_server:{TAG}
@@ -78,7 +80,7 @@ spec:
             - name: EUREKA_PWD
               value: ad2020min
             - name: EUREKA_SERVER
-              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.devops:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-2.loeyae-service-center.devops:9900/eureka/"
+              value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.devops:9900/eureka/"
             - name: ZIPKIN_INSTANCE_HOSTNAME
               value: ${MY_POD_NAME}.zipkin
   podManagementPolicy: "Parallel"

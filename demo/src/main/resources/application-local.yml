@@ -18,11 +18,27 @@ spring:
 
   # Redis Config
   redis:
-    host: ${REDIS_SERVICE_HOST:localhost}
-    port: ${REDIS_SERVICE_PORT_REDIS:6379}
-    password: ${REDIS_PSWD:0f87990482b26838c1c2702cb1145007}
-    #默认使用db2
-    database: ${REDIS_DB_NO:1}
+    host: ${REDIS_HOST:redis.dev.loeyae.com}
+    port: ${REDIS_PORT:3179}
+    password: ${REDIS_PASS:zBNLNoZZ5Hapmf61vtBHHgXd7woBaWR4}
+    database: ${REDIS_DB:2}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_USER:admin}:${EUREKA_PASSWORD:ad2020min}@${EUREKA_SERVICE_HOST:localhost}:${EUREKA_SERVICE_PORT:9900}/eureka/
+    registry-fetch-interval-seconds: 10
+    initial-instance-info-replication-interval-seconds: 10
+    instance-info-replication-interval-seconds: 10
+    healthcheck:
+      enabled: true
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    hostname: ${GATEWAY_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
+    instance-id: DEMO(${spring.cloud.client.ip-address}:${server.port})
 
 # Mybatis-Plus Config
 mybatis-plus:
