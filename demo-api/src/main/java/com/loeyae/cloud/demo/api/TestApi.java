@@ -42,8 +42,8 @@ public interface TestApi {
     ApiResult<PageResult<TestView>> page(TestQuery data);
 
     @GetMapping("/menu/")
-    ApiResult<List<MenuView>> getMenuList(String userId);
+    ApiResult<List<MenuView>> getMenuList(String appId);
 
     @GetMapping("/permission/")
-    ApiResult<List<PermissionView>> getPermissionList(String userId);
+    ApiResult<List<PermissionView>> getPermissionList(String appId, String userId);
 }

@@ -31,6 +31,9 @@ public class FilterConfiguration {
     @Value("${loeyae.identifiedId}")
     private String identifiedId;
 
+    @Value("${loeyae.applicationKey}")
+    private String applicationKey;
+
     @Value("${loeyae.permissionEnabled}")
     private boolean permissionEnabled;
 
@@ -46,7 +49,7 @@ public class FilterConfiguration {
 
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey, identifiedId);
+        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey, identifiedId, applicationKey);
     }
 
     @Bean

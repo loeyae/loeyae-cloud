@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -44,7 +45,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     public static final String JWT_AUTH_KEY = "Authorization";
     public static final String REDIRECT_HEADER_PREFIX = "gw_re_";
-    public static final String PERMISSION_HEADER_KEY = "gw_pf_user";
+    public static final String PERMISSION_FILTER_APP = "loeyeGatewayPermissionFilterApp";
+    public static final String PERMISSION_FILTER_USER = "loeyeGatewayPermissionFilterUser";
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
@@ -57,14 +59,17 @@ public class TokenFilter implements GlobalFilter, Ordered {
     private String jwtSecretKey;
 
     private final String identifiedId;
+    private final String applicationKey;
 
     public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls,
-                       String[] skipExcludeUrls, String jwtSecretKey, String identifiedId) {
+                       String[] skipExcludeUrls, String jwtSecretKey,
+                       String identifiedId, String applicationKey) {
         this.verifyTokenUrls = verifyTokenUrls;
         this.skipTokenUrls = skipTokenUrls;
         this.skipExcludeUrls = Arrays.asList(skipExcludeUrls);
         this.jwtSecretKey = jwtSecretKey;
         this.identifiedId = identifiedId;
+        this.applicationKey = applicationKey;
     }
 
     @Override
@@ -88,13 +93,13 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 if (skipExcludeUrls.contains(url)) {
                     continue;
                 }
+                exchange.getAttributes().put(PERMISSION_FILTER_USER, null);
                 return chain.filter(exchange);
             }
         }
 
         //从请求头中取出token
         String token = exchange.getRequest().getHeaders().getFirst(JWT_AUTH_KEY);
-        logger.warn("got token: [{}]", token);
         //未携带token或token在黑名单内
         if (token == null || token.isEmpty() || StringUtils.isBlank(token)) {
             return message(exchange, BaseErrorCode.TOKEN_INVALID);
@@ -123,10 +128,17 @@ public class TokenFilter implements GlobalFilter, Ordered {
                     userId = String.valueOf(entry.getValue());
                 }
             }
+
+            List<String> appHeader = headers.get(applicationKey);
+            String app = "default";
+            if (ObjectUtils.isNotEmpty(appHeader)) {
+                app = appHeader.get(0);
+            }
             if (userId == null) {
                 userId = DigestUtils.md5DigestAsHex(token.getBytes());
             }
-            headers.set(PERMISSION_HEADER_KEY, userId);
+            exchange.getAttributes().put(PERMISSION_FILTER_APP, app);
+            exchange.getAttributes().put(PERMISSION_FILTER_USER, userId);
             ServerHttpRequestDecorator newRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
                 @Override
                 public HttpHeaders getHeaders() {

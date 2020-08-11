@@ -59,8 +59,8 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         if (Boolean.FALSE.equals(this.enabled)) {
             return chain.filter(exchange);
         }
-        String userId =
-                exchange.getRequest().getHeaders().getFirst(TokenFilter.PERMISSION_HEADER_KEY);
+        String appId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_APP);
+        String userId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_USER);
         if (ObjectUtils.isEmpty(userId)) {
             return chain.filter(exchange);
         }
@@ -72,12 +72,12 @@ public class PermissionFilter implements GlobalFilter, Ordered {
                     this.redisService = SpringContextTool.getBean(RedisService.class);
                 }
                 MenuCollection menuCollection =
-                        this.redisService.getBean(cachePrefix + "menus_" + userId);
+                        this.redisService.getBean(getMenusCacheKey(appId));
                 if (ObjectUtils.isNotEmpty(menuCollection)) {
                     menus.addAll(menuCollection.getMenus());
                 }
                 PermissionCollection permissionCollection =
-                        this.redisService.getBean(cachePrefix + "pfs_"+ userId);
+                        this.redisService.getBean(getPermissionCacheKey(appId, userId));
                 if (ObjectUtils.isNotEmpty(permissionCollection)) {
                     permissions.addAll(permissionCollection.getPermissions());
                 }
@@ -86,22 +86,24 @@ public class PermissionFilter implements GlobalFilter, Ordered {
             }
         }
         if (menus.isEmpty()) {
-            List<Menu> menuList = this.permissionFeignClient.getMenuList(userId).getData();
+            List<Menu> menuList = this.permissionFeignClient.getMenuList(appId).getData();
             logger.info("Got menus: {}", menuList);
             if (ObjectUtils.isNotEmpty(menuList)) {
                 menus.addAll(menuList);
                 if (ObjectUtils.isNotEmpty(redisService)) {
-                    redisService.setBean(cachePrefix + "menus_" + userId, menus, cacheExpire, TimeUnit.SECONDS);
+                    redisService.setBean(getMenusCacheKey(appId), menus, cacheExpire,
+                            TimeUnit.SECONDS);
                 }
             }
         }
         if (permissions.isEmpty()) {
-            List<Permission> permissionList = this.permissionFeignClient.getPermissionList(userId).getData();
+            List<Permission> permissionList =
+                    this.permissionFeignClient.getPermissionList(appId, userId).getData();
             if (ObjectUtils.isNotEmpty(permissionList)) {
                 permissions.addAll(permissionList);
                 if (ObjectUtils.isNotEmpty(redisService)) {
-                    redisService.setBean(cachePrefix + "pfs_" + userId, permissions, cacheExpire,
-                            TimeUnit.SECONDS);
+                    redisService.setBean(getPermissionCacheKey(appId, userId), permissions,
+                            cacheExpire, TimeUnit.SECONDS);
                 }
             }
         }
@@ -112,9 +114,9 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         boolean allowed = false;
         while (iterator.hasNext()) {
             Menu menu = iterator.next();
-            if (matcher.match(menu.getUrl(), url) && method.toUpperCase().equals(menu.getMethod().toUpperCase())) {
+            if (matcher.match(menu.getUrl(), url) && method.equalsIgnoreCase(menu.getMethod())) {
                 Permission permission = permissions.searchCode(menu.getCode());
-                if (ObjectUtils.isNotEmpty(permission) && permission.getAllowed()) {
+                if (ObjectUtils.isNotEmpty(permission) && Boolean.TRUE.equals(permission.getAllowed())) {
                     allowed = true;
                     break;
                 }
@@ -134,5 +136,27 @@ public class PermissionFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return 10151;
+    }
+
+    /**
+     * getMenusCacheKey
+     *
+     * @param appId
+     * @return
+     */
+    private String getMenusCacheKey(String appId)
+    {
+        return String.format("%s%s_%s", cachePrefix, "menus", appId);
+    }
+
+    /**
+     * getPermissionCacheKey
+     *
+     * @param userId
+     * @return
+     */
+    private String getPermissionCacheKey(String appId, String userId)
+    {
+        return String.format("%s%s_%s:%s", cachePrefix, "pfs", appId, userId);
     }
 }
