@@ -169,7 +169,7 @@ public class TestController implements TestApi {
     }
 
     @Override
-    public ApiResult<List<PermissionView>> getPermissionList(String userId) {
+    public ApiResult<List<PermissionView>> getPermissionList(String appId, String userId) {
         List<PermissionView> permissionViews = new ArrayList<PermissionView>(){{
             add(new PermissionView(){{
                 setCode("demo:test:create");

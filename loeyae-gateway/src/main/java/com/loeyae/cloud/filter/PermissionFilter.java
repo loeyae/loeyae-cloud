@@ -77,7 +77,7 @@ public class PermissionFilter implements GlobalFilter, Ordered {
                     menus.addAll(menuCollection.getMenus());
                 }
                 PermissionCollection permissionCollection =
-                        this.redisService.getBean(getPermissionCacheKey(userId));
+                        this.redisService.getBean(getPermissionCacheKey(appId, userId));
                 if (ObjectUtils.isNotEmpty(permissionCollection)) {
                     permissions.addAll(permissionCollection.getPermissions());
                 }
@@ -97,12 +97,13 @@ public class PermissionFilter implements GlobalFilter, Ordered {
             }
         }
         if (permissions.isEmpty()) {
-            List<Permission> permissionList = this.permissionFeignClient.getPermissionList(userId).getData();
+            List<Permission> permissionList =
+                    this.permissionFeignClient.getPermissionList(appId, userId).getData();
             if (ObjectUtils.isNotEmpty(permissionList)) {
                 permissions.addAll(permissionList);
                 if (ObjectUtils.isNotEmpty(redisService)) {
-                    redisService.setBean(getPermissionCacheKey(userId), permissions, cacheExpire,
-                            TimeUnit.SECONDS);
+                    redisService.setBean(getPermissionCacheKey(appId, userId), permissions,
+                            cacheExpire, TimeUnit.SECONDS);
                 }
             }
         }
@@ -154,8 +155,8 @@ public class PermissionFilter implements GlobalFilter, Ordered {
      * @param userId
      * @return
      */
-    private String getPermissionCacheKey(String userId)
+    private String getPermissionCacheKey(String appId, String userId)
     {
-        return String.format("%s%s_%s", cachePrefix, "pfs", userId);
+        return String.format("%s%s_%s:%s", cachePrefix, "pfs", appId, userId);
     }
 }

@@ -25,7 +25,8 @@ public interface PermissionFeignClient {
     ApiResult<List<Menu>> getMenuList(@RequestParam("appId") String appId);
 
     @GetMapping("${service.oauth.api.permission}")
-    ApiResult<List<Permission>> getPermissionList(@RequestParam("userId") String userId);
+    ApiResult<List<Permission>> getPermissionList(@RequestParam("appId") String appId,
+                                                  @RequestParam("userId") String userId);
 }
 
 @Configuration
@@ -47,7 +48,7 @@ class PermissionFeignClientFailed implements PermissionFeignClient {
     }
 
     @Override
-    public ApiResult<List<Permission>> getPermissionList(String userId) {
+    public ApiResult<List<Permission>> getPermissionList(String appId, String userId) {
         return ApiResult.feignFail();
     }
 }
