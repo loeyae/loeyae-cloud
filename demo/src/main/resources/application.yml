@@ -20,3 +20,8 @@ mybatis-plus:
   mapper-locations: classpath:/mapper/*/*Mapper.xml
   # 枚举类扫描
   typeEnumsPackage: com.loeyae.cloud.*.enums
+logging:
+
+  level:
+    org.springframework.http.server.reactive: INFO
+    org.springframework.web.reactive: INFO

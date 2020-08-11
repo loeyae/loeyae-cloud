@@ -1,5 +1,6 @@
 package com.loeyae.cloud.config;
 
+import com.loeyae.cloud.filter.PermissionFilter;
 import com.loeyae.cloud.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +28,32 @@ public class FilterConfiguration {
     @Value("${loeyae.jwtSecretKey}")
     private String jwtSecretKey;
 
+    @Value("${loeyae.identifiedId}")
+    private String identifiedId;
+
+    @Value("${loeyae.permissionEnabled}")
+    private boolean permissionEnabled;
+
+    @Value("${loeyae.permissionCachedEnabled}")
+    private boolean permissionCachedEnabled;
+
+    @Value("${loeyae.permissionCachePrefix}")
+    private String permissionCachePrefix;
+
+    @Value("${loeyae.permissionCacheExpire}")
+    private int permissionCacheExpire;
+
 
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey);
+        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey, identifiedId);
     }
+
+    @Bean
+    public PermissionFilter permissionFilter()
+    {
+        return new PermissionFilter(permissionEnabled, permissionCachedEnabled,
+                permissionCachePrefix, permissionCacheExpire);
+    }
+
 }

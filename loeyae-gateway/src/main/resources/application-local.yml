@@ -1,4 +1,4 @@
-debug: true
+debug: false
 spring:
   redis:
     host: ${REDIS_HOST:redis.dev.loeyae.com}
@@ -17,8 +17,8 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+    ip-address: 127.0.0.1
     prefer-ip-address: true
-
     hostname: ${GATEWAY_INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
     instance-id: 网关(${spring.cloud.client.ip-address}:${server.port})
 
@@ -27,3 +27,12 @@ logging:
     org.springframework.cloud.gateway: WARN
 loeyae:
   jwtSecretKey: abc123def456ghi789jkl0
+  permissionEnabled: true
+  permissionCachedEnabled: true
+service:
+  oauth:
+    name: loeyae-demo
+    url:
+    api:
+      menu: "/demo/test/menu/"
+      permission: "/demo/test/permission/"

@@ -37,6 +37,7 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     # Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己） 必须大于 lease-renewal-interval-in-seconds
     lease-expiration-duration-in-seconds: 30
+    ip-address: 127.0.0.1
     prefer-ip-address: true
     hostname: ${INSTANCE_HOSTNAME:${spring.cloud.client.ip-address}}
     instance-id: 消息服务(${spring.cloud.client.ip-address}:${server.port})
