@@ -144,7 +144,7 @@ public class TestController implements TestApi {
     }
 
     @Override
-    public ApiResult<List<MenuView>> getMenuList(String userId) {
+    public ApiResult<List<MenuView>> getMenuList(String appId) {
         List<MenuView> menuViews = new ArrayList<MenuView>() {{
            add(new MenuView(){{
                setUrl("/demo/test/");

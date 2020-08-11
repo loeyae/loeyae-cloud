@@ -22,10 +22,10 @@ import java.util.List;
 public interface PermissionFeignClient {
 
     @GetMapping("${service.oauth.api.menu}")
-    ApiResult<List<Menu>> getMenuList(String userId);
+    ApiResult<List<Menu>> getMenuList(@RequestParam("appId") String appId);
 
     @GetMapping("${service.oauth.api.permission}")
-    ApiResult<List<Permission>> getPermissionList(String userId);
+    ApiResult<List<Permission>> getPermissionList(@RequestParam("userId") String userId);
 }
 
 @Configuration
