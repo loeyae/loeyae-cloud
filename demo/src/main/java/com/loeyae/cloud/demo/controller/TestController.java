@@ -2,6 +2,7 @@ package com.loeyae.cloud.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.loeyae.cloud.commons.redis.RedisService;
+import com.loeyae.cloud.commons.tool.QueryWrapperUtils;
 import com.loeyae.cloud.demo.VO.MenuView;
 import com.loeyae.cloud.demo.VO.PermissionView;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,7 +14,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.loeyae.cloud.commons.common.ApiResult;
 import com.loeyae.cloud.commons.common.PageResult;
 import com.loeyae.cloud.commons.tool.BeanUtils;
-import com.loeyae.cloud.commons.tool.QueryWapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
 
@@ -117,7 +117,7 @@ public class TestController implements TestApi {
     public ApiResult<TestView> one(TestQuery data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
+        QueryWrapper<Test> queryWrapper = QueryWrapperUtils.queryToWrapper(data, Test.class);
         List<Test> entities = testService.list(queryWrapper);
         if (!entities.isEmpty()) {
             return ApiResult.ok(BeanUtils.copyToEntity(entities.get(0), TestView.class));
@@ -135,7 +135,7 @@ public class TestController implements TestApi {
     public ApiResult<PageResult<TestView>> page(TestQuery data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
+        QueryWrapper<Test> queryWrapper = QueryWrapperUtils.queryToWrapper(data, Test.class);
         Page<Test> page = new Page<>();
         page.setCurrent(0);
         page.setSize(20);
@@ -201,7 +201,7 @@ public class TestController implements TestApi {
     public ApiResult<List<TestView>> all(TestQuery data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<Test> queryWrapper = QueryWapperUtils.queryToWrapper(data, Test.class);
+        QueryWrapper<Test> queryWrapper = QueryWrapperUtils.queryToWrapper(data, Test.class);
         List<Test> result = testService.list(queryWrapper);
         return ApiResult.ok(BeanUtils.copyObjListProperties(result, TestView.class));
     }
