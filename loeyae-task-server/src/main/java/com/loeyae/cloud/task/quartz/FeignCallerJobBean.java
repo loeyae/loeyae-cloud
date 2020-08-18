@@ -2,6 +2,7 @@ package com.loeyae.cloud.task.quartz;
 
 import com.alibaba.fastjson.JSON;
 import com.loeyae.cloud.commons.common.ApiResult;
+import com.loeyae.cloud.commons.tool.BeanUtils;
 import com.loeyae.cloud.task.entity.ActualityJob;
 import com.loeyae.cloud.task.entity.JobExecuteLog;
 import com.loeyae.cloud.task.feign.CallerTask;
@@ -43,6 +44,7 @@ public class FeignCallerJobBean extends QuartzJobBean {
         if (ObjectUtils.isNotEmpty(actualityJob) && ObjectUtils.isNotEmpty(actualityJob.getService()) && ObjectUtils.isNotEmpty(actualityJob.getUrl())) {
             int retries = 0;
             Long original = 0L;
+            JobExecuteLog sourceLog = new JobExecuteLog();
             while (retries < 3) {
                 JobExecuteLog jobExecuteLog = new JobExecuteLog();
                 jobExecuteLog.setJobId(actualityJob.getId());
@@ -72,7 +74,14 @@ public class FeignCallerJobBean extends QuartzJobBean {
                 if (jobExecuteLog.getSuccess() == 1) {
                     break;
                 }
-                original = jobExecuteLog.getId();
+                if (original == 0) {
+                    sourceLog = BeanUtils.copyToEntity(jobExecuteLog, JobExecuteLog.class);
+                    original = jobExecuteLog.getId();
+                } else {
+                    sourceLog.setRetries(retries);
+                    sourceLog.setSuccess(jobExecuteLog.getSuccess());
+                    jobExecuteLogService.updateById(sourceLog);
+                }
                 retries++;
             }
         }

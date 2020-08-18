@@ -61,7 +61,20 @@ public class ConsumerLogger implements Serializable {
     @TableField(typeHandler = FastjsonTypeHandler.class)
     private JSONObject message;
 
+    /**
+     * 状态
+     */
     private Integer status;
+
+    /**
+     * 重试次数
+     */
+    private Integer retries;
+
+    /**
+     * 源log ID
+     */
+    private Long original;
 
     /**
      * 创建时间
