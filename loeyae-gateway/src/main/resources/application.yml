@@ -160,7 +160,14 @@ loeyae:
   permissionCacheExpire: 7200
   permissionRouted: false
   permissionMethodMatch: false
-
+  
+service:
+  oauth:
+    name: loeyae-demo
+    url:
+    api:
+      menu: "/demo/test/menu/"
+      permission: "/demo/test/permission/"
 
 logging:
   level:
