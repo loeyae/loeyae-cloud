@@ -3,7 +3,7 @@ package com.loeyae.cloud.message.web;
 import com.alibaba.fastjson.JSONObject;
 import com.loeyae.cloud.commons.common.ApiResult;
 import com.loeyae.cloud.commons.tool.BeanUtils;
-import com.loeyae.cloud.commons.tool.QueryWapperUtils;
+import com.loeyae.cloud.commons.tool.QueryWrapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.message.DTO.*;
 import com.loeyae.cloud.message.VO.ConsumerView;
@@ -67,7 +67,7 @@ public class MessageController implements MessageApi {
         Producer producer = new Producer();
         producer.setAction(action);
         producer.setService(service);
-        Producer r = producerService.getOne(QueryWapperUtils.queryToWrapper(producer, Producer.class));
+        Producer r = producerService.getOne(QueryWrapperUtils.queryToWrapper(producer, Producer.class));
         log.info(r.toString());
         ProducerLogger producerLogger = new ProducerLogger();
         producerLogger.setService(service);
@@ -129,28 +129,28 @@ public class MessageController implements MessageApi {
     @Override
     public ApiResult<ProducerView> oneProducer(ProducerQuery data) {
         ValidateUtil.validateEntity(data);
-        Producer producer = producerService.getOne(QueryWapperUtils.queryToWrapper(data, Producer.class));
+        Producer producer = producerService.getOne(QueryWrapperUtils.queryToWrapper(data, Producer.class));
         return ApiResult.ok(BeanUtils.copyToEntity(producer, ProducerView.class));
     }
 
     @Override
     public ApiResult<ConsumerView> oneConsumer(ConsumerQuery data) {
         ValidateUtil.validateEntity(data);
-        Consumer consumer = consumerService.getOne(QueryWapperUtils.queryToWrapper(data, Consumer.class));
+        Consumer consumer = consumerService.getOne(QueryWrapperUtils.queryToWrapper(data, Consumer.class));
         return ApiResult.ok(BeanUtils.copyToEntity(consumer, ConsumerView.class));
     }
 
     @Override
     public ApiResult<List<ProducerView>> getProducerList(ProducerQuery data) {
         ValidateUtil.validateEntity(data);
-        List<Producer> producers = producerService.list(QueryWapperUtils.queryToWrapper(data, Producer.class));
+        List<Producer> producers = producerService.list(QueryWrapperUtils.queryToWrapper(data, Producer.class));
         return ApiResult.ok(BeanUtils.copyObjListProperties(producers, ProducerView.class));
     }
 
     @Override
     public ApiResult<List<ConsumerView>> getConsumerList(ConsumerQuery data) {
         ValidateUtil.validateEntity(data);
-        List<Consumer> consumers = consumerService.list(QueryWapperUtils.queryToWrapper(data, Consumer.class));
+        List<Consumer> consumers = consumerService.list(QueryWrapperUtils.queryToWrapper(data, Consumer.class));
         return ApiResult.ok(BeanUtils.copyObjListProperties(consumers, ConsumerView.class));
     }
 
