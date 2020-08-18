@@ -110,3 +110,11 @@ spring:
             - Path=/api/medical-waste/**
           filters:
             - StripPrefix=0
+
+service:
+  oauth:
+    name: hqt-service-oauth
+    url:
+    api:
+      menu: "/oauth/menu/"
+      permission: "/oauth/permission/"
