@@ -47,9 +47,10 @@ public class ${table.entityName}Create implements Serializable {
      */
     </#if>
     <#if fieldPatch.isNull == "no" && fieldPatch._default?default("null") == "null">
-    @NotNull
         <#if field.propertyType == "String">
     @NotBlank
+        <#else>
+    @NotNull
         </#if>
     </#if>
     <#if field.propertyType == "String">
