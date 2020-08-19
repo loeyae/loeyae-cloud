@@ -34,7 +34,6 @@ public class ActualityJobCreate implements Serializable {
 
     @NotBlank
     @Length(max = 255)
-    @URL
     private String url;
 
 
