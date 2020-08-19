@@ -7,6 +7,7 @@ import com.loeyae.cloud.commons.common.PageResult;
 import com.loeyae.cloud.commons.exception.BaseErrorCode;
 import com.loeyae.cloud.commons.tool.BeanUtils;
 import com.loeyae.cloud.commons.tool.QueryWrapperUtils;
+import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.task.DTO.ActualityJobCreate;
 import com.loeyae.cloud.task.DTO.ActualityJobQuery;
 import com.loeyae.cloud.task.DTO.ActualityJobUpdate;
@@ -83,6 +84,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<ActualityJobView> create(ActualityJobCreate data) {
+        ValidateUtil.validateEntity(data);
         try {
             ActualityJob actualityJob = actualityJobService.create(BeanUtils.copyToEntity(data, ActualityJob.class));
             return ApiResult.ok(BeanUtils.copyToEntity(actualityJob, ActualityJobView.class));
@@ -94,6 +96,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<ActualityJobView> update(int id, ActualityJobUpdate data) {
+        ValidateUtil.validateEntity(data);
         try {
             ActualityJob actualityJob = actualityJobService.updateJob(id, BeanUtils.copyToEntity(data, ActualityJob.class));
             return ApiResult.ok(BeanUtils.copyToEntity(actualityJob, ActualityJobView.class));
@@ -144,6 +147,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<ActualityJobView> one(ActualityJobQuery data) {
+        ValidateUtil.validateEntity(data);
         QueryWrapper queryWrapper = QueryWrapperUtils.queryToWrapper(data, ActualityJob.class);
         ActualityJob result = actualityJobService.getOne(queryWrapper);
         return ApiResult.ok(BeanUtils.copyToEntity(result, ActualityJobView.class));
@@ -151,6 +155,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<List<ActualityJobView>> all(ActualityJobQuery data) {
+        ValidateUtil.validateEntity(data);
         QueryWrapper queryWrapper = QueryWrapperUtils.queryToWrapper(data, ActualityJob.class);
         List<ActualityJob> result = actualityJobService.list(queryWrapper);
         return ApiResult.ok(BeanUtils.copyObjListProperties(result, ActualityJobView.class));
@@ -158,6 +163,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<PageResult<ActualityJobView>> page(ActualityJobQuery data) {
+        ValidateUtil.validateEntity(data);
         IPage<ActualityJob> page = QueryWrapperUtils.ofPage(data);
         QueryWrapper queryWrapper = QueryWrapperUtils.queryToWrapper(data, ActualityJob.class);
         IPage<ActualityJob> result = actualityJobService.page(page, queryWrapper);
@@ -166,6 +172,7 @@ public class JobController implements JobApi {
 
     @Override
     public ApiResult<PageResult<JobExecuteLogView>> log(int id, JobExecuteLogQuery data) {
+        ValidateUtil.validateEntity(data);
         data.setJobId(id);
         IPage<JobExecuteLog> page = QueryWrapperUtils.ofPage(data);
         QueryWrapper queryWrapper = QueryWrapperUtils.queryToWrapper(data, JobExecuteLog.class);
