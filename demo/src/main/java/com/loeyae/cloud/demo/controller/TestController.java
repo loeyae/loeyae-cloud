@@ -5,6 +5,7 @@ import com.loeyae.cloud.commons.redis.RedisService;
 import com.loeyae.cloud.commons.tool.QueryWrapperUtils;
 import com.loeyae.cloud.demo.VO.MenuView;
 import com.loeyae.cloud.demo.VO.PermissionView;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
@@ -40,6 +41,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/demo/test")
+@CacheConfig(cacheNames = "loeyae-demo")
 public class TestController implements TestApi {
 
     @Autowired

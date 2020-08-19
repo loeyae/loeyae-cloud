@@ -24,7 +24,7 @@ spring:
       max-lifetime: 1800000
       # 等待来自池的连接的最大毫秒数,小于30秒重置为30秒
       connection-timeout: 30000
-      
+
   # Redis Config
   redis:
     host: ${REDIS_HOST:redis.dev.loeyae.com}
