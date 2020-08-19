@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.loeyae.cloud.commons.tool.BeanUtils;
 import com.loeyae.cloud.commons.tool.SpringContextTool;
 import com.loeyae.cloud.task.entity.ActualityJob;
+import com.loeyae.cloud.task.enums.JobStatus;
 import com.loeyae.cloud.task.mapper.ActualityJobMapper;
 import com.loeyae.cloud.task.quartz.FeignCallerJobBean;
 import com.loeyae.cloud.task.service.IActualityJobService;
@@ -35,6 +36,7 @@ public class ActualityJobServiceImpl extends ServiceImpl<ActualityJobMapper, Act
         //任务名称
         String name = UUID.randomUUID().toString();
         entity.setJobName(name);
+        entity.setStatus(JobStatus.ACTIVE.getCode());
         this.save(entity);
 
         //任务所属分组
