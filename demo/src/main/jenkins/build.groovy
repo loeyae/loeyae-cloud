@@ -6,7 +6,7 @@ node {
                         branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [], submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/bys-cd/loeyae-cloud.git']]
+                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'https://github.com/loeyae/loeyae-cloud.git']]
                 ]
         )
     }
@@ -21,7 +21,7 @@ node {
         }
     }
     stage("Image push") {
-        def latestTag = "hub.dev.loeyae.com:30339/library/loeyae_demo:latest"
+        def latestTag = "loeyae_demo:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 sh """

@@ -23,5 +23,5 @@ fdfs:
     width: 150
     height: 150
   tracker-list:            #TrackerList参数,支持多个
-    - ${FASTDFS_SERVICE_HOST:119.4.240.179}:${FASTDFS_SERVICE_PORT:31912}
+    - ${FASTDFS_SERVICE_HOST:localhost}:${FASTDFS_SERVICE_PORT:31912}
   web-server-url: ${FASTDFS_SERVICE_HOST:file.local}

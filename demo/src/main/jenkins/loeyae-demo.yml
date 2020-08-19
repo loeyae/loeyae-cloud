@@ -34,7 +34,7 @@ spec:
         role: worker
       containers:
         - name: loeyae-demo
-          image: hub.dev.loeyae.com:30339/library/loeyae_demo:{TAG}
+          image: loeyae_demo:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}

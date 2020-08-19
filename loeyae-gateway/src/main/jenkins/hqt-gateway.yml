@@ -35,7 +35,7 @@ spec:
         role: worker
       containers:
         - name: hqt-gateway
-          image: hub.dev.loeyae.com:30339/library/loeyae_gateway:{TAG}
+          image: loeyae_gateway:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}

@@ -10,9 +10,9 @@ spring:
   # DataSource StoreConfig
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_SERVICE_HOST:119.4.240.179}:${MYSQL_SERVICE_PORT:30336}/springboot_demo?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USER:bys}
-    password: ${MYSQL_PASSWORD:200519@Bys}
+    url: jdbc:mysql://${MYSQL_SERVICE_HOST:localhost}:${MYSQL_SERVICE_PORT:3306}/springboot_demo?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5

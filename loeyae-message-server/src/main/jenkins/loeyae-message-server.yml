@@ -34,7 +34,7 @@ spec:
         role: worker
       containers:
         - name: loeyae-message-server
-          image: hub.dev.loeyae.com:30339/library/loeyae_message_server:{TAG}
+          image: loeyae_message_server:{TAG}
           imagePullPolicy: Always
           args:
             - --spring.profiles.active={ENV}

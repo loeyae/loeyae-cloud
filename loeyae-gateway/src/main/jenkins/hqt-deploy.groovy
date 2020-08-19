@@ -6,7 +6,7 @@ node {
                         branches: [[name: "origin/master"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [], submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'http://119.4.240.179:31080/bys-cd/loeyae-cloud.git']]
+                        userRemoteConfigs: [[credentialsId: 'gitea-user-name', url: 'https://github.com/loeyae/loeyae-cloud.git']]
                 ]
         )
     }
@@ -16,8 +16,8 @@ node {
             buildId = Integer.valueOf(currentBuild.id)
         } catch(exc) {
         }
-        def imageTag = "hub.dev.loeyae.com:30339/library/loeyae_gateway:${buildId}"
-        def latestTag = "hub.dev.loeyae.com:30339/library/loeyae_gateway:latest"
+        def imageTag = "loeyae_gateway:${buildId}"
+        def latestTag = "loeyae_gateway:latest"
         withCredentials([dockerCert(credentialsId: 'docker-client', variable: 'DOCKER_CERT_PATH')]) {
             try {
                 sh """
