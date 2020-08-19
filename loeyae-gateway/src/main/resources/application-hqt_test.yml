@@ -107,7 +107,7 @@ spring:
         - id: service-medical-waste    #医废服务
           uri: lb://hqt-service-medical-waste
           predicates:
-            - Path=/api/medical-waste/**
+            - Path=/api/medicalwaste/**
           filters:
             - StripPrefix=0
 
