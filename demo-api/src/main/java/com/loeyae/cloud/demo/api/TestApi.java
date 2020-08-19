@@ -46,4 +46,6 @@ public interface TestApi {
 
     @GetMapping("/permission/")
     ApiResult<List<PermissionView>> getPermissionList(String appId, String userId);
+
+
 }
