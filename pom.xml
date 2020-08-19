@@ -18,6 +18,8 @@
         <module>loeyae-generator</module>
         <module>loeyae-message-server-api</module>
         <module>loeyae-message-server</module>
+        <module>loeyae-task-server-api</module>
+        <module>loeyae-task-server</module>
         <module>demo-api</module>
         <module>demo</module>
     </modules>
@@ -33,6 +35,7 @@
         <docker.plugin.version>1.1.1</docker.plugin.version>
         <docker.image.prefix>hub.local/libaray</docker.image.prefix>
         <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
+        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
         <jwt.version>0.9.0</jwt.version>
         <lombok.version>1.16.14</lombok.version>
         <fastjson.version>1.2.56</fastjson.version>
@@ -77,6 +80,13 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

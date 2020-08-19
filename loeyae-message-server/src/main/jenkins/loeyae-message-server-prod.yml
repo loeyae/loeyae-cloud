@@ -73,4 +73,4 @@ spec:
             - name: EUREKA_SERVER
               value: "http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-0.loeyae-service-center.hq-app:9900/eureka/,http://${EUREKA_USER}:${EUREKA_PWD}@loeyae-service-center-1.loeyae-service-center.hq-app:9900/eureka/"
             - name: MESSAGE_SERVER_INSTANCE_HOSTNAME
-              value: ${MY_POD_NAME}.file-server
+              value: ${MY_POD_NAME}.message-server

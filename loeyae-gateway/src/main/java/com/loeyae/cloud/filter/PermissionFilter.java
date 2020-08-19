@@ -36,21 +36,26 @@ public class PermissionFilter implements GlobalFilter, Ordered {
     private final boolean cacheEnabled;
     private final String cachePrefix;
     private final int cacheExpire;
+    private final boolean routed;
+    private final boolean matchMethod;
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
     @Autowired
     private PermissionFeignClient permissionFeignClient;
 
+    @Autowired
     private RedisService redisService;
 
     public PermissionFilter(boolean enabled, boolean cacheEnabled, String cachePrefix,
-                            int cacheExpire)
+                            int cacheExpire, boolean routed, boolean matchMethod)
     {
         this.enabled = enabled;
         this.cacheEnabled = cacheEnabled;
         this.cachePrefix = cachePrefix;
         this.cacheExpire = cacheExpire;
+        this.routed = routed;
+        this.matchMethod = matchMethod;
     }
 
 
@@ -59,9 +64,10 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         if (Boolean.FALSE.equals(this.enabled)) {
             return chain.filter(exchange);
         }
+        boolean isAdmin = exchange.getAttribute(TokenFilter.PERMISSION_ROLE_IS_ADMIN);
         String appId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_APP);
         String userId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_USER);
-        if (ObjectUtils.isEmpty(userId)) {
+        if (isAdmin || TokenFilter.NULL_USER.equals(userId)) {
             return chain.filter(exchange);
         }
         MenuCollection menus = new MenuCollection();
@@ -114,7 +120,7 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         boolean allowed = false;
         while (iterator.hasNext()) {
             Menu menu = iterator.next();
-            if (matcher.match(menu.getUrl(), url) && method.equalsIgnoreCase(menu.getMethod())) {
+            if (matcher.match(menu.getUrl(), url) && (!matchMethod || method.equalsIgnoreCase(menu.getMethod()))) {
                 Permission permission = permissions.searchCode(menu.getCode());
                 if (ObjectUtils.isNotEmpty(permission) && Boolean.TRUE.equals(permission.getAllowed())) {
                     allowed = true;
@@ -135,7 +141,7 @@ public class PermissionFilter implements GlobalFilter, Ordered {
      */
     @Override
     public int getOrder() {
-        return 10151;
+        return routed ? 10151 : -90;
     }
 
     /**

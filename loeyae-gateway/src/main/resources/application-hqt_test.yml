@@ -44,6 +44,12 @@ spring:
           uri: lb://loeyae-files-server
           predicates:
             - Path=/file/**
+        - id: task-server    #任务调度中心
+          uri: lb://loeyae-task-server
+          predicates:
+            - Path=/api/job/**
+          filters:
+            - StripPrefix=1
         - id: message-server    #消息服务
           uri: lb://loeyae-message-server
           predicates:
@@ -98,9 +104,17 @@ spring:
             - Path=/api/device/**
           filters:
             - StripPrefix=0
-        - id: service-medical-waste    #医废服务
-          uri: lb://hqt-service-medical-waste
+        - id: service-medicalwaste    #医废服务
+          uri: lb://hqt-service-medicalwaste
           predicates:
-            - Path=/api/medical-waste/**
+            - Path=/api/medicalwaste/**
           filters:
             - StripPrefix=0
+
+service:
+  oauth:
+    name: hqt-service-oauth
+    url:
+    api:
+      menu: "/oauth/menu/"
+      permission: "/oauth/permission/"

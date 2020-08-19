@@ -2,6 +2,9 @@ package com.loeyae.cloud.commons.tool;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -12,22 +15,90 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * QueryWrapper工具类.
  *
  * @author: Zhang Yi <loeyae@gmail.com>
  */
-public class QueryWapperUtils {
+public class QueryWrapperUtils {
 
+    public static final Integer DEFAULT_PAGE = 1;
+    public static final Integer DEFAULT_SIZE = 10;
+    public static final String DEFAULT_SORT_COLUMN = "id";
+    public static final Integer SORT_BY_ASC = 1;
+    public static final Integer SORT_BY_DESC = -1;
     private static Logger logger;
 
-    private QueryWapperUtils() {
+    public static final String PAGE = "p";
+
+    public static final String SIZE = "s";
+
+    public static final String ORDER = "o";
+
+    public static final String COLUMN = "c";
+
+    private QueryWrapperUtils() {
         throw new IllegalStateException("Utility class");
     }
 
     static {
-        logger = LoggerFactory.getLogger(QueryWapperUtils.class);
+        logger = LoggerFactory.getLogger(QueryWrapperUtils.class);
+    }
+
+    /**
+     * ofPage
+     *
+     * @param source
+     * @param <T>
+     * @return
+     */
+    public static <T> IPage<T> ofPage(Object source)
+    {
+
+        Integer page = DEFAULT_PAGE;
+        Integer size = DEFAULT_SIZE;
+        Object p = getPropertyValue(source, PAGE, true);
+        if (p != null) {
+            page = Integer.valueOf(p.toString());
+        }
+        Object s = getPropertyValue(source, SIZE, true);
+        if (s != null) {
+            size = Integer.valueOf(s.toString());
+        }
+        Page<T> tPage = new Page<>();
+        tPage.setCurrent(page);
+        tPage.setSize(size);
+        List<OrderItem> orderItems = ofOrders(source);
+        tPage.addOrder(orderItems);
+        return tPage;
+    }
+
+    /**
+     * ofOrders
+     *
+     * @param source
+     * @return
+     */
+    public static List<OrderItem> ofOrders(Object source)
+    {
+        String column = DEFAULT_SORT_COLUMN;
+        Integer order = SORT_BY_DESC;
+        Object o = getPropertyValue(source, ORDER, true);
+        if (!Objects.isNull(o)) {
+            order = Integer.valueOf(o.toString());
+        }
+        Object c = getPropertyValue(source, COLUMN, true);
+        if (!Objects.isNull(c)) {
+            column = c.toString();
+        }
+        OrderItem orderItem = SORT_BY_ASC.equals(order) ? OrderItem.asc(column) : OrderItem.desc(column);
+        return new ArrayList<OrderItem>(){{
+            add(orderItem);
+        }};
     }
 
     public static <T> QueryWrapper<T> queryToWrapper(Object source, Class<T> targetClass) {
@@ -101,5 +172,45 @@ public class QueryWapperUtils {
         }
         return queryWrapper;
     }
+
+
+    /**
+     * getPropertyValue
+     *
+     * @param source
+     * @param propertyName
+     * @return
+     */
+    public static Object getPropertyValue(Object source, String propertyName, Boolean reset)
+    {
+        try {
+            PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(source.getClass(), propertyName);
+            if (!Objects.isNull(propertyDescriptor)) {
+                Method readMethod = propertyDescriptor.getReadMethod();
+                if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
+                    readMethod.setAccessible(true);
+                }
+                Object value = readMethod.invoke(source);
+                if (Boolean.FALSE.equals(reset)) {
+                    return value;
+                }
+                Method writeMethod = propertyDescriptor.getWriteMethod();
+                if (Objects.isNull(writeMethod)) {
+                    return value;
+                }
+                if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
+                    writeMethod.setAccessible(true);
+                }
+                writeMethod.invoke(source, value);
+                return value;
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

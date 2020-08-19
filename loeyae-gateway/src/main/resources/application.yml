@@ -151,12 +151,23 @@ loeyae:
   skipTokenUrls: ${SKIP_TOKEN_URLS:/api/oauth/**, /api/YeepayMng/GetOpenId, /open/api/**, /**/get/token, /**/group1/M00/**/*}
   skipExcludeUrls: ${SKIP_EXCLUDE_URLS:/api/oauth/profile, }
   jwtSecretKey: ${JWT_SECRET_KEY:123asd456qwe789zxc}
+  isAdminKey: ${IS_ADMIN_KEY:isAdmin}
   identifiedId: ${IDENTIFIED_ID:userId}
   applicationKey: ${APPLICATION_KEY:appId}
   permissionEnabled: false
   permissionCachedEnabled: false
   permissionCachePrefix: "ly:gw:pf_"
   permissionCacheExpire: 7200
+  permissionRouted: false
+  permissionMethodMatch: false
+  
+service:
+  oauth:
+    name: loeyae-demo
+    url:
+    api:
+      menu: "/demo/test/menu/"
+      permission: "/demo/test/permission/"
 
 logging:
   level:

@@ -3,11 +3,10 @@ package ${package.Controller};
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.loeyae.cloud.commons.common.ApiResult;
 import com.loeyae.cloud.commons.common.PageResult;
 import com.loeyae.cloud.commons.tool.BeanUtils;
-import com.loeyae.cloud.commons.tool.QueryWapperUtils;
+import com.loeyae.cloud.commons.tool.QueryWrapperUtils;
 import com.loeyae.cloud.commons.tool.ValidateUtil;
 import com.loeyae.cloud.commons.validation.*;
 
@@ -121,7 +120,7 @@ public class ${table.controllerName} implements ${table.entityName}Api {
     public ApiResult<${table.entityName}View> one(${table.entityName}Query data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<${table.entityName}> queryWrapper = QueryWapperUtils.queryToWrapper(data, ${table.entityName}.class);
+        QueryWrapper<${table.entityName}> queryWrapper = QueryWrapperUtils.queryToWrapper(data, ${table.entityName}.class);
         List<${table.entityName}> entities = ${table.entityName?uncap_first}Service.list(queryWrapper);
         if (!entities.isEmpty()) {
             return ApiResult.ok(BeanUtils.copyToEntity(entities.get(0), ${table.entityName}View.class));
@@ -139,10 +138,8 @@ public class ${table.controllerName} implements ${table.entityName}Api {
     public ApiResult<PageResult<${table.entityName}View>> page(${table.entityName}Query data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<${table.entityName}> queryWrapper = QueryWapperUtils.queryToWrapper(data, ${table.entityName}.class);
-        Page<${table.entityName}> page = new Page<>();
-        page.setCurrent(0);
-        page.setSize(20);
+        QueryWrapper<${table.entityName}> queryWrapper = QueryWrapperUtils.queryToWrapper(data, ${table.entityName}.class);
+        IPage<${table.entityName}> page = QueryWrapperUtils.ofPage(data);
         IPage<${table.entityName}> pageResult = ${table.entityName?uncap_first}Service.page(page, queryWrapper);
         return ApiResult.ok(PageResult.fromPage(pageResult, ${table.entityName}View.class));
     }
@@ -157,7 +154,7 @@ public class ${table.controllerName} implements ${table.entityName}Api {
     public ApiResult<List<${table.entityName}View>> all(${table.entityName}Query data)
     {
         ValidateUtil.validateEntity(data);
-        QueryWrapper<${table.entityName}> queryWrapper = QueryWapperUtils.queryToWrapper(data, ${table.entityName}.class);
+        QueryWrapper<${table.entityName}> queryWrapper = QueryWrapperUtils.queryToWrapper(data, ${table.entityName}.class);
         List<${table.entityName}> result = ${table.entityName?uncap_first}Service.list(queryWrapper);
         return ApiResult.ok(BeanUtils.copyObjListProperties(result, ${table.entityName}View.class));
     }

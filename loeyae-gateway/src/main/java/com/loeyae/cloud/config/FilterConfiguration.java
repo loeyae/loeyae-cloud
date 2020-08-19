@@ -28,6 +28,9 @@ public class FilterConfiguration {
     @Value("${loeyae.jwtSecretKey}")
     private String jwtSecretKey;
 
+    @Value("${loeyae.isAdminKey}")
+    private String isAdminKey;
+
     @Value("${loeyae.identifiedId}")
     private String identifiedId;
 
@@ -46,17 +49,24 @@ public class FilterConfiguration {
     @Value("${loeyae.permissionCacheExpire}")
     private int permissionCacheExpire;
 
+    @Value("${loeyae.permissionRouted}")
+    private boolean permissionRouted;
+
+    @Value("${loeyae.permissionMethodMatch}")
+    private boolean permissionMethodMatch;
+
 
     @Bean
     public TokenFilter tokenFilter() {
-        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey, identifiedId, applicationKey);
+        return new TokenFilter(verifyTokenUrls, skipTokenUrls, skipExcludeUrls, jwtSecretKey, isAdminKey, identifiedId, applicationKey);
     }
 
     @Bean
     public PermissionFilter permissionFilter()
     {
         return new PermissionFilter(permissionEnabled, permissionCachedEnabled,
-                permissionCachePrefix, permissionCacheExpire);
+                permissionCachePrefix, permissionCacheExpire, permissionRouted,
+                permissionMethodMatch);
     }
 
 }

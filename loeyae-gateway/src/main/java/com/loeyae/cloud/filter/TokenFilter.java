@@ -45,8 +45,10 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     public static final String JWT_AUTH_KEY = "Authorization";
     public static final String REDIRECT_HEADER_PREFIX = "gw_re_";
+    public static final String NULL_USER = "null";
     public static final String PERMISSION_FILTER_APP = "loeyeGatewayPermissionFilterApp";
     public static final String PERMISSION_FILTER_USER = "loeyeGatewayPermissionFilterUser";
+    public static final String PERMISSION_ROLE_IS_ADMIN = "loeyeGatewayPermissionRoleIsAdmin";
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
@@ -58,16 +60,18 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     private String jwtSecretKey;
 
+    private final String isAdminKey;
     private final String identifiedId;
     private final String applicationKey;
 
     public TokenFilter(String[] verifyTokenUrls, String[] skipTokenUrls,
                        String[] skipExcludeUrls, String jwtSecretKey,
-                       String identifiedId, String applicationKey) {
+                       String isAdminKey, String identifiedId, String applicationKey) {
         this.verifyTokenUrls = verifyTokenUrls;
         this.skipTokenUrls = skipTokenUrls;
         this.skipExcludeUrls = Arrays.asList(skipExcludeUrls);
         this.jwtSecretKey = jwtSecretKey;
+        this.isAdminKey = isAdminKey;
         this.identifiedId = identifiedId;
         this.applicationKey = applicationKey;
     }
@@ -93,7 +97,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 if (skipExcludeUrls.contains(url)) {
                     continue;
                 }
-                exchange.getAttributes().put(PERMISSION_FILTER_USER, null);
+                exchange.getAttributes().put(PERMISSION_FILTER_USER, NULL_USER);
                 return chain.filter(exchange);
             }
         }
@@ -118,6 +122,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                     Claims.SUBJECT
                 );
             String userId = null;
+            boolean isAdmin = false;
             for(Map.Entry<String, Object> entry : claims.entrySet()) {
                 if (defaultKeys.contains(entry.getKey())) {
                     continue;
@@ -126,6 +131,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
                         String.valueOf(entry.getValue()));
                 if (entry.getKey().equals(identifiedId)) {
                     userId = String.valueOf(entry.getValue());
+                }
+                if (entry.getKey().equals(isAdminKey)) {
+                    isAdmin = (boolean)entry.getValue();
                 }
             }
 
@@ -137,8 +145,10 @@ public class TokenFilter implements GlobalFilter, Ordered {
             if (userId == null) {
                 userId = DigestUtils.md5DigestAsHex(token.getBytes());
             }
+
             exchange.getAttributes().put(PERMISSION_FILTER_APP, app);
             exchange.getAttributes().put(PERMISSION_FILTER_USER, userId);
+            exchange.getAttributes().put(PERMISSION_ROLE_IS_ADMIN, userId);
             ServerHttpRequestDecorator newRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
                 @Override
                 public HttpHeaders getHeaders() {
