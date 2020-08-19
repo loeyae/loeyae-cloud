@@ -67,7 +67,7 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         boolean isAdmin = exchange.getAttribute(TokenFilter.PERMISSION_ROLE_IS_ADMIN);
         String appId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_APP);
         String userId = exchange.getAttribute(TokenFilter.PERMISSION_FILTER_USER);
-        if (isAdmin || ObjectUtils.isEmpty(userId)) {
+        if (isAdmin || TokenFilter.NULL_USER.equals(userId)) {
             return chain.filter(exchange);
         }
         MenuCollection menus = new MenuCollection();

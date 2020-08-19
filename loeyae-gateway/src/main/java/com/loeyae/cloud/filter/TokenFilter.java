@@ -45,6 +45,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     public static final String JWT_AUTH_KEY = "Authorization";
     public static final String REDIRECT_HEADER_PREFIX = "gw_re_";
+    public static final String NULL_USER = "null";
     public static final String PERMISSION_FILTER_APP = "loeyeGatewayPermissionFilterApp";
     public static final String PERMISSION_FILTER_USER = "loeyeGatewayPermissionFilterUser";
     public static final String PERMISSION_ROLE_IS_ADMIN = "loeyeGatewayPermissionRoleIsAdmin";
@@ -96,7 +97,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 if (skipExcludeUrls.contains(url)) {
                     continue;
                 }
-                exchange.getAttributes().put(PERMISSION_FILTER_USER, null);
+                exchange.getAttributes().put(PERMISSION_FILTER_USER, "null");
                 return chain.filter(exchange);
             }
         }
