@@ -41,8 +41,10 @@ public class PermissionFilter implements GlobalFilter, Ordered {
 
     Logger logger= LoggerFactory.getLogger( TokenFilter.class );
 
+    @Autowired
     private PermissionFeignClient permissionFeignClient;
 
+    @Autowired
     private RedisService redisService;
 
     public PermissionFilter(boolean enabled, boolean cacheEnabled, String cachePrefix,
@@ -54,12 +56,6 @@ public class PermissionFilter implements GlobalFilter, Ordered {
         this.cacheExpire = cacheExpire;
         this.routed = routed;
         this.matchMethod = matchMethod;
-        if (this.enabled) {
-            this.permissionFeignClient = SpringContextTool.getBean(PermissionFeignClient.class);
-        }
-        if (this.cacheEnabled) {
-            this.redisService = SpringContextTool.getBean(RedisService.class);
-        }
     }
 
 
