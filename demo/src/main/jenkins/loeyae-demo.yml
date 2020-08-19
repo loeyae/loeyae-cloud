@@ -46,6 +46,8 @@ spec:
               # jvm会自动发现该限制
               memory: 512Mi
           env:
+            - name: TZ
+              value: Asia/Shanghai
             - name: MY_POD_NAME
               valueFrom:
                 fieldRef:

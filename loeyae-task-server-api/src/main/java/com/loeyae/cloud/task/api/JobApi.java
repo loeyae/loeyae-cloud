@@ -25,10 +25,10 @@ public interface JobApi {
     @PutMapping("/{id}")
     ApiResult<ActualityJobView> update(@PathVariable("id") int id, @RequestBody ActualityJobUpdate data);
 
-    @PutMapping("/{id}/pause")
+    @PutMapping("/{id}/pause/")
     ApiResult<Boolean> pause(@PathVariable("id") int id);
 
-    @PutMapping("/{id}/resume")
+    @PutMapping("/{id}/resume/")
     ApiResult<Boolean> resume(@PathVariable("id") int id);
 
     @GetMapping("/{id}")
