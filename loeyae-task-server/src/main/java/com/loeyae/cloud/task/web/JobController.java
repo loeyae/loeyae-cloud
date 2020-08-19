@@ -20,6 +20,7 @@ import com.loeyae.cloud.task.feign.CallerTask;
 import com.loeyae.cloud.task.quartz.FeignCallerJobBean;
 import com.loeyae.cloud.task.service.IActualityJobService;
 import com.loeyae.cloud.task.service.IJobExecuteLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/job")
+@Slf4j
 public class JobController implements JobApi {
 
     @Autowired
@@ -85,6 +87,7 @@ public class JobController implements JobApi {
             ActualityJob actualityJob = actualityJobService.create(BeanUtils.copyToEntity(data, ActualityJob.class));
             return ApiResult.ok(BeanUtils.copyToEntity(actualityJob, ActualityJobView.class));
         } catch (Exception e) {
+            log.error("Job Create Error", e);
             return ApiResult.failed(BaseErrorCode.FAILED);
         }
     }
@@ -95,6 +98,7 @@ public class JobController implements JobApi {
             ActualityJob actualityJob = actualityJobService.updateJob(id, BeanUtils.copyToEntity(data, ActualityJob.class));
             return ApiResult.ok(BeanUtils.copyToEntity(actualityJob, ActualityJobView.class));
         } catch (Exception e) {
+            log.error("Job Update Error", e);
             return ApiResult.failed(BaseErrorCode.FAILED);
         }
     }
@@ -105,6 +109,7 @@ public class JobController implements JobApi {
             actualityJobService.pause(id);
             return ApiResult.ok(true);
         } catch (Exception e) {
+            log.error("Job Pause Error", e);
             return ApiResult.failed(BaseErrorCode.FAILED);
         }
     }
@@ -115,6 +120,7 @@ public class JobController implements JobApi {
             actualityJobService.resume(id);
             return ApiResult.ok(true);
         } catch (Exception e) {
+            log.error("Job Resume Error", e);
             return ApiResult.failed(BaseErrorCode.FAILED);
         }
     }
@@ -131,6 +137,7 @@ public class JobController implements JobApi {
             actualityJobService.delete(id);
             return ApiResult.ok(1);
         } catch (Exception e) {
+            log.error("Job Delete Error", e);
             return ApiResult.failed(BaseErrorCode.FAILED);
         }
     }
