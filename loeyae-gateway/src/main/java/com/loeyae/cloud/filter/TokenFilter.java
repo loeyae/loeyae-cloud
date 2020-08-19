@@ -97,7 +97,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 if (skipExcludeUrls.contains(url)) {
                     continue;
                 }
-                exchange.getAttributes().put(PERMISSION_FILTER_USER, "null");
+                exchange.getAttributes().put(PERMISSION_FILTER_USER, NULL_USER);
                 return chain.filter(exchange);
             }
         }
