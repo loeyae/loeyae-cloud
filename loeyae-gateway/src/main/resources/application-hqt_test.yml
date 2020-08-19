@@ -104,10 +104,10 @@ spring:
             - Path=/api/device/**
           filters:
             - StripPrefix=0
-        - id: service-medical-waste    #医废服务
-          uri: lb://hqt-service-medical-waste
+        - id: service-medicalwaste    #医废服务
+          uri: lb://hqt-service-medicalwaste
           predicates:
-            - Path=/api/medical-waste/**
+            - Path=/api/medicalwaste/**
           filters:
             - StripPrefix=0
 
